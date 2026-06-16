@@ -123,6 +123,27 @@ aside.sidebar{position:sticky;top:64px;display:flex;flex-direction:column;gap:16
 .pod .pmeta{min-width:0;overflow:hidden}
 .pod .pep{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal;overflow:hidden;text-overflow:ellipsis;font-size:11.5px;line-height:1.25;color:var(--ink-soft);text-decoration:none;word-break:break-word}
 .pod .pdate{font-size:10px;color:var(--wire);font-family:'Space Mono',monospace}
+.sig-bias{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:12px 12px 10px;border:1px solid var(--line2);border-radius:12px;background:var(--paper2);margin-bottom:12px}
+.sig-kicker{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+.sig-summary{font-size:14px;font-weight:700;line-height:1.35}
+.bias-badge{flex:none;padding:6px 10px;border-radius:999px;font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;border:1px solid var(--line2);background:var(--card);color:var(--ink-soft)}
+.bias-up{background:color-mix(in srgb,var(--c-markets) 14%,var(--card));color:var(--c-markets);border-color:color-mix(in srgb,var(--c-markets) 34%,var(--line2))}
+.bias-mixed{background:color-mix(in srgb,var(--c-business) 14%,var(--card));color:var(--c-business);border-color:color-mix(in srgb,var(--c-business) 34%,var(--line2))}
+.signal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.signal-card{border:1px solid var(--line2);border-radius:12px;padding:10px 11px;background:color-mix(in srgb,var(--card) 88%,var(--paper2))}
+.signal-card .label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+.signal-card .state{font-size:13px;font-weight:700;line-height:1.3;margin-bottom:4px}
+.signal-card .meta{font-size:11.5px;line-height:1.35;color:var(--ink-soft)}
+.side-list{display:flex;flex-direction:column;gap:10px}
+.side-item{border-bottom:1px dashed var(--line2);padding-bottom:10px}
+.side-item:last-child{border-bottom:none;padding-bottom:0}
+.side-item .title{font-size:13px;font-weight:700;line-height:1.35}
+.side-item .meta{font-size:11.5px;line-height:1.4;color:var(--ink-soft);margin-top:3px}
+.side-item .value{font-family:'Space Mono',monospace;font-size:11.5px;margin-top:5px}
+.side-item .value.up{color:var(--c-markets)}
+.side-item .value.down{color:var(--c-trading)}
+.side-item .value.flat{color:var(--ink-soft)}
+@media(max-width:420px){.signal-grid{grid-template-columns:1fr}}
 .skel{background:linear-gradient(90deg,var(--paper2),var(--line),var(--paper2));background-size:200% 100%;animation:sh 1.3s infinite;border-radius:6px;height:11px}
 @keyframes sh{to{background-position:-200% 0}}
 /* COT */
@@ -168,7 +189,7 @@ footer .mono{font-size:11px}
   <div class="sub">
     <span><b>Tuesday, June 16, 2026</b></span>
     <span>· ~7 min read</span>
-    <span>· 11 newsletters parsed</span>
+    <span>· 14 newsletters parsed</span>
     <span>· 16 wire sources</span>
     <span>· COT as of <b>Jun&nbsp;9</b></span>
   </div>
@@ -197,7 +218,7 @@ footer .mono{font-size:11px}
 </section>
 <!-- MARKETS -->
 <section id="markets" class="reveal">
-  <div class="sec-head" style="--accent:var(--c-markets)"><span class="tag"></span><h2>📈 Markets &amp; Investing</h2><span class="cnt">Morning Brew · WSJ · Barron's · Stocktwits</span></div>
+  <div class="sec-head" style="--accent:var(--c-markets)"><span class="tag"></span><h2>📈 Markets &amp; Investing</h2><span class="cnt">Morning Brew · WSJ · Barron's · Stocktwits · Barchart Brief</span></div>
   <p class="lead">Tuesday, June 16, 2026 is a follow-through market, not a first-reaction market. Monday already priced a large share of the relief scenario, so today's question is whether lower oil, a softer 10-year yield and continuing SpaceX momentum can offset the fact that the deal still lacks settled details.</p>
   <div class="grid">
     <div class="card" style="--accent:var(--c-markets)">
@@ -218,9 +239,9 @@ footer .mono{font-size:11px}
       <div class="chips"><span class="chip">Oil</span><span class="chip">Rates</span><span class="chip">Macro</span></div>
     </div>
     <div class="card" style="--accent:var(--c-markets)">
-      <h3>Monday proved the rally still has breadth when oil cracks</h3>
-      <p class="dek">Reuters said airlines, cruises, semis and large-cap tech all advanced sharply on Monday, while the S&amp;P 500 energy sector fell 3.6%. This was a broad macro rotation, not just a single-stock squeeze.</p>
-      <div class="chips"><span class="chip">Breadth</span><span class="chip">Rotation</span></div>
+      <h3>Scanz says the internals were noisier than the index headlines</h3>
+      <p class="dek">Scanz's June 16 Market Movers sheet showed NVDA down 2.48%, MU down 6.07% and INTC down 8.55% even as SPCX led Nasdaq actives and the major indices held near records. Tuesday still looks like a stock-pickers tape under the surface.</p>
+      <div class="chips"><span class="chip">Scanz</span><span class="chip">Internals</span></div>
     </div>
     <div class="card" style="--accent:var(--c-markets)">
       <h3>SpaceX is now trying to turn a debut into an institution</h3>
@@ -228,9 +249,9 @@ footer .mono{font-size:11px}
       <div class="chips"><span class="chip">SpaceX</span><span class="chip">Momentum</span><span class="chip">Premarket</span></div>
     </div>
     <div class="card" style="--accent:var(--c-markets)">
-      <h3>Tuesday's market read is now about exhaustion versus extension</h3>
-      <p class="dek">The open questions are straightforward: do oil prices hold near three-month lows, does the Lebanon dispute break the diplomatic calm, and can the Fed-week calendar coexist with this much macro optimism?</p>
-      <div class="chips"><span class="chip">Fed Week</span><span class="chip">Macro</span></div>
+      <h3>Barchart still saw aggressive hedge demand in QQQ and SPY</h3>
+      <p class="dek">Barchart's unusual ETF options report flagged 65,904 contracts in the SPY Jun. 17 751 put and 26,439 contracts in the QQQ Jun. 17 733 put. The relief trade is intact, but traders are still paying for downside insurance.</p>
+      <div class="chips"><span class="chip">Barchart</span><span class="chip">Options</span></div>
     </div>
   </div>
   <div class="wire">
@@ -240,6 +261,8 @@ footer .mono{font-size:11px}
       <div class="wcard"><div class="src">Reuters</div><a href="https://www.marketscreener.com/news/stocks-rise-as-spacex-fever-lifts-tech-yen-flat-after-boj-hikes-rates-ce7f5cdfdb8af726" target="_blank" rel="noopener">Tuesday's tone stayed positive as SpaceX strength lifted tech again</a><p>The tape is moderating, but it has not reversed the relief move.</p></div>
       <div class="wcard"><div class="src">Reuters</div><a href="https://www.marketscreener.com/news/oil-falls-as-markets-weigh-return-of-supply-us-iran-peace-deal-ce7f5cdfd988f226" target="_blank" rel="noopener">Oil kept falling as markets weighed renewed supply on a peace deal</a><p>Lower crude is still doing most of the macro transmission work.</p></div>
       <div class="wcard"><div class="src">MarketScreener</div><a href="https://www.marketscreener.com/quote/interest/US-10Y-CASH-146043317/" target="_blank" rel="noopener">The U.S. 10-year held near 4.44% as the relief trade broadened</a><p>Lower yields are reinforcing the same message as lower oil.</p></div>
+      <div class="wcard"><div class="src">Barchart</div><a href="https://www.barchart.com/options/unusual-activity/etfs" target="_blank" rel="noopener">Barchart's ETF flow board still showed heavy SPY and QQQ hedge traffic</a><p>Options traders kept buying protection even after the macro relief squeeze.</p></div>
+      <div class="wcard"><div class="src">Scanz</div><a href="https://scanz.com/market-movers-newsletter/" target="_blank" rel="noopener">Scanz's end-of-day mover sheet showed semis lagging beneath the calm close</a><p>Index-level strength hid a much rougher dispersion trade underneath.</p></div>
     </div>
   </div>
 </section>
@@ -322,7 +345,7 @@ footer .mono{font-size:11px}
 </section>
 <!-- BUSINESS -->
 <section id="business" class="reveal">
-  <div class="sec-head" style="--accent:var(--c-business)"><span class="tag"></span><h2>📊 Business &amp; Strategy</h2><span class="cnt">The Business Engineer · Prof G</span></div>
+  <div class="sec-head" style="--accent:var(--c-business)"><span class="tag"></span><h2>📊 Business &amp; Strategy</h2><span class="cnt">The Business Engineer · Prof G · Barchart Brief</span></div>
   <p class="lead">Tuesday's business story is that Monday's beneficiaries are easy to name, but Tuesday's winners need stronger conviction. Travel loved the oil collapse, ARK kept pressing into SpaceX, and BlackRock's bitcoin income ETF still points to the same deeper theme: institutions want risk, but they increasingly want it packaged.</p>
   <div class="grid">
     <div class="card" style="--accent:var(--c-business)">
@@ -348,9 +371,9 @@ footer .mono{font-size:11px}
       <div class="chips"><span class="chip">BlackRock</span><span class="chip">ETF</span></div>
     </div>
     <div class="card" style="--accent:var(--c-business)">
-      <h3>Positioning still favors wrappers over raw risk</h3>
-      <p class="dek">BlackRock's BITA launch path and the massive demand for SpaceX are still the same story in different packaging: investors want beta, but increasingly in vehicles that feel structured, familiar and distribution-ready.</p>
-      <div class="chips"><span class="chip">Crossover</span><span class="chip">Capital Markets</span></div>
+      <h3>Barchart Brief kept Qualcomm on the AI infrastructure watchlist</h3>
+      <p class="dek">Monday's Barchart Brief pushed Qualcomm back into the conversation ahead of its June 24 Investor Day, arguing the hyperscaler chip narrative is getting more concrete. That gives The Debrief one more AI capital-markets angle beyond Nvidia and SpaceX.</p>
+      <div class="chips"><span class="chip">Barchart Brief</span><span class="chip">AI</span></div>
     </div>
   </div>
   <div class="wire">
@@ -360,6 +383,7 @@ footer .mono{font-size:11px}
       <div class="wcard"><div class="src">Reuters</div><a href="https://www.marketscreener.com/news/with-smooth-spacex-debut-wall-street-sets-new-template-for-mega-ipos--ce7f5cd9df89f524" target="_blank" rel="noopener">Wall Street now sees a new template for mega IPOs</a><p>Scarcity plus spectacle is still bankable.</p></div>
       <div class="wcard"><div class="src">CoinDesk</div><a href="https://www.coindesk.com/daybook-us/2026/06/16/blackrock-s-new-bitcoin-etf-lets-institutions-earn-from-volatility-there-s-a-catch" target="_blank" rel="noopener">BlackRock's new bitcoin income ETF is another wrapper built for institutional habits</a><p>Bitcoin keeps moving deeper into familiar asset-management structures.</p></div>
       <div class="wcard"><div class="src">CoinDesk</div><a href="https://www.coindesk.com/markets/2026/06/15/ark-invest-bought-more-than-usd500-million-worth-of-spacex-shares-on-ipo-day" target="_blank" rel="noopener">ARK bought more than $500 million worth of SpaceX shares on IPO day</a><p>Capital is not just praising the new leader; it is rotating into it.</p></div>
+      <div class="wcard"><div class="src">Barchart Brief</div><a href="https://www.barchart.com/news/barchart-newsletters/barchart-brief" target="_blank" rel="noopener">Barchart Brief put Qualcomm back on the AI infrastructure watchlist</a><p>Investor Day on June 24 is becoming a cleaner catalyst for the next chip narrative.</p></div>
     </div>
   </div>
 </section>
@@ -414,7 +438,7 @@ footer .mono{font-size:11px}
 
 <!-- TRADING -->
 <section id="trading" class="reveal">
-  <div class="sec-head" style="--accent:var(--c-trading)"><span class="tag"></span><h2>📉 Trading &amp; Options</h2><span class="cnt">Unusual Whales · CFTC COT</span></div>
+  <div class="sec-head" style="--accent:var(--c-trading)"><span class="tag"></span><h2>📉 Trading &amp; Options</h2><span class="cnt">Barchart Options · Scanz · CFTC COT</span></div>
   <p class="lead">For traders, Tuesday is mostly about whether the second move confirms the first one. Lower oil, lower yields and a stronger tape all still make sense, but the market now needs detail, implementation, and Fed-week stability instead of just a headline.</p>
   <div class="grid">
     <div class="card" style="--accent:var(--c-trading)">
@@ -424,14 +448,14 @@ footer .mono{font-size:11px}
       <div class="chips"><span class="chip">Rates</span><span class="chip">Macro</span></div>
     </div>
     <div class="card" style="--accent:var(--c-trading)">
-      <h3>Oil did the heavy lifting and COT is already current</h3>
-      <p class="dek">Brent is now around $79.93 on the commodity board, with Reuters showing futures near $80.69 by midday GMT, and the CFTC still shows the updated June 9 positioning released on Friday, June 12. Traders have both the fresh macro shock and the fresh official positioning read.</p>
-      <div class="chips"><span class="chip">Oil</span><span class="chip">Macro</span></div>
+      <h3>Barchart's options tape says traders are still buying insurance</h3>
+      <p class="dek">Unusual options activity stayed concentrated in index and ETF puts: SPY's Jun. 17 751 put traded 65,904 contracts and QQQ's Jun. 17 733 put traded 26,439, while the SPX Jul. 31 6,275 put printed 52,238 contracts against just 734 open interest. Flow still respects tail risk.</p>
+      <div class="chips"><span class="chip">Barchart</span><span class="chip">Hedging</span></div>
     </div>
     <div class="card" style="--accent:var(--c-trading)">
-      <h3>Bitcoin remains the cleaner cross-market stress read</h3>
-      <p class="dek">BTC near $66.4K is firmer than the week started, but the move still looks like a tactical relief rally inside a fragile macro setup rather than the start of a broad new crypto cycle.</p>
-      <div class="chips"><span class="chip">BTC</span><span class="chip">Flows</span></div>
+      <h3>Scanz still shows violent dispersion beneath the calmer macro tape</h3>
+      <p class="dek">Scanz's June 16 report had SOXL down 16.58% while inverse SOXS rose 16.46%, with OBAI up 111.41% and GDC down 69.84%. That is not a sleepy tape even if the index headline sounds orderly.</p>
+      <div class="chips"><span class="chip">Scanz</span><span class="chip">Dispersion</span></div>
     </div>
     <div class="card" style="--accent:var(--c-trading)">
       <h3>CFTC COT — refreshed</h3>
@@ -444,6 +468,9 @@ footer .mono{font-size:11px}
     <div class="wire-grid">
       <div class="wcard"><div class="src">Reuters</div><a href="https://www.marketscreener.com/news/stocks-rise-as-spacex-fever-lifts-tech-yen-flat-after-boj-hikes-rates-ce7f5cdfdb8af726" target="_blank" rel="noopener">Futures stayed positive while traders shifted from the headline to the details</a><p>The first move happened Monday; Tuesday is about whether the setup still deserves extension.</p></div>
       <div class="wcard"><div class="src">AP</div><a href="https://apnews.com/article/iran-us-war-israel-lebanon-oil-june-16-2026-d79458506c46e3f4a78aef0f9d8b9250" target="_blank" rel="noopener">The agreement exists, but the Lebanon condition is now a visible fault line</a><p>That keeps oil and rates sensitive to every diplomatic update even after Monday's relief move.</p></div>
+      <div class="wcard"><div class="src">Barchart</div><a href="https://www.barchart.com/options/unusual-activity/indices" target="_blank" rel="noopener">Index flow stayed put-heavy even after the relief rally</a><p>SPX downside protection was still the cleanest options message on the board.</p></div>
+      <div class="wcard"><div class="src">Barchart</div><a href="https://www.barchart.com/options/unusual-activity/stocks" target="_blank" rel="noopener">Stock flow stayed aggressive in Tesla, Comcast, Domo and Lam Research</a><p>Single-name activity still leaned speculative even with index hedges active.</p></div>
+      <div class="wcard"><div class="src">Scanz</div><a href="https://scanz.com/market-movers-newsletter/" target="_blank" rel="noopener">Scanz's mover board kept flashing high-beta chaos under the surface</a><p>That is a useful check against the calmer macro headline.</p></div>
       <div class="wcard"><div class="src">CFTC</div><a href="https://www.cftc.gov/dea/futures/financial_lf.htm" target="_blank" rel="noopener">The official financial-futures COT page still shows positions as of June 9, 2026</a><p>This build correctly keeps the latest Friday-released dataset in place.</p></div>
     </div>
   </div>
@@ -479,7 +506,7 @@ footer .mono{font-size:11px}
 
 <footer>
   <p><b>The Debrief</b> · automated daily build · generated Tuesday, June 16, 2026.</p>
-  <p class="mono">Sources — Newsletters: Morning Brew, WSJ Markets A.M., Barron's Daily, Stocktwits Daily Rip, NYT The World, SemiAnalysis, The Chip Letter, SCSP, The Business Engineer, Prof G. Wire and official data: AP, BLS, Reuters via Investing.com and MarketScreener, CoinDesk, Yahoo Finance, cftc.gov, publicreporting.cftc.gov. Crypto prices: BTC, ETH and SOL market snapshots at build time. Weather: Open-Meteo. Podcasts: iTunes Search API.</p>
+  <p class="mono">Sources — Newsletters: Morning Brew, WSJ Markets A.M., Barron's Daily, Stocktwits Daily Rip, NYT The World, SemiAnalysis, The Chip Letter, SCSP, The Business Engineer, Prof G, Barchart Brief, Barchart Unusual Options, Scanz Market Movers. Wire and official data: AP, BLS, Reuters via Investing.com and MarketScreener, CoinDesk, Yahoo Finance, cftc.gov, publicreporting.cftc.gov. Crypto prices: BTC, ETH and SOL market snapshots at build time. Weather: Open-Meteo. Podcasts: iTunes Search API.</p>
   <p class="src-note">COT positioning is updated to Tuesday, June 9, 2026, the report released Friday, June 12, 2026. The market bar reflects the June 15 U.S. close for cash equities and the latest available June 16 morning snapshots for rates, Brent, gold and bitcoin. No financial advice.</p>
 </footer>
 
@@ -494,6 +521,29 @@ footer .mono{font-size:11px}
       <div class="clock" data-tz="Europe/Madrid" data-i="3"><div><div class="city">Madrid</div><div class="meta tzoff">—</div></div><div><div class="time">—</div><div class="wx">…</div></div></div>
       <div class="clock" data-tz="America/Puerto_Rico" data-i="4"><div><div class="city">Puerto Rico</div><div class="meta tzoff">—</div></div><div><div class="time">—</div><div class="wx">…</div></div></div>
     </div>
+  </div>
+  <div class="swid">
+    <h4>🧭 Signal Stack</h4>
+    <div class="sig-bias">
+      <div>
+        <div class="sig-kicker">Daily read</div>
+        <div class="sig-summary" id="signalSummary">Loading signal stack…</div>
+      </div>
+      <div class="bias-badge" id="signalBias">—</div>
+    </div>
+    <div class="signal-grid" id="signalGrid"></div>
+  </div>
+  <div class="swid">
+    <h4>📰 Fresh From Inbox</h4>
+    <div class="side-list" id="inboxHighlights"></div>
+  </div>
+  <div class="swid">
+    <h4>🎯 Flow Watch</h4>
+    <div class="side-list" id="flowWatch"></div>
+  </div>
+  <div class="swid">
+    <h4>⚡ Mover Board</h4>
+    <div class="side-list" id="moverBoard"></div>
   </div>
   <div class="swid">
     <h4>🎧 New Episodes</h4>
@@ -535,6 +585,53 @@ var TKR=[
     html+='<span class="tk"><span class="sym">'+t[0]+'</span><span class="val">'+t[1]+'</span><span class="'+cls+'">'+arrow+' '+Math.abs(t[2])+'%</span></span>';
   });}
   document.getElementById('tick').innerHTML=html;
+})();
+var SIGNAL={
+  summary:'Risk-on, but brittle',
+  bias:'Mixed',
+  items:[
+    {label:'Macro',state:'Relief holding',meta:'Brent and the 10Y are still softer'},
+    {label:'Flows',state:'Still hedged',meta:'SPY and SPX puts dominated the tape'},
+    {label:'Breadth',state:'Split',meta:'Semis lagged while high-beta winners exploded'},
+    {label:'Crypto',state:'Cautious',meta:'BTC firmed, but still trails equities in conviction'}
+  ]
+};
+var INBOX_HIGHLIGHTS=[
+  {src:'Barchart Brief',title:'Gold bounced more than 2% and miners went back on dip-watch.',meta:'A useful cross-check for the macro relief trade.'},
+  {src:'Barchart Brief',title:'Qualcomm stayed on the AI watchlist ahead of June 24 Investor Day.',meta:'Adds a fresh hyperscaler-chip angle beyond Nvidia.'},
+  {src:'Scanz',title:'SPCX led Nasdaq actives while NVDA, MU and INTC all closed lower.',meta:'The index tape looked cleaner than the internals.'},
+  {src:'Barchart Options',title:'Index and ETF puts stayed busy even after the peace-deal relief rally.',meta:'Traders still paid up for downside insurance.'}
+];
+var FLOW_WATCH=[
+  {title:'SPY Jun 17 751P',value:'65.9k vol',meta:'862 open interest · downside hedge',tone:'down'},
+  {title:'SPX Jul 31 6275P',value:'52.2k vol',meta:'734 open interest · tail-risk protection',tone:'down'},
+  {title:'TSLA Jun 17 405C',value:'65.5k vol',meta:'948 open interest · high-beta chase',tone:'up'},
+  {title:'QQQ Jun 17 733P',value:'26.4k vol',meta:'291 open interest · tech hedge',tone:'down'}
+];
+var MOVER_BOARD=[
+  {title:'SPCX',value:'+4.94%',meta:'Nasdaq most active',tone:'up'},
+  {title:'OBAI',value:'+111.41%',meta:'Nasdaq breakout mover',tone:'up'},
+  {title:'SOXL',value:'-16.58%',meta:'NYSE most active loser',tone:'down'},
+  {title:'GDC',value:'-69.84%',meta:'Nasdaq sharpest decliner',tone:'down'}
+];
+(function(){
+  document.getElementById('signalSummary').textContent=SIGNAL.summary;
+  var badge=document.getElementById('signalBias');
+  badge.textContent=SIGNAL.bias;
+  badge.classList.add(SIGNAL.bias==='Bullish'?'bias-up':'bias-mixed');
+  document.getElementById('signalGrid').innerHTML=SIGNAL.items.map(function(item){
+    return '<div class="signal-card"><div class="label">'+item.label+'</div><div class="state">'+item.state+'</div><div class="meta">'+item.meta+'</div></div>';
+  }).join('');
+  function renderList(id,rows){
+    document.getElementById(id).innerHTML=rows.map(function(row){
+      var value=row.value?'<div class="value '+(row.tone||'flat')+'">'+row.value+'</div>':'';
+      var title=row.src?row.src+' · '+row.title:row.title;
+      return '<div class="side-item"><div class="title">'+title+'</div><div class="meta">'+row.meta+'</div>'+value+'</div>';
+    }).join('');
+  }
+  renderList('inboxHighlights',INBOX_HIGHLIGHTS);
+  renderList('flowWatch',FLOW_WATCH);
+  renderList('moverBoard',MOVER_BOARD);
 })();
 
 /* ---------- world clocks ---------- */
