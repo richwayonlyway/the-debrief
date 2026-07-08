@@ -90,11 +90,12 @@ What is live right now after deploy:
 
 - `/api/live` polls Yahoo Finance spark for indices, yields, Brent, and gold
 - `/api/live` polls CoinGecko for BTC, ETH, and SOL
+- `/api/live` can also poll the official X API for the selected tracker accounts when `X_BEARER_TOKEN` is configured
 - the static edition hydrates those values every minute by default
 
 What still needs Convex or other authenticated backends:
 
-- X account ingestion
+- durable X account ingestion into a realtime store instead of request-time polling
 - live newsletter/highlight ingestion from inbox sources
 - intraday story card refreshes
 - durable live state shared across editions and operators

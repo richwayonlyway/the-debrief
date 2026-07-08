@@ -180,6 +180,8 @@ aside.sidebar{position:sticky;top:64px;display:flex;flex-direction:column;gap:16
 .mini-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:10px;border-bottom:1px dashed var(--line2)}
 .mini-row:last-child{border-bottom:none;padding-bottom:0}
 .mini-row .head{font-size:12.5px;font-weight:700;line-height:1.3}
+.mini-row .head-link{text-decoration:none}
+.mini-row .head-link:hover{color:var(--ember);text-decoration:underline}
 .mini-row .sub{font-size:11px;color:var(--ink-soft);line-height:1.35;margin-top:2px}
 .mini-row .pill{flex:none;padding:5px 7px;border:1px solid var(--line2);border-radius:999px;background:var(--paper2);font-family:'Space Mono',monospace;font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.7px}
 .live-box{padding:12px;border:1px solid var(--line2);border-radius:12px;background:var(--paper2)}
@@ -844,6 +846,11 @@ var MOVER_BOARD=[
   {title:'BRENT',value:'+5.08%',meta:'Wednesday build-time move',tone:'up'},
   {title:'SOL',value:'-5.35%',meta:'live 24h move at build time',tone:'down'}
 ];
+function htmlSafe(value){
+  return String(value==null?'':value).replace(/[&<>"']/g,function(ch){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+  });
+}
 function renderNewsletterModules(){
   document.getElementById('signalSummary').textContent=SIGNAL.summary;
   var badge=document.getElementById('signalBias');
@@ -881,7 +888,10 @@ function renderNewsletterModules(){
     return '<div class="highlight-card"><div class="eyebrow">'+row.src+'</div><div class="headline">'+row.title+'</div><div class="summary">'+row.meta+'</div></div>';
   }).join('');
   document.getElementById('xTracker').innerHTML=X_TRACKER.map(function(row){
-    return '<div class="mini-row"><div><div class="head">'+row.handle+'</div><div class="sub">'+row.focus+'<br>'+row.meta+'</div></div><div class="pill">'+row.state+'</div></div>';
+    var href=row.url&&/^https?:\/\//.test(row.url)?row.url:'';
+    var head=href?'<a class="head head-link" href="'+href+'" target="_blank" rel="noopener">'+htmlSafe(row.handle)+'</a>':'<div class="head">'+htmlSafe(row.handle)+'</div>';
+    var details=[row.focus,row.latestText,row.meta].filter(Boolean).map(htmlSafe).join('<br>');
+    return '<div class="mini-row"><div>'+head+'<div class="sub">'+details+'</div></div><div class="pill">'+htmlSafe(row.state)+'</div></div>';
   }).join('');
   document.getElementById('crowdPulse').innerHTML=CROWD_PULSE.map(function(row){
     return '<div class="mini-row"><div><div class="head">'+row.handle+'</div><div class="sub">'+row.focus+'<br>'+row.meta+'</div></div><div class="pill">'+row.state+'</div></div>';

@@ -90,6 +90,24 @@ Fallback:
 
 - periodic polling every 5 minutes for the three selected accounts
 
+## Vercel bridge env vars available now
+
+The current Vercel `/api/live` bridge can turn on account-level X tracker pulls before Convex is connected:
+
+- `X_BEARER_TOKEN`
+- optional `X_TRACKER_USERNAME_MAP_JSON`
+
+Example:
+
+```json
+{
+  "@unsusual_whales": "unusual_whales",
+  "@DeItaone": "Deltaone"
+}
+```
+
+Use the override map only when the display handle in the newsletter should differ from the exact X API username used for lookup.
+
 ## Operational model
 
 - Convex becomes the live state layer

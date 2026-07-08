@@ -25,6 +25,12 @@ It can also use the HTTP action:
 
 - `/debrief-live`
 
+For the X tracker specifically, the scaffold now also exposes a UI-shaped query:
+
+- `xTracker:getTrackerRows`
+
+That query returns the same `handle`, `focus`, `state`, `latestText`, `meta`, and `url` fields the static page expects from `/api/live`.
+
 ## Setup path
 
 1. Install Convex in a JS/TS environment:
@@ -47,6 +53,7 @@ npx convex dev
 4. Optional HTTP fallback:
 
 - use `?liveEndpoint=https://<deployment>.convex.site/debrief-live`
+- or keep the current Vercel bridge active at `/api/live` until Convex auth is restored
 
 ## Important blocker in this workspace
 

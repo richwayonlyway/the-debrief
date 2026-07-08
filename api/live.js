@@ -1,4 +1,9 @@
 const SPARK_SYMBOLS = ["^GSPC", "^IXIC", "^DJI", "^TNX", "BZ=F", "GC=F"];
+const X_TRACKER_ACCOUNTS = [
+  { handle: "@NoLimitGains", focus: "Momentum + premarket setups" },
+  { handle: "@unsusual_whales", focus: "Flow + options sentiment" },
+  { handle: "@DeItaone", focus: "Macro headline tape" },
+];
 
 const STATIC_COT_CARDS = [
   {
@@ -43,6 +48,148 @@ function formatMoney(value, digits) {
   return `$${formatNumber(value, digits)}`;
 }
 
+function normalizeHandle(handle) {
+  return String(handle || "").trim().replace(/^@+/, "");
+}
+
+function shortText(value, maxLength = 180) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength - 1).trimEnd()}…`;
+}
+
+function relativeTime(value) {
+  if (!value) return "time n/a";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "time n/a";
+  const diffMs = date.getTime() - Date.now();
+  const minutes = Math.round(diffMs / 60000);
+  const absMinutes = Math.abs(minutes);
+  if (absMinutes < 60) return `${absMinutes}m ago`;
+  const hours = Math.round(absMinutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.round(hours / 24);
+  return `${days}d ago`;
+}
+
+function parseJsonEnv(name) {
+  const raw = process.env[name];
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function defaultXTracker(metaSuffix) {
+  return X_TRACKER_ACCOUNTS.map((account) => ({
+    handle: account.handle,
+    focus: account.focus,
+    state: "Backend pending",
+    meta: metaSuffix,
+  }));
+}
+
+async function fetchXJson(url, token) {
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+      "User-Agent": "Mozilla/5.0",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`x API HTTP ${response.status}`);
+  }
+
+  return response.json();
+}
+
+async function fetchXUserByUsername(username, token) {
+  const url = new URL(`https://api.x.com/2/users/by/username/${encodeURIComponent(username)}`);
+  url.searchParams.set("user.fields", "id,name,username,profile_image_url");
+  const payload = await fetchXJson(url, token);
+  if (!payload || !payload.data || !payload.data.id) {
+    throw new Error(`x user lookup failed for ${username}`);
+  }
+  return payload.data;
+}
+
+async function fetchXPostsByUserId(userId, token) {
+  const url = new URL(`https://api.x.com/2/users/${encodeURIComponent(userId)}/tweets`);
+  url.searchParams.set("exclude", "replies,retweets");
+  url.searchParams.set("max_results", "5");
+  url.searchParams.set("tweet.fields", "created_at,public_metrics,attachments");
+  url.searchParams.set("expansions", "attachments.media_keys");
+  url.searchParams.set("media.fields", "preview_image_url,url,type");
+  return fetchXJson(url, token);
+}
+
+async function fetchLiveXTracker() {
+  const token = process.env.X_BEARER_TOKEN;
+  if (!token) {
+    return defaultXTracker(
+      "Set X_BEARER_TOKEN to turn on official X timeline pulls for these accounts.",
+    );
+  }
+
+  const usernameOverrides = parseJsonEnv("X_TRACKER_USERNAME_MAP_JSON");
+
+  const rows = await Promise.all(
+    X_TRACKER_ACCOUNTS.map(async (account) => {
+      const normalized = normalizeHandle(account.handle);
+      const lookupUsername =
+        usernameOverrides[account.handle] ||
+        usernameOverrides[normalized] ||
+        normalized;
+
+      try {
+        const user = await fetchXUserByUsername(lookupUsername, token);
+        const timeline = await fetchXPostsByUserId(user.id, token);
+        const posts = Array.isArray(timeline.data) ? timeline.data : [];
+        const latest = posts[0];
+
+        if (!latest) {
+          return {
+            handle: account.handle,
+            focus: account.focus,
+            state: "Live",
+            meta: "Authenticated X lookup succeeded, but no recent non-reply posts were returned.",
+            url: `https://x.com/${user.username}`,
+          };
+        }
+
+        const metrics = latest.public_metrics || {};
+        const metricParts = [];
+        if (Number.isFinite(metrics.like_count)) metricParts.push(`Likes ${metrics.like_count}`);
+        if (Number.isFinite(metrics.retweet_count)) metricParts.push(`Reposts ${metrics.retweet_count}`);
+        if (Number.isFinite(metrics.reply_count)) metricParts.push(`Replies ${metrics.reply_count}`);
+
+        return {
+          handle: account.handle,
+          focus: account.focus,
+          state: "Live",
+          latestText: shortText(latest.text, 160),
+          meta: `${user.name} · ${relativeTime(latest.created_at)}${metricParts.length ? ` · ${metricParts.join(" · ")}` : ""}`,
+          url: `https://x.com/${user.username}/status/${latest.id}`,
+        };
+      } catch (error) {
+        return {
+          handle: account.handle,
+          focus: account.focus,
+          state: "Lookup failed",
+          meta: `Official X lookup failed for ${lookupUsername}. ${error.message}`,
+        };
+      }
+    }),
+  );
+
+  return rows;
+}
+
 async function fetchSparkQuotes() {
   const url = new URL("https://query1.finance.yahoo.com/v7/finance/spark");
   url.searchParams.set("symbols", SPARK_SYMBOLS.join(","));
@@ -84,7 +231,7 @@ async function fetchCryptoQuotes() {
   return response.json();
 }
 
-function buildPayload(spark, crypto) {
+function buildPayload(spark, crypto, xTracker) {
   const spx = spark["^GSPC"];
   const ndx = spark["^IXIC"];
   const dji = spark["^DJI"];
@@ -255,9 +402,12 @@ function buildPayload(spark, crypto) {
     flowWatch,
     moverBoard,
     signal,
+    xTracker,
     liveStatus: {
       mode: "Live Vercel snapshot connected.",
-      meta: "The page is polling /api/live for market refreshes. Traditional assets come from Yahoo Finance spark; crypto comes from CoinGecko. X and Convex realtime are still separate follow-on work.",
+      meta: xTracker.some((row) => row.state === "Live")
+        ? "The page is polling /api/live for market refreshes and authenticated X timeline pulls. Traditional assets come from Yahoo Finance spark; crypto comes from CoinGecko."
+        : "The page is polling /api/live for market refreshes. Traditional assets come from Yahoo Finance spark; crypto comes from CoinGecko. X still needs credentials or username overrides to go fully live.",
       updated: `Updated ${new Date().toLocaleString("en-US", {
         month: "short",
         day: "numeric",
@@ -275,8 +425,12 @@ module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   try {
-    const [spark, crypto] = await Promise.all([fetchSparkQuotes(), fetchCryptoQuotes()]);
-    res.status(200).send(JSON.stringify(buildPayload(spark, crypto)));
+    const [spark, crypto, xTracker] = await Promise.all([
+      fetchSparkQuotes(),
+      fetchCryptoQuotes(),
+      fetchLiveXTracker(),
+    ]);
+    res.status(200).send(JSON.stringify(buildPayload(spark, crypto, xTracker)));
   } catch (error) {
     res.status(500).send(
       JSON.stringify({
