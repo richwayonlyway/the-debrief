@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Debrief — July 8, 2026</title>
 <meta property="og:title" content="The Debrief — daily markets, tech & geopolitics">
-<meta property="og:description" content="A daily briefing: inbox newsletters + live wire + CFTC positioning dashboard, with world clocks, weather and podcasts.">
+<meta property="og:description" content="A daily briefing with clickable story cards, inbox-led market context, crypto, CFTC positioning, world clocks and podcasts.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:,">
@@ -104,6 +104,18 @@ details.why p{font-size:13.5px;color:var(--ink-soft);margin:8px 0 2px}
 .wcard a{font-size:14px;font-weight:600;text-decoration:none;color:var(--ink);display:block;margin-bottom:5px}
 .wcard a:hover{color:var(--ember);text-decoration:underline}
 .wcard p{font-size:12.5px;color:var(--ink-soft);margin:0}
+.story-deck{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.story-card{border:none;padding:0;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;text-align:left;font:inherit;color:inherit}
+.story-card:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.story-visual{aspect-ratio:16/9;background:var(--paper2);overflow:hidden}
+.story-visual img{width:100%;height:100%;object-fit:cover;display:block}
+.story-copy{padding:16px 16px 15px;border:1px solid var(--line);border-top:none}
+.story-topline{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.story-src{font-family:'Space Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--ember);font-weight:700}
+.story-open{font-family:'Space Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--ink-soft)}
+.story-card h3{font-size:18px;margin-bottom:8px}
+.story-card p{font-size:13.5px;color:var(--ink-soft);margin:0}
+@media(max-width:760px){.story-deck{grid-template-columns:1fr}}
 /* sidebar */
 aside.sidebar{position:sticky;top:64px;display:flex;flex-direction:column;gap:16px}
 @media(max-width:980px){aside.sidebar{position:static}}
@@ -143,6 +155,22 @@ aside.sidebar{position:sticky;top:64px;display:flex;flex-direction:column;gap:16
 .side-item .value.up{color:var(--c-markets)}
 .side-item .value.down{color:var(--c-trading)}
 .side-item .value.flat{color:var(--ink-soft)}
+.highlight-stack{display:flex;flex-direction:column;gap:10px}
+.highlight-card{padding:12px;border:1px solid var(--line2);border-radius:12px;background:color-mix(in srgb,var(--card) 86%,var(--paper2));text-decoration:none;display:block}
+.highlight-card:hover{border-color:color-mix(in srgb,var(--ember) 34%,var(--line2));transform:translateY(-1px);transition:transform .18s,border-color .18s}
+.highlight-card .eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+.highlight-card .headline{font-size:13px;font-weight:700;line-height:1.35;margin-bottom:5px}
+.highlight-card .summary{font-size:11.5px;line-height:1.42;color:var(--ink-soft)}
+.mini-board{display:flex;flex-direction:column;gap:10px}
+.mini-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:10px;border-bottom:1px dashed var(--line2)}
+.mini-row:last-child{border-bottom:none;padding-bottom:0}
+.mini-row .head{font-size:12.5px;font-weight:700;line-height:1.3}
+.mini-row .sub{font-size:11px;color:var(--ink-soft);line-height:1.35;margin-top:2px}
+.mini-row .pill{flex:none;padding:5px 7px;border:1px solid var(--line2);border-radius:999px;background:var(--paper2);font-family:'Space Mono',monospace;font-size:10px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.7px}
+.live-box{padding:12px;border:1px solid var(--line2);border-radius:12px;background:var(--paper2)}
+.live-box .label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+.live-box .state{font-size:13px;font-weight:700;line-height:1.3}
+.live-box .meta{font-size:11.5px;color:var(--ink-soft);line-height:1.45;margin-top:5px}
 @media(max-width:420px){.signal-grid{grid-template-columns:1fr}}
 .skel{background:linear-gradient(90deg,var(--paper2),var(--line),var(--paper2));background-size:200% 100%;animation:sh 1.3s infinite;border-radius:6px;height:11px}
 @keyframes sh{to{background-position:-200% 0}}
@@ -159,7 +187,7 @@ aside.sidebar{position:sticky;top:64px;display:flex;flex-direction:column;gap:16
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
 /* misc */
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+.reveal{opacity:1;transform:none;transition:opacity .6s,transform .6s}
 .reveal.in{opacity:1;transform:none}
 .nothing{background:var(--card);border:1px dashed var(--line2);border-radius:14px;padding:20px}
 .nothing ul{margin:8px 0 0;padding-left:18px;columns:2;font-size:13px;color:var(--ink-soft)}
@@ -169,6 +197,22 @@ aside.sidebar{position:sticky;top:64px;display:flex;flex-direction:column;gap:16
 footer{margin:50px 0 34px;padding-top:20px;border-top:3px double var(--line2);font-size:12.5px;color:var(--ink-soft)}
 footer .mono{font-size:11px}
 .src-note{font-size:11px;color:var(--ink-soft);margin-top:6px}
+.modal-backdrop{position:fixed;inset:0;background:rgba(10,8,5,.58);display:none;align-items:flex-start;justify-content:center;padding:28px 18px;z-index:140}
+.modal-backdrop.open{display:flex}
+.modal-panel{width:min(760px,100%);max-height:calc(100vh - 56px);overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.modal-hero{aspect-ratio:16/9;background:var(--paper2)}
+.modal-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.modal-body{padding:20px}
+.modal-meta{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.modal-src{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ember)}
+.modal-close{border:1px solid var(--line2);background:var(--paper2);border-radius:999px;padding:6px 10px;cursor:pointer;font-family:'Space Mono',monospace;font-size:10.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.7px}
+.modal-body h3{font-size:28px;margin-bottom:10px}
+.modal-body p{font-size:14px;color:var(--ink-soft);margin:0 0 12px}
+.modal-points{margin:0 0 16px;padding-left:18px;color:var(--ink-soft)}
+.modal-points li{margin-bottom:8px}
+.modal-actions{display:flex;flex-wrap:wrap;gap:10px}
+.modal-link{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;background:var(--ink);color:var(--card);text-decoration:none;font-size:12.5px;font-weight:700}
+.modal-link.secondary{background:var(--paper2);color:var(--ink);border:1px solid var(--line2)}
 </style>
 </head>
 <body>
@@ -176,7 +220,7 @@ footer .mono{font-size:11px}
 <nav><div class="wrap">
   <span class="brand">The Debrief<span class="dot">.</span></span>
   <div class="links">
-    <a href="#top">Top</a><a href="#markets">Markets</a><a href="#global">Global</a>
+    <a href="#top">Top</a><a href="#stories">Stories</a><a href="#markets">Markets</a><a href="#global">Global</a>
     <a href="#tech">Tech</a><a href="#business">Business</a><a href="#crypto">Crypto</a><a href="#trading">Trading</a>
     <a href="#cot">CFTC&nbsp;COT</a>
   </div>
@@ -188,8 +232,8 @@ footer .mono{font-size:11px}
   <h1>The Debrief</h1>
   <div class="sub">
     <span><b>Wednesday, July 8, 2026</b></span>
-    <span>· ~7 min read</span>
-    <span>· 14 newsletters parsed</span>
+    <span>· ~8 min read</span>
+    <span>· 18 newsletters parsed</span>
     <span>· 16 wire sources</span>
     <span>· COT as of <b>Jun&nbsp;30</b></span>
   </div>
@@ -215,6 +259,12 @@ footer .mono{font-size:11px}
     <div class="card" style="--accent:var(--c-global)"><h3>Oil is no longer contained because the Iran headline changed again overnight</h3><p class="dek">AP says Brent jumped to $78.10 after Trump said the ceasefire with Iran is over. The market is back to repricing real disruption risk instead of just managing a fragile supply story.</p><div class="chips"><span class="chip">AP</span><span class="chip">Energy</span></div></div>
     <div class="card" style="--accent:var(--c-trading)"><h3>The official COT file stays June 30, and dealer shorts still frame the downside</h3><p class="dek">The official CFTC financial-futures files remain stamped Tuesday, June 30, 2026 on Wednesday morning. Dealers are still net short 746,475 S&amp;P contracts and deeply short Treasuries, so the positioning backdrop still argues for discipline.</p><div class="chips"><span class="chip">CFTC</span><span class="chip">COT</span></div></div>
   </div>
+</section>
+
+<section id="stories" class="reveal">
+  <div class="sec-head" style="--accent:var(--ember)"><span class="tag"></span><h2>Story Deck</h2><span class="cnt">Click any card to open inside The Debrief</span></div>
+  <p class="lead">This is the new share layer for the newsletter: four image-led cards covering the day's most important cross-asset and AI stories, each with a quick in-platform reader before you jump to the source.</p>
+  <div class="story-deck" id="storyDeck"></div>
 </section>
 <!-- MARKETS -->
 <section id="markets" class="reveal">
@@ -507,8 +557,8 @@ footer .mono{font-size:11px}
 
 <footer>
   <p><b>The Debrief</b> · automated daily build · generated Wednesday, July 8, 2026.</p>
-  <p class="mono">Sources — Newsletters: Morning Brew, WSJ Markets A.M., Barron's Daily, Stocktwits Daily Rip, NYT The World, SemiAnalysis, The Chip Letter, SCSP, The Business Engineer, Prof G, Barchart Brief, Barchart Unusual Options, Scanz Market Movers. Wire and official data: AP, Reuters via MarketScreener, CoinDesk, CoinGecko, cftc.gov, publicreporting.cftc.gov. Crypto prices: BTC, ETH and SOL market snapshots at build time. Weather: Open-Meteo. Podcasts: iTunes Search API.</p>
-  <p class="src-note">COT positioning reflects Tuesday, June 30, 2026, which remains the latest official Friday-released dataset posted by the CFTC at build time. The market bar reflects Tuesday, July 7 cash-index closes plus Wednesday, July 8 build-time snapshots for the U.S. 10-year, Brent, gold and crypto. No financial advice.</p>
+  <p class="mono">Sources — Newsletters: Morning Brew, WSJ Markets A.M., Barron's Daily, Stocktwits Daily Rip, NYT The World, SemiAnalysis, The Chip Letter, SCSP, The Business Engineer, Prof G, Ray Fu, Barchart Brief, Barchart Unusual Options, Scanz Market Movers. Wire and official data: AP, Reuters via MarketScreener, CoinDesk, CoinGecko, cftc.gov, publicreporting.cftc.gov. Crypto prices: BTC, ETH and SOL market snapshots at build time. Weather: Open-Meteo. Podcasts: iTunes Search API.</p>
+  <p class="src-note">COT positioning reflects Tuesday, June 30, 2026, which remains the latest official Friday-released dataset posted by the CFTC at build time. The market bar reflects Tuesday, July 7 cash-index closes plus Wednesday, July 8 build-time snapshots for the U.S. 10-year, Brent, gold and crypto. Story Deck and Inbox Radar are source-backed static cards; X Tracker is a UI scaffold until a live backend is connected. No financial advice.</p>
 </footer>
 
 </main>
@@ -524,6 +574,10 @@ footer .mono{font-size:11px}
     </div>
   </div>
   <div class="swid">
+    <h4>⚙ Live Status</h4>
+    <div class="live-box" id="liveStatus"></div>
+  </div>
+  <div class="swid">
     <h4>🧭 Signal Stack</h4>
     <div class="sig-bias">
       <div>
@@ -535,8 +589,16 @@ footer .mono{font-size:11px}
     <div class="signal-grid" id="signalGrid"></div>
   </div>
   <div class="swid">
-    <h4>📰 Fresh From Inbox</h4>
-    <div class="side-list" id="inboxHighlights"></div>
+    <h4>📰 Inbox Radar</h4>
+    <div class="highlight-stack" id="inboxHighlights"></div>
+  </div>
+  <div class="swid">
+    <h4>📡 X Tracker</h4>
+    <div class="mini-board" id="xTracker"></div>
+  </div>
+  <div class="swid">
+    <h4>🗓 Catalyst Calendar</h4>
+    <div class="mini-board" id="catalystCalendar"></div>
   </div>
   <div class="swid">
     <h4>🎯 Flow Watch</h4>
@@ -554,8 +616,81 @@ footer .mono{font-size:11px}
 
 </div><!-- /layout -->
 </div><!-- /wrap -->
+<div class="modal-backdrop" id="storyModal" aria-hidden="true">
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="storyModalTitle">
+    <div class="modal-hero"><img id="storyModalImage" alt=""></div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <div class="modal-src" id="storyModalSource">Source</div>
+        <button class="modal-close" id="storyModalClose" type="button">Close</button>
+      </div>
+      <h3 id="storyModalTitle">Story title</h3>
+      <p id="storyModalSummary">Story summary</p>
+      <ul class="modal-points" id="storyModalPoints"></ul>
+      <div class="modal-actions">
+        <a class="modal-link" id="storyModalLink" href="#" target="_blank" rel="noopener">Open source</a>
+        <button class="modal-link secondary" id="storyModalDismiss" type="button">Back to newsletter</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
 const COT={"asof":"Tuesday, June 30, 2026","fin":[{"n":"Canadian Dollar","c":"fx","net":167242,"d":1092},{"n":"Swiss Franc","c":"fx","net":65956,"d":-3195},{"n":"British Pound","c":"fx","net":159925,"d":-67},{"n":"Japanese Yen","c":"fx","net":129418,"d":11028},{"n":"Euro FX","c":"fx","net":-253465,"d":21865},{"n":"Aussie Dollar","c":"fx","net":-11391,"d":7354},{"n":"Mexican Peso","c":"fx","net":-65090,"d":3846},{"n":"Dow (DJIA)","c":"equity","net":-6576,"d":-2614},{"n":"S&P 500","c":"equity","net":-746475,"d":8740},{"n":"Nasdaq-100","c":"equity","net":3578,"d":21425},{"n":"Russell 2000","c":"equity","net":72099,"d":20946},{"n":"UST Bond","c":"rates","net":-298722,"d":38917},{"n":"UST 2Y","c":"rates","net":-426888,"d":57157},{"n":"UST 10Y","c":"rates","net":-429521,"d":58289},{"n":"UST 5Y","c":"rates","net":-832074,"d":-41220},{"n":"Fed Funds","c":"rates","net":97082,"d":-5903}],"com":[{"n":"Crude Oil (WTI)","c":"energy","net":371227,"d":-7649},{"n":"Natural Gas","c":"energy","net":-31500,"d":-885},{"n":"Gold","c":"metals","net":-17046,"d":-7710},{"n":"Silver","c":"metals","net":-12271,"d":1451},{"n":"Copper","c":"metals","net":-89338,"d":8248},{"n":"Corn","c":"ags","net":-353041,"d":-2524},{"n":"Soybeans","c":"ags","net":-164894,"d":36410},{"n":"Wheat (SRW)","c":"ags","net":-6496,"d":15506}]};
+var LIVE_STATUS={
+  mode:'Daily static edition is live on Vercel.',
+  meta:'The new Story Deck, Inbox Radar and X Tracker UI ship now. True real-time refresh still needs a backend ingestion layer, and Convex is the preferred path once the connector is authenticated.',
+  updated:'Updated Wednesday, July 8, 2026'
+};
+var STORY_DECK=[
+  {
+    src:'AP',
+    title:'Oil and futures turned together when the Iran ceasefire headline broke again',
+    summary:'Cross-asset pricing went risk-off immediately: futures slid, oil jumped and the market stopped treating Hormuz as a contained story.',
+    url:'https://apnews.com/article/stocks-rates-oil-iran-ai-671d9c94b302f7db533f46baa18387d3',
+    image:'https://dims.apnews.com/dims4/default/adc2735/2147483647/strip/true/crop/6000x3998+0+1/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Fbd%2F88%2F62315d9510c1f7891433b964deab%2F55a0696f7a6347ebb4823174466b052b',
+    points:[
+      'Brent moved near $78.10 as the market repriced route security and retaliation risk.',
+      'Futures weakness hit before the open, which matters because Tuesday already closed defensively.',
+      'The move tightened the link between oil, inflation risk and tech-duration stress.'
+    ]
+  },
+  {
+    src:'AP',
+    title:'Tuesday already closed weak before Wednesday added another shock',
+    summary:'The risk-off tone was real before the overnight escalation: the Nasdaq led lower, the S&P 500 slipped and the Dow failed to hold a steadier tape.',
+    url:'https://apnews.com/article/wall-street-stocks-dow-nasdaq-a87d6f3e20da94a31652b054d5571e20',
+    image:'https://dims.apnews.com/dims4/default/295c329/2147483647/strip/true/crop/675x450+12+0/resize/980x653!/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2F90%2F29%2F4e3c1cc7446089a9101a7bdff4c8%2Fdefaultshareimage-copy.png',
+    points:[
+      'The Nasdaq absorbed the hardest downside, which kept AI leadership under pressure.',
+      'That weaker close means Wednesday is not just a headline panic layered onto a strong base.',
+      'The newsletter market bar is now aligned with the actual prior cash close.'
+    ]
+  },
+  {
+    src:'CoinDesk',
+    title:'Bitcoin is still trading as a macro-risk asset, not a standalone hedge',
+    summary:'Oil higher and risk appetite lower pushed bitcoin back under pressure, with the broader crypto complex rolling over again.',
+    url:'https://www.coindesk.com/markets/2026/07/08/bitcoin-under-pressure-as-u-s-iran-escalation-lifts-oil',
+    image:'https://cdn.sanity.io/images/s3y3vcno/production/e183c12b5e1dbaf0e0175a58c3a9425adb7b3de5-1920x1440.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg',
+    points:[
+      'BTC, ETH and SOL all weakened together at build time.',
+      'The crypto section now has a clearer role as a live stress gauge for the whole newsletter.',
+      'This improves the handoff between macro, trading and digital-asset readers.'
+    ]
+  },
+  {
+    src:'CoinDesk',
+    title:'Altcoins took the harder hit once the market rolled back into risk-off mode',
+    summary:'The post-ceasefire selloff hit crypto breadth harder than bitcoin alone, which keeps solana and other high-beta tokens useful as fast appetite proxies.',
+    url:'https://www.coindesk.com/markets/2026/07/08/crypto-and-stocks-tumble-after-trump-declares-ceasefire-over-following-iran-strikes',
+    image:'https://cdn.sanity.io/images/s3y3vcno/production/eeaed39946c9410c300731fdc97d3a830320bfff-1858x984.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg',
+    points:[
+      'Altcoin weakness confirmed the broader liquidation tone rather than contradicting it.',
+      'This gives the crypto section a cleaner breadth read instead of a single-price snapshot.',
+      'The card is optimized for sharing because the image and headline stay readable on mobile.'
+    ]
+  }
+];
 /* ---------- theme ---------- */
 function toggleTheme(){
   var r=document.documentElement, d=r.getAttribute('data-theme')==='dark';
@@ -598,10 +733,21 @@ var SIGNAL={
   ]
 };
 var INBOX_HIGHLIGHTS=[
-  {src:'AP',title:'U.S. stocks finished Tuesday lower, led by another AI-stock drop.',meta:'The market was already backing away from tech before the new oil shock hit.'},
-  {src:'AP',title:'Wednesday futures are lower after Trump said the Iran ceasefire is over.',meta:'Geopolitics is now driving both inflation risk and equity sentiment.'},
-  {src:'CoinDesk',title:'Crypto is selling off again as oil rises and risk appetite deteriorates.',meta:'Crypto is still behaving like a liquidity asset, not a separate hedge.'},
-  {src:'CFTC',title:'The official financial-futures page still shows positions as of June 30.',meta:'No newer Friday release is posted beyond the current dashboard dataset.'}
+  {src:'Morning Brew',title:'China closes the AI gap faster when distillation and cheap inference converge.',meta:'Useful framing for the tech section because it links China pressure, AI pricing and the Nasdaq selloff.'},
+  {src:'SemiAnalysis',title:'Anthropic is framed as the profitable B2B AI leader with IPO leverage.',meta:'Adds stronger business context around AI monetization, margins and why quality leadership still matters.',url:'https://newsletter.semianalysis.com/p/anthropic-3q26-profit-over-1b-the'},
+  {src:'The Business Engineer',title:'Routing may become the AI stack\'s real price-discovery layer.',meta:'Good strategic lens for the business section: the scoreboard and allocation layer may matter more than the model brand.',url:'https://businessengineer.ai/p/the-routing-paradigm-for-enterprise'},
+  {src:'Ray Fu',title:'The practical AI opportunity is workflow-specific workers, not generic chat tabs.',meta:'Useful product angle for readers building with agents: start with one recurring workflow, then connect the tools.',url:'https://www.rayfu.com/'}
+];
+var X_TRACKER=[
+  {handle:'@NoLimitGains',focus:'Momentum + premarket setups',state:'UI ready',meta:'Static watchlist card for now. Planned live path is X API ingestion into a realtime store.'},
+  {handle:'@unsusual_whales',focus:'Flow + options sentiment',state:'Backend pending',meta:'Pairs naturally with Flow Watch and Mover Board once live social pulls are connected.'},
+  {handle:'@DeItaone',focus:'Macro headline tape',state:'Backend pending',meta:'This slot is designed for fast headline context beside the market bar and top story.'}
+];
+var CATALYST_CALENDAR=[
+  {title:'Overnight macro',meta:'Monitor Iran and shipping-headline follow-through into U.S. open.',tag:'Live'},
+  {title:'AI leadership check',meta:'Watch whether semis stabilize or keep dragging the Nasdaq complex.',tag:'Tech'},
+  {title:'Crypto breadth',meta:'BTC, ETH and SOL stay on watch as the fastest cross-asset stress read.',tag:'Crypto'},
+  {title:'Friday COT cadence',meta:'Keep the weekly CFTC refresh on Friday unless an unreconciled release is missing.',tag:'Ops'}
 ];
 var FLOW_WATCH=[
   {title:'US 10Y Cash',value:'4.58',meta:'yields are rising again, which matters for duration, tech and financing costs',tone:'up'},
@@ -620,6 +766,10 @@ var MOVER_BOARD=[
   var badge=document.getElementById('signalBias');
   badge.textContent=SIGNAL.bias;
   badge.classList.add(SIGNAL.bias==='Bullish'?'bias-up':'bias-mixed');
+  document.getElementById('liveStatus').innerHTML='<div class="label">'+LIVE_STATUS.updated+'</div><div class="state">'+LIVE_STATUS.mode+'</div><div class="meta">'+LIVE_STATUS.meta+'</div>';
+  document.getElementById('storyDeck').innerHTML=STORY_DECK.map(function(story,idx){
+    return '<button class="story-card" type="button" data-story-index="'+idx+'"><div class="story-visual"><img src="'+story.image+'" alt="" loading="lazy"></div><div class="story-copy"><div class="story-topline"><span class="story-src">'+story.src+'</span><span class="story-open">Open in platform</span></div><h3>'+story.title+'</h3><p>'+story.summary+'</p></div></button>';
+  }).join('');
   document.getElementById('signalGrid').innerHTML=SIGNAL.items.map(function(item){
     return '<div class="signal-card"><div class="label">'+item.label+'</div><div class="state">'+item.state+'</div><div class="meta">'+item.meta+'</div></div>';
   }).join('');
@@ -630,9 +780,51 @@ var MOVER_BOARD=[
       return '<div class="side-item"><div class="title">'+title+'</div><div class="meta">'+row.meta+'</div>'+value+'</div>';
     }).join('');
   }
-  renderList('inboxHighlights',INBOX_HIGHLIGHTS);
+  document.getElementById('inboxHighlights').innerHTML=INBOX_HIGHLIGHTS.map(function(row){
+    var tag=row.url?['a',' href="'+row.url+'" target="_blank" rel="noopener"']:['div',''];
+    return '<'+tag[0]+' class="highlight-card"'+tag[1]+'><div class="eyebrow">'+row.src+'</div><div class="headline">'+row.title+'</div><div class="summary">'+row.meta+'</div></'+tag[0]+'>';
+  }).join('');
+  document.getElementById('xTracker').innerHTML=X_TRACKER.map(function(row){
+    return '<div class="mini-row"><div><div class="head">'+row.handle+'</div><div class="sub">'+row.focus+'<br>'+row.meta+'</div></div><div class="pill">'+row.state+'</div></div>';
+  }).join('');
+  document.getElementById('catalystCalendar').innerHTML=CATALYST_CALENDAR.map(function(row){
+    return '<div class="mini-row"><div><div class="head">'+row.title+'</div><div class="sub">'+row.meta+'</div></div><div class="pill">'+row.tag+'</div></div>';
+  }).join('');
   renderList('flowWatch',FLOW_WATCH);
   renderList('moverBoard',MOVER_BOARD);
+})();
+
+/* ---------- modal story reader ---------- */
+(function(){
+  var modal=document.getElementById('storyModal');
+  var close=document.getElementById('storyModalClose');
+  var dismiss=document.getElementById('storyModalDismiss');
+  function openStory(idx){
+    var story=STORY_DECK[idx];
+    if(!story)return;
+    document.getElementById('storyModalImage').src=story.image;
+    document.getElementById('storyModalSource').textContent=story.src;
+    document.getElementById('storyModalTitle').textContent=story.title;
+    document.getElementById('storyModalSummary').textContent=story.summary;
+    document.getElementById('storyModalLink').href=story.url;
+    document.getElementById('storyModalPoints').innerHTML=story.points.map(function(point){return '<li>'+point+'</li>';}).join('');
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closeStory(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+  document.getElementById('storyDeck').addEventListener('click',function(ev){
+    var btn=ev.target.closest('[data-story-index]');
+    if(btn)openStory(btn.getAttribute('data-story-index'));
+  });
+  close.addEventListener('click',closeStory);
+  dismiss.addEventListener('click',closeStory);
+  modal.addEventListener('click',function(ev){if(ev.target===modal)closeStory();});
+  window.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&modal.classList.contains('open'))closeStory();});
 })();
 
 /* ---------- world clocks ---------- */
