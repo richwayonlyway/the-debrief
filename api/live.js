@@ -14,12 +14,17 @@ const SPARK_SYMBOLS = [
   "TLT",
   "HYG",
   "KRE",
+  "FEZ",
+  "EFA",
+  "EEM",
+  "FXI",
 ];
 const EDITORIAL_KEYS = [
   "storyDeck",
   "inboxHighlights",
   "optionsPulse",
   "ratesCreditPulse",
+  "globalRiskMap",
   "macroBoard",
   "leadershipBoard",
   "deskNotes",
@@ -27,6 +32,7 @@ const EDITORIAL_KEYS = [
   "xTracker",
   "crowdPulse",
   "catalystCalendar",
+  "credibleSourceWire",
   "flowWatch",
   "moverBoard",
   "rotationRadar",
@@ -362,6 +368,10 @@ function buildPayload(spark, crypto, xTracker) {
   const tlt = spark["TLT"];
   const hyg = spark["HYG"];
   const kre = spark["KRE"];
+  const fez = spark["FEZ"];
+  const efa = spark["EFA"];
+  const eem = spark["EEM"];
+  const fxi = spark["FXI"];
 
   const btc = crypto.bitcoin || {};
   const eth = crypto.ethereum || {};
@@ -382,6 +392,10 @@ function buildPayload(spark, crypto, xTracker) {
   const tltChg = pctChange(tlt.regularMarketPrice, tlt.chartPreviousClose);
   const hygChg = pctChange(hyg.regularMarketPrice, hyg.chartPreviousClose);
   const kreChg = pctChange(kre.regularMarketPrice, kre.chartPreviousClose);
+  const fezChg = pctChange(fez.regularMarketPrice, fez.chartPreviousClose);
+  const efaChg = pctChange(efa.regularMarketPrice, efa.chartPreviousClose);
+  const eemChg = pctChange(eem.regularMarketPrice, eem.chartPreviousClose);
+  const fxiChg = pctChange(fxi.regularMarketPrice, fxi.chartPreviousClose);
   const btcChg = Number.isFinite(btc.usd_24h_change) ? btc.usd_24h_change : 0;
   const solChg = Number.isFinite(sol.usd_24h_change) ? sol.usd_24h_change : 0;
 
@@ -465,6 +479,33 @@ function buildPayload(spark, crypto, xTracker) {
       value: signed(kreChg, 2),
       meta: "Regional banks help show whether higher yields are becoming a banking and credit problem.",
       tone: toneFrom(kreChg),
+    },
+  ];
+
+  const globalRiskMap = [
+    {
+      title: "Europe (FEZ)",
+      value: signed(fezChg, 2),
+      meta: "Europe helps show whether the stress is global and cyclical rather than purely U.S. tech-specific.",
+      tone: toneFrom(fezChg),
+    },
+    {
+      title: "Developed ex-US (EFA)",
+      value: signed(efaChg, 2),
+      meta: "Broad developed markets show whether the dollar-and-rates regime is spilling beyond the U.S.",
+      tone: toneFrom(efaChg),
+    },
+    {
+      title: "Emerging Markets (EEM)",
+      value: signed(eemChg, 2),
+      meta: "Emerging markets are a useful risk appetite and dollar-sensitivity read when macro pressure rises.",
+      tone: toneFrom(eemChg),
+    },
+    {
+      title: "China Large Caps (FXI)",
+      value: signed(fxiChg, 2),
+      meta: "China exposure remains a clean stress read when global growth and tech sentiment both wobble.",
+      tone: toneFrom(fxiChg),
     },
   ];
 
@@ -631,6 +672,7 @@ function buildPayload(spark, crypto, xTracker) {
   return {
     ticker,
     ratesCreditPulse,
+    globalRiskMap,
     macroBoard,
     leadershipBoard,
     flowWatch,

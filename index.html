@@ -603,7 +603,7 @@ footer .mono{font-size:11px}
 <footer>
   <p><b>The Debrief</b> · automated daily build · generated Wednesday, July 8, 2026.</p>
   <p class="mono">Sources — Newsletters: Morning Brew, WSJ Markets A.M., Barron's Daily, Stocktwits Daily Rip, NYT The World, SemiAnalysis, The Chip Letter, SCSP, The Business Engineer, Prof G, Ray Fu, Barchart Brief, Barchart Unusual Options, Scanz Market Movers. Wire and official data: AP, Reuters via MarketScreener, CoinDesk, CoinGecko, cftc.gov, publicreporting.cftc.gov. Crypto prices: BTC, ETH and SOL market snapshots at build time. Weather: Open-Meteo. Podcasts: iTunes Search API.</p>
-  <p class="src-note">COT positioning reflects Tuesday, June 30, 2026, which remains the latest official Friday-released dataset posted by the CFTC at build time. The market bar reflects Tuesday, July 7 cash-index closes plus Wednesday, July 8 build-time snapshots for the U.S. 10-year, Brent, gold and crypto. Story Deck, Inbox Radar, Desk Notes, Tape Setup and Options Heat are source-backed newsletter modules; the Vercel live snapshot can refresh the market bar, Rates &amp; Credit Pulse, Cross-Asset Dashboard, Flow Watch, Mover Board and Rotation Radar without a full redeploy. X Tracker is still a UI scaffold until a live social backend is connected. No financial advice.</p>
+  <p class="src-note">COT positioning reflects Tuesday, June 30, 2026, which remains the latest official Friday-released dataset posted by the CFTC at build time. The market bar reflects Tuesday, July 7 cash-index closes plus Wednesday, July 8 build-time snapshots for the U.S. 10-year, Brent, gold and crypto. Story Deck, Inbox Radar, Credible Source Wire, Desk Notes, Tape Setup and Options Heat are source-backed newsletter modules; the Vercel live snapshot can refresh the market bar, Rates &amp; Credit Pulse, Global Risk Map, Cross-Asset Dashboard, Flow Watch, Mover Board and Rotation Radar without a full redeploy. X Tracker is still a UI scaffold until a live social backend is connected. No financial advice.</p>
 </footer>
 
 </main>
@@ -638,8 +638,16 @@ footer .mono{font-size:11px}
     <div class="side-list" id="ratesCreditPulse"></div>
   </div>
   <div class="swid">
+    <h4>🌍 Global Risk Map</h4>
+    <div class="side-list" id="globalRiskMap"></div>
+  </div>
+  <div class="swid">
     <h4>📰 Inbox Radar</h4>
     <div class="highlight-stack" id="inboxHighlights"></div>
+  </div>
+  <div class="swid">
+    <h4>🧾 Credible Source Wire</h4>
+    <div class="highlight-stack" id="credibleSourceWire"></div>
   </div>
   <div class="swid">
     <h4>🔥 Options Heat</h4>
@@ -705,7 +713,7 @@ var LIVE_CONFIG={
 };
 var LIVE_STATUS={
   mode:'Daily static edition is live on Vercel.',
-  meta:'The Story Deck, rates pulse, Inbox Radar and X Tracker UI ship now. True real-time refresh still needs a backend ingestion layer, and Convex is the preferred path once the connector is authenticated.',
+  meta:'The Story Deck, rates pulse, global map, source wire, Inbox Radar and X Tracker UI ship now. True real-time refresh still needs a backend ingestion layer, and Convex is the preferred path once the connector is authenticated.',
   updated:'Updated Wednesday, July 8, 2026'
 };
 var STORY_DECK=[
@@ -824,6 +832,18 @@ var RATES_CREDIT_PULSE=[
   {title:'HYG',value:'-0.41%',meta:'High-yield credit is softer, but not yet pricing a full credit accident.',tone:'down'},
   {title:'KRE',value:'-1.06%',meta:'Regional banks remain a useful stress read when yields and growth fear rise together.',tone:'down'}
 ];
+var GLOBAL_RISK_MAP=[
+  {title:'Europe (FEZ)',value:'-0.54%',meta:'Europe is softer too, which says the risk-off tone is not a purely U.S. growth scare.',tone:'down'},
+  {title:'Developed ex-US (EFA)',value:'-0.48%',meta:'Broad developed markets are fading with the same oil-and-rates pressure.',tone:'down'},
+  {title:'Emerging Markets (EEM)',value:'-0.66%',meta:'EM is not confirming a clean risk rebound, which keeps the global tape defensive.',tone:'down'},
+  {title:'China Large Caps (FXI)',value:'-0.93%',meta:'China exposure remains a weak spot when macro stress and tech skepticism rise together.',tone:'down'}
+];
+var CREDIBLE_SOURCE_WIRE=[
+  {src:'AP',title:'Futures slid and oil jumped after the Iran ceasefire headline broke again.',meta:'The cross-asset reaction still starts here because AP is driving the top geopolitical market framing this morning.',url:'https://apnews.com/article/stocks-rates-oil-iran-ai-671d9c94b302f7db533f46baa18387d3'},
+  {src:'AP',title:'Tuesday already closed weaker before Wednesday added a new shock.',meta:'That matters because it confirms the tape was soft before the overnight macro escalation hit the open.',url:'https://apnews.com/article/wall-street-stocks-dow-nasdaq-a87d6f3e20da94a31652b054d5571e20'},
+  {src:'Investopedia',title:'Yields rose while gold and bitcoin weakened in early Wednesday trading.',meta:'Useful because it frames the move as a messy inflation and liquidity response, not a textbook haven rotation.',url:'https://www.investopedia.com/stock-market-today-dow-jones-s-and-p-500-07082026-12014003'},
+  {src:'CoinDesk',title:'Crypto is still trading with macro stress, not as an isolated digital-asset story.',meta:'This keeps the crypto section grounded in the same market regime as oil, rates and equities.',url:'https://www.coindesk.com/markets/2026/07/08/bitcoin-under-pressure-as-u-s-iran-escalation-lifts-oil'}
+];
 var CROWD_PULSE=[
   {handle:'$SPCX',focus:'Post-IPO analyst flood',state:'Bearish',meta:'Stocktwits Daily Rip says bullish launches and Nasdaq-100 inclusion still failed to protect price.'},
   {handle:'$RIVN',focus:'75M-share offering',state:'Debated',meta:'Community chatter stayed loud around runway versus rug-pull after the dilution shock.'},
@@ -923,9 +943,13 @@ function renderNewsletterModules(){
     }).join('');
   }
   renderList('ratesCreditPulse',RATES_CREDIT_PULSE);
+  renderList('globalRiskMap',GLOBAL_RISK_MAP);
   document.getElementById('inboxHighlights').innerHTML=INBOX_HIGHLIGHTS.map(function(row){
     var tag=row.url?['a',' href="'+row.url+'" target="_blank" rel="noopener"']:['div',''];
     return '<'+tag[0]+' class="highlight-card"'+tag[1]+'><div class="eyebrow">'+row.src+'</div><div class="headline">'+row.title+'</div><div class="summary">'+row.meta+'</div></'+tag[0]+'>';
+  }).join('');
+  document.getElementById('credibleSourceWire').innerHTML=CREDIBLE_SOURCE_WIRE.map(function(row){
+    return '<a class="highlight-card" href="'+row.url+'" target="_blank" rel="noopener"><div class="eyebrow">'+row.src+'</div><div class="headline">'+row.title+'</div><div class="summary">'+row.meta+'</div></a>';
   }).join('');
   document.getElementById('optionsPulse').innerHTML=OPTIONS_PULSE.map(function(row){
     return '<div class="highlight-card"><div class="eyebrow">'+row.src+'</div><div class="headline">'+row.title+'</div><div class="summary">'+row.meta+'</div></div>';
@@ -963,11 +987,13 @@ function hydrateLive(payload){
   if(Array.isArray(payload.inboxHighlights))INBOX_HIGHLIGHTS=payload.inboxHighlights;
   if(Array.isArray(payload.optionsPulse))OPTIONS_PULSE=payload.optionsPulse;
   if(Array.isArray(payload.ratesCreditPulse))RATES_CREDIT_PULSE=payload.ratesCreditPulse;
+  if(Array.isArray(payload.globalRiskMap))GLOBAL_RISK_MAP=payload.globalRiskMap;
   if(Array.isArray(payload.macroBoard))MACRO_BOARD=payload.macroBoard;
   if(Array.isArray(payload.leadershipBoard))LEADERSHIP_BOARD=payload.leadershipBoard;
   if(Array.isArray(payload.xTracker))X_TRACKER=payload.xTracker;
   if(Array.isArray(payload.crowdPulse))CROWD_PULSE=payload.crowdPulse;
   if(Array.isArray(payload.catalystCalendar))CATALYST_CALENDAR=payload.catalystCalendar;
+  if(Array.isArray(payload.credibleSourceWire))CREDIBLE_SOURCE_WIRE=payload.credibleSourceWire;
   if(Array.isArray(payload.deskNotes))DESK_NOTES=payload.deskNotes;
   if(Array.isArray(payload.setupBoard))SETUP_BOARD=payload.setupBoard;
   if(Array.isArray(payload.flowWatch))FLOW_WATCH=payload.flowWatch;
