@@ -52,6 +52,7 @@ Option B: HTTP fallback
 
 - use `https://<deployment>.convex.site/debrief-live`
 - or pass `?liveEndpoint=https://<deployment>.convex.site/debrief-live`
+- while Convex is still disconnected, the shipped Vercel site now polls its own `/api/live` snapshot by default for market refreshes
 
 ## Expected live query name
 
@@ -68,8 +69,11 @@ The page can hydrate these keys when present:
 - `storyDeck`
 - `macroBoard`
 - `deskNotes`
+- `setupBoard`
 - `inboxHighlights`
+- `optionsPulse`
 - `xTracker`
+- `crowdPulse`
 - `catalystCalendar`
 - `flowWatch`
 - `moverBoard`

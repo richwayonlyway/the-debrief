@@ -13,6 +13,8 @@ It is not enough for true live social, live price refresh, or live story ingesti
 
 Important nuance: the frontend does not need a framework rewrite to use Convex. Convex can subscribe from plain browser JavaScript, so the current static site can stay in place.
 
+There is now also an intermediate step in place: a same-origin Vercel snapshot endpoint at `/api/live` can refresh the market bar, signal stack, cross-asset cards, Flow Watch, and Mover Board without waiting for Convex auth.
+
 ## Recommended live architecture
 
 Use Convex as the realtime data layer and keep Vercel as the public app host.
@@ -46,6 +48,7 @@ The current page can do this either by:
 
 - direct Convex browser subscriptions, or
 - polling a Convex HTTP action as a fallback
+- polling the shipped Vercel `/api/live` endpoint as the lightweight bridge that works today
 
 4. Keep a daily static fallback
    - If live fetch fails, the site still serves the latest published edition
@@ -82,5 +85,18 @@ Today’s production-safe path is:
 2. verify locally
 3. push to `main`
 4. redeploy Vercel
+
+What is live right now after deploy:
+
+- `/api/live` polls Yahoo Finance spark for indices, yields, Brent, and gold
+- `/api/live` polls CoinGecko for BTC, ETH, and SOL
+- the static edition hydrates those values every minute by default
+
+What still needs Convex or other authenticated backends:
+
+- X account ingestion
+- live newsletter/highlight ingestion from inbox sources
+- intraday story card refreshes
+- durable live state shared across editions and operators
 
 That keeps the newsletter improving immediately while the live backend is connected later.

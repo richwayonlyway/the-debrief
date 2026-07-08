@@ -293,6 +293,11 @@ footer .mono{font-size:11px}
   <p class="lead">These are the most actionable ideas pulled from the added newsletters: not just headlines, but the mental models and business reads that make the rest of the market tape more interpretable.</p>
   <div class="note-grid" id="deskNotes"></div>
 </section>
+<section id="tape-setup" class="reveal">
+  <div class="sec-head" style="--accent:var(--c-trading)"><span class="tag"></span><h2>Tape Setup</h2><span class="cnt">Barchart · Scanz · Stocktwits</span></div>
+  <p class="lead">This block pulls in the faster-twitch reads missing from a normal macro newsletter: where unusual options volume showed up, what the chart technicians are watching, and which names dominated the tape underneath the index-level move.</p>
+  <div class="note-grid" id="setupBoard"></div>
+</section>
 <!-- MARKETS -->
 <section id="markets" class="reveal">
   <div class="sec-head" style="--accent:var(--c-markets)"><span class="tag"></span><h2>📈 Markets &amp; Investing</h2><span class="cnt">Morning Brew · WSJ · Barron's · Stocktwits · Barchart Brief</span></div>
@@ -585,7 +590,7 @@ footer .mono{font-size:11px}
 <footer>
   <p><b>The Debrief</b> · automated daily build · generated Wednesday, July 8, 2026.</p>
   <p class="mono">Sources — Newsletters: Morning Brew, WSJ Markets A.M., Barron's Daily, Stocktwits Daily Rip, NYT The World, SemiAnalysis, The Chip Letter, SCSP, The Business Engineer, Prof G, Ray Fu, Barchart Brief, Barchart Unusual Options, Scanz Market Movers. Wire and official data: AP, Reuters via MarketScreener, CoinDesk, CoinGecko, cftc.gov, publicreporting.cftc.gov. Crypto prices: BTC, ETH and SOL market snapshots at build time. Weather: Open-Meteo. Podcasts: iTunes Search API.</p>
-  <p class="src-note">COT positioning reflects Tuesday, June 30, 2026, which remains the latest official Friday-released dataset posted by the CFTC at build time. The market bar reflects Tuesday, July 7 cash-index closes plus Wednesday, July 8 build-time snapshots for the U.S. 10-year, Brent, gold and crypto. Story Deck and Inbox Radar are source-backed static cards; X Tracker is a UI scaffold until a live backend is connected. No financial advice.</p>
+  <p class="src-note">COT positioning reflects Tuesday, June 30, 2026, which remains the latest official Friday-released dataset posted by the CFTC at build time. The market bar reflects Tuesday, July 7 cash-index closes plus Wednesday, July 8 build-time snapshots for the U.S. 10-year, Brent, gold and crypto. Story Deck, Inbox Radar, Desk Notes, Tape Setup and Options Heat are source-backed newsletter modules; the Vercel live snapshot can refresh the market bar, Cross-Asset Dashboard, Flow Watch and Mover Board without a full redeploy. X Tracker is still a UI scaffold until a live social backend is connected. No financial advice.</p>
 </footer>
 
 </main>
@@ -620,8 +625,16 @@ footer .mono{font-size:11px}
     <div class="highlight-stack" id="inboxHighlights"></div>
   </div>
   <div class="swid">
+    <h4>🔥 Options Heat</h4>
+    <div class="highlight-stack" id="optionsPulse"></div>
+  </div>
+  <div class="swid">
     <h4>📡 X Tracker</h4>
     <div class="mini-board" id="xTracker"></div>
+  </div>
+  <div class="swid">
+    <h4>🗣 Crowd Pulse</h4>
+    <div class="mini-board" id="crowdPulse"></div>
   </div>
   <div class="swid">
     <h4>🗓 Catalyst Calendar</h4>
@@ -665,7 +678,7 @@ footer .mono{font-size:11px}
 var COT={"asof":"Tuesday, June 30, 2026","fin":[{"n":"Canadian Dollar","c":"fx","net":167242,"d":1092},{"n":"Swiss Franc","c":"fx","net":65956,"d":-3195},{"n":"British Pound","c":"fx","net":159925,"d":-67},{"n":"Japanese Yen","c":"fx","net":129418,"d":11028},{"n":"Euro FX","c":"fx","net":-253465,"d":21865},{"n":"Aussie Dollar","c":"fx","net":-11391,"d":7354},{"n":"Mexican Peso","c":"fx","net":-65090,"d":3846},{"n":"Dow (DJIA)","c":"equity","net":-6576,"d":-2614},{"n":"S&P 500","c":"equity","net":-746475,"d":8740},{"n":"Nasdaq-100","c":"equity","net":3578,"d":21425},{"n":"Russell 2000","c":"equity","net":72099,"d":20946},{"n":"UST Bond","c":"rates","net":-298722,"d":38917},{"n":"UST 2Y","c":"rates","net":-426888,"d":57157},{"n":"UST 10Y","c":"rates","net":-429521,"d":58289},{"n":"UST 5Y","c":"rates","net":-832074,"d":-41220},{"n":"Fed Funds","c":"rates","net":97082,"d":-5903}],"com":[{"n":"Crude Oil (WTI)","c":"energy","net":371227,"d":-7649},{"n":"Natural Gas","c":"energy","net":-31500,"d":-885},{"n":"Gold","c":"metals","net":-17046,"d":-7710},{"n":"Silver","c":"metals","net":-12271,"d":1451},{"n":"Copper","c":"metals","net":-89338,"d":8248},{"n":"Corn","c":"ags","net":-353041,"d":-2524},{"n":"Soybeans","c":"ags","net":-164894,"d":36410},{"n":"Wheat (SRW)","c":"ags","net":-6496,"d":15506}]};
 var LIVE_CONFIG={
   convexUrl:"",
-  httpEndpoint:"",
+  httpEndpoint:"/api/live",
   queryName:"live:getHomepagePayload",
   pollMs:60000
 };
@@ -770,12 +783,24 @@ var INBOX_HIGHLIGHTS=[
   {src:'Morning Brew',title:'China closes the AI gap faster when distillation and cheap inference converge.',meta:'Useful framing for the tech section because it links China pressure, AI pricing and the Nasdaq selloff.'},
   {src:'SemiAnalysis',title:'Anthropic is framed as the profitable B2B AI leader with IPO leverage.',meta:'Adds stronger business context around AI monetization, margins and why quality leadership still matters.',url:'https://newsletter.semianalysis.com/p/anthropic-3q26-profit-over-1b-the'},
   {src:'The Business Engineer',title:'Routing may become the AI stack\'s real price-discovery layer.',meta:'Good strategic lens for the business section: the scoreboard and allocation layer may matter more than the model brand.',url:'https://businessengineer.ai/p/the-routing-paradigm-for-enterprise'},
-  {src:'Ray Fu',title:'The practical AI opportunity is workflow-specific workers, not generic chat tabs.',meta:'Useful product angle for readers building with agents: start with one recurring workflow, then connect the tools.',url:'https://www.rayfu.com/'}
+  {src:'Ray Fu',title:'The practical AI opportunity is workflow-specific workers, not generic chat tabs.',meta:'Useful product angle for readers building with agents: start with one recurring workflow, then connect the tools.',url:'https://www.rayfu.com/'},
+  {src:'Barchart Brief',title:'QQQ now has a real chart-watch, not just an AI narrative excuse.',meta:'Barchart flagged a possible Nasdaq-100 diamond-top reversal after the Samsung-led semi unwind.'},
+  {src:'Stocktwits Daily Rip',title:'Energy led while tech lagged, and the crowd still wanted to buy the chip dip.',meta:'The Daily Rip framed Tuesday as a tape where sentiment stayed far more optimistic than price action.'}
 ];
 var X_TRACKER=[
   {handle:'@NoLimitGains',focus:'Momentum + premarket setups',state:'UI ready',meta:'Static watchlist card for now. Planned live path is X API ingestion into a realtime store.'},
   {handle:'@unsusual_whales',focus:'Flow + options sentiment',state:'Backend pending',meta:'Pairs naturally with Flow Watch and Mover Board once live social pulls are connected.'},
   {handle:'@DeItaone',focus:'Macro headline tape',state:'Backend pending',meta:'This slot is designed for fast headline context beside the market bar and top story.'}
+];
+var OPTIONS_PULSE=[
+  {src:'Barchart',title:'SPX Aug 21 6,125 put',meta:'52,091 contracts traded versus 123 open interest. Fresh downside demand, not routine recycling.'},
+  {src:'Barchart',title:'SPX Aug 7 6,725 put',meta:'7,750 contracts traded versus 141 open interest. Protection stayed active beyond same-day expiry.'},
+  {src:'Barchart',title:'SPX Jul 8 zero-day strikes',meta:'7,490 puts and 7,505 calls were both busy into Wednesday expiry, which keeps same-day gamma pinned near spot.'}
+];
+var CROWD_PULSE=[
+  {handle:'$SPCX',focus:'Post-IPO analyst flood',state:'Bearish',meta:'Stocktwits Daily Rip says bullish launches and Nasdaq-100 inclusion still failed to protect price.'},
+  {handle:'$RIVN',focus:'75M-share offering',state:'Debated',meta:'Community chatter stayed loud around runway versus rug-pull after the dilution shock.'},
+  {handle:'$SNDK / $INTC',focus:'Chip dip buyers',state:'Stubborn',meta:'Message volume stayed elevated even as Samsung-driven selling hit AI hardware across the board.'}
 ];
 var MACRO_BOARD=[
   {label:'S&P 500 close',value:'7,503.85',tone:'down',meta:'Tuesday cash close kept the base case defensive before the overnight escalation.',sub:'-0.40%'},
@@ -797,7 +822,15 @@ var DESK_NOTES=[
   {src:'Morning Brew',title:'China pressure matters because cheaper AI supply changes the valuation math for U.S. leaders.',summary:'The useful read is not just geopolitical rivalry. It is that cheaper competing models tighten the margin of safety for expensive AI equities if customers get more comfortable switching down-market.'},
   {src:'SemiAnalysis',title:'Anthropic is a reminder that the market will still reward AI when monetization is visible.',summary:'This adds nuance to the risk-off tape: investors are not rejecting AI outright. They are getting stricter about who earns real revenue, who keeps margins, and who deserves frontier multiples.'},
   {src:'The Business Engineer',title:'Routing is the hidden infrastructure story behind enterprise AI.',summary:'The better business model may belong to whoever allocates model usage, not whoever merely produces the model. That is relevant for software winners, API gateways and procurement-layer moats.'},
-  {src:'Ray Fu',title:'Agent adoption still starts with one repeated job, not a giant platform rollout.',summary:'This is useful for newsletter readers building with AI internally: narrow workflow wins compound faster than broad but abstract AI ambition.'}
+  {src:'Ray Fu',title:'Agent adoption still starts with one repeated job, not a giant platform rollout.',summary:'This is useful for newsletter readers building with AI internally: narrow workflow wins compound faster than broad but abstract AI ambition.'},
+  {src:'Barron\'s Daily',title:'The market may be rotating out of crowded AI pockets without killing the whole AI trade.',summary:'Barron\'s argued the real distinction is between temporary Hormuz-driven risk reduction and a true breakdown in the AI capex story. That keeps quality AI names on watch even while semis and power plays de-rate.'},
+  {src:'WSJ Markets A.M.',title:'Wide analyst-target dispersion is often a warning, not a comfort blanket.',summary:'WSJ used SpaceX as the example, but the lesson is broader: when the valuation map is too wide, narrative strength may be outrunning price discipline.'}
+];
+var SETUP_BOARD=[
+  {src:'Barchart Unusual Options',title:'SPX downside hedges printed at volumes that dwarf existing open interest.',summary:'The Aug. 21 6,125 SPX put traded 52,091 contracts against just 123 open interest, while the Aug. 7 6,725 put traded 7,750 against 141 open interest. That reads like fresh protection demand, not passive position maintenance.'},
+  {src:'Barchart Brief',title:'QQQ now has a real chart-risk conversation under the hood.',summary:'Barchart flagged a possible Nasdaq-100 diamond-top reversal after the Samsung-led chip unwind. The point is not to call the top; it is to respect that chart structure now needs confirmation instead of automatic dip-buy confidence.'},
+  {src:'Scanz Market Movers',title:'The tape stayed extremely active even while the big averages looked orderly.',summary:'Scanz showed SOXS trading about 670.9 million shares and roughly $3.26 billion in dollar volume, while TVRD gained about 51% and CCHH fell about 23%. Under the surface, the market still behaved like a trader\'s tape, not a sleepy index day.'},
+  {src:'Stocktwits Daily Rip',title:'Crowd sentiment is still far more forgiving than the actual tape.',summary:'The Daily Rip showed bearishness around SpaceX despite bullish analyst launches, loud debate around Rivian after dilution, and stubborn chip dip-buying even after the Samsung-led unwind. Narrative conviction has not broken as fast as price has.'}
 ];
 var FLOW_WATCH=[
   {title:'US 10Y Cash',value:'4.58',meta:'yields are rising again, which matters for duration, tech and financing costs',tone:'up'},
@@ -827,6 +860,9 @@ function renderNewsletterModules(){
   document.getElementById('deskNotes').innerHTML=DESK_NOTES.map(function(item){
     return '<div class="note-card"><div class="metric-label">'+item.src+'</div><h3>'+item.title+'</h3><p>'+item.summary+'</p></div>';
   }).join('');
+  document.getElementById('setupBoard').innerHTML=SETUP_BOARD.map(function(item){
+    return '<div class="note-card"><div class="metric-label">'+item.src+'</div><h3>'+item.title+'</h3><p>'+item.summary+'</p></div>';
+  }).join('');
   document.getElementById('signalGrid').innerHTML=SIGNAL.items.map(function(item){
     return '<div class="signal-card"><div class="label">'+item.label+'</div><div class="state">'+item.state+'</div><div class="meta">'+item.meta+'</div></div>';
   }).join('');
@@ -841,7 +877,13 @@ function renderNewsletterModules(){
     var tag=row.url?['a',' href="'+row.url+'" target="_blank" rel="noopener"']:['div',''];
     return '<'+tag[0]+' class="highlight-card"'+tag[1]+'><div class="eyebrow">'+row.src+'</div><div class="headline">'+row.title+'</div><div class="summary">'+row.meta+'</div></'+tag[0]+'>';
   }).join('');
+  document.getElementById('optionsPulse').innerHTML=OPTIONS_PULSE.map(function(row){
+    return '<div class="highlight-card"><div class="eyebrow">'+row.src+'</div><div class="headline">'+row.title+'</div><div class="summary">'+row.meta+'</div></div>';
+  }).join('');
   document.getElementById('xTracker').innerHTML=X_TRACKER.map(function(row){
+    return '<div class="mini-row"><div><div class="head">'+row.handle+'</div><div class="sub">'+row.focus+'<br>'+row.meta+'</div></div><div class="pill">'+row.state+'</div></div>';
+  }).join('');
+  document.getElementById('crowdPulse').innerHTML=CROWD_PULSE.map(function(row){
     return '<div class="mini-row"><div><div class="head">'+row.handle+'</div><div class="sub">'+row.focus+'<br>'+row.meta+'</div></div><div class="pill">'+row.state+'</div></div>';
   }).join('');
   document.getElementById('catalystCalendar').innerHTML=CATALYST_CALENDAR.map(function(row){
@@ -865,10 +907,13 @@ function hydrateLive(payload){
   if(payload.signal&&typeof payload.signal==='object')SIGNAL=payload.signal;
   if(Array.isArray(payload.storyDeck))STORY_DECK=payload.storyDeck;
   if(Array.isArray(payload.inboxHighlights))INBOX_HIGHLIGHTS=payload.inboxHighlights;
+  if(Array.isArray(payload.optionsPulse))OPTIONS_PULSE=payload.optionsPulse;
   if(Array.isArray(payload.macroBoard))MACRO_BOARD=payload.macroBoard;
   if(Array.isArray(payload.xTracker))X_TRACKER=payload.xTracker;
+  if(Array.isArray(payload.crowdPulse))CROWD_PULSE=payload.crowdPulse;
   if(Array.isArray(payload.catalystCalendar))CATALYST_CALENDAR=payload.catalystCalendar;
   if(Array.isArray(payload.deskNotes))DESK_NOTES=payload.deskNotes;
+  if(Array.isArray(payload.setupBoard))SETUP_BOARD=payload.setupBoard;
   if(Array.isArray(payload.flowWatch))FLOW_WATCH=payload.flowWatch;
   if(Array.isArray(payload.moverBoard))MOVER_BOARD=payload.moverBoard;
   if(payload.liveStatus&&typeof payload.liveStatus==='object')LIVE_STATUS=payload.liveStatus;
@@ -904,7 +949,9 @@ function startHttpLive(config){
       .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
       .then(function(payload){
         hydrateLive(payload);
-        setLiveStatus('Live HTTP snapshot connected.','The page is polling a live backend snapshot. This is not as immediate as Convex subscriptions but keeps the static edition fresh without a full redeploy.');
+        if(!(payload&&payload.liveStatus)){
+          setLiveStatus('Live HTTP snapshot connected.','The page is polling a live backend snapshot. This is not as immediate as Convex subscriptions but keeps the static edition fresh without a full redeploy.');
+        }
       })
       .catch(function(err){
         setLiveStatus('Live HTTP snapshot unavailable.','The static edition is still serving normally. Backend error: '+err.message);
