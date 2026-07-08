@@ -66,6 +66,8 @@ The page can hydrate these keys when present:
 - `ticker`
 - `signal`
 - `storyDeck`
+- `macroBoard`
+- `deskNotes`
 - `inboxHighlights`
 - `xTracker`
 - `catalystCalendar`

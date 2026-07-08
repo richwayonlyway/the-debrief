@@ -116,6 +116,21 @@ details.why p{font-size:13.5px;color:var(--ink-soft);margin:8px 0 2px}
 .story-card h3{font-size:18px;margin-bottom:8px}
 .story-card p{font-size:13.5px;color:var(--ink-soft);margin:0}
 @media(max-width:760px){.story-deck{grid-template-columns:1fr}}
+.data-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.metric-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.metric-label{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+.metric-value{font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.05;margin-bottom:5px}
+.metric-value.up{color:var(--c-markets)}
+.metric-value.down{color:var(--c-trading)}
+.metric-meta{font-size:12.5px;line-height:1.45;color:var(--ink-soft)}
+.metric-sub{font-family:'Space Mono',monospace;font-size:11px;color:var(--ink-soft);margin-top:8px}
+.note-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.note-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.note-card h3{font-size:19px;margin-bottom:8px}
+.note-card p{font-size:13.5px;line-height:1.5;color:var(--ink-soft);margin:0 0 10px}
+.note-link{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--ember);text-decoration:none}
+@media(max-width:980px){.data-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.note-grid,.data-grid{grid-template-columns:1fr}}
 /* sidebar */
 aside.sidebar{position:sticky;top:64px;display:flex;flex-direction:column;gap:16px}
 @media(max-width:980px){aside.sidebar{position:static}}
@@ -265,6 +280,18 @@ footer .mono{font-size:11px}
   <div class="sec-head" style="--accent:var(--ember)"><span class="tag"></span><h2>Story Deck</h2><span class="cnt">Click any card to open inside The Debrief</span></div>
   <p class="lead">This is the new share layer for the newsletter: four image-led cards covering the day's most important cross-asset and AI stories, each with a quick in-platform reader before you jump to the source.</p>
   <div class="story-deck" id="storyDeck"></div>
+</section>
+
+<section id="dashboard" class="reveal">
+  <div class="sec-head" style="--accent:var(--c-markets)"><span class="tag"></span><h2>Cross-Asset Dashboard</h2><span class="cnt">Dense market reads built for quick scanning</span></div>
+  <p class="lead">This block is meant to make the newsletter more useful in practice: the most important price, positioning and stress readings are condensed into one fast dashboard instead of being scattered across sections.</p>
+  <div class="data-grid" id="macroBoard"></div>
+</section>
+
+<section id="desk-notes" class="reveal">
+  <div class="sec-head" style="--accent:var(--c-business)"><span class="tag"></span><h2>Desk Notes</h2><span class="cnt">Newsletter-derived context worth carrying into the open</span></div>
+  <p class="lead">These are the most actionable ideas pulled from the added newsletters: not just headlines, but the mental models and business reads that make the rest of the market tape more interpretable.</p>
+  <div class="note-grid" id="deskNotes"></div>
 </section>
 <!-- MARKETS -->
 <section id="markets" class="reveal">
@@ -750,11 +777,27 @@ var X_TRACKER=[
   {handle:'@unsusual_whales',focus:'Flow + options sentiment',state:'Backend pending',meta:'Pairs naturally with Flow Watch and Mover Board once live social pulls are connected.'},
   {handle:'@DeItaone',focus:'Macro headline tape',state:'Backend pending',meta:'This slot is designed for fast headline context beside the market bar and top story.'}
 ];
+var MACRO_BOARD=[
+  {label:'S&P 500 close',value:'7,503.85',tone:'down',meta:'Tuesday cash close kept the base case defensive before the overnight escalation.',sub:'-0.40%'},
+  {label:'Nasdaq close',value:'25,818.69',tone:'down',meta:'Leadership stress is still concentrated in AI and semis.',sub:'-1.20%'},
+  {label:'U.S. 10Y',value:'4.58%',tone:'up',meta:'Rates are confirming tighter financial conditions rather than easing them.',sub:'+0.44%'},
+  {label:'Brent',value:'$78.10',tone:'up',meta:'Oil is the fastest transmission line from the Iran headline into inflation risk.',sub:'+5.08%'},
+  {label:'Gold',value:'$4,055',tone:'down',meta:'The haven trade is not clean; liquidity demand is still distorting the move.',sub:'-2.40%'},
+  {label:'Bitcoin',value:'$61.9K',tone:'down',meta:'Crypto is still behaving like a macro-risk asset, not a standalone hedge.',sub:'-2.37%'},
+  {label:'Dealer S&P net',value:'-746,475',tone:'down',meta:'The current official COT file still leans defensive beneath the tape.',sub:'Jun 30 CFTC'},
+  {label:'WTI swap-dealer net',value:'+371,227',tone:'up',meta:'Commodity positioning still says energy hedging flows remain important.',sub:'Jun 30 CFTC'}
+];
 var CATALYST_CALENDAR=[
   {title:'Overnight macro',meta:'Monitor Iran and shipping-headline follow-through into U.S. open.',tag:'Live'},
   {title:'AI leadership check',meta:'Watch whether semis stabilize or keep dragging the Nasdaq complex.',tag:'Tech'},
   {title:'Crypto breadth',meta:'BTC, ETH and SOL stay on watch as the fastest cross-asset stress read.',tag:'Crypto'},
   {title:'Friday COT cadence',meta:'Keep the weekly CFTC refresh on Friday unless an unreconciled release is missing.',tag:'Ops'}
+];
+var DESK_NOTES=[
+  {src:'Morning Brew',title:'China pressure matters because cheaper AI supply changes the valuation math for U.S. leaders.',summary:'The useful read is not just geopolitical rivalry. It is that cheaper competing models tighten the margin of safety for expensive AI equities if customers get more comfortable switching down-market.'},
+  {src:'SemiAnalysis',title:'Anthropic is a reminder that the market will still reward AI when monetization is visible.',summary:'This adds nuance to the risk-off tape: investors are not rejecting AI outright. They are getting stricter about who earns real revenue, who keeps margins, and who deserves frontier multiples.'},
+  {src:'The Business Engineer',title:'Routing is the hidden infrastructure story behind enterprise AI.',summary:'The better business model may belong to whoever allocates model usage, not whoever merely produces the model. That is relevant for software winners, API gateways and procurement-layer moats.'},
+  {src:'Ray Fu',title:'Agent adoption still starts with one repeated job, not a giant platform rollout.',summary:'This is useful for newsletter readers building with AI internally: narrow workflow wins compound faster than broad but abstract AI ambition.'}
 ];
 var FLOW_WATCH=[
   {title:'US 10Y Cash',value:'4.58',meta:'yields are rising again, which matters for duration, tech and financing costs',tone:'up'},
@@ -777,6 +820,12 @@ function renderNewsletterModules(){
   document.getElementById('liveStatus').innerHTML='<div class="label">'+LIVE_STATUS.updated+'</div><div class="state">'+LIVE_STATUS.mode+'</div><div class="meta">'+LIVE_STATUS.meta+'</div>';
   document.getElementById('storyDeck').innerHTML=STORY_DECK.map(function(story,idx){
     return '<button class="story-card" type="button" data-story-index="'+idx+'"><div class="story-visual"><img src="'+story.image+'" alt="" loading="lazy"></div><div class="story-copy"><div class="story-topline"><span class="story-src">'+story.src+'</span><span class="story-open">Open in platform</span></div><h3>'+story.title+'</h3><p>'+story.summary+'</p></div></button>';
+  }).join('');
+  document.getElementById('macroBoard').innerHTML=MACRO_BOARD.map(function(item){
+    return '<div class="metric-card"><div class="metric-label">'+item.label+'</div><div class="metric-value '+(item.tone||'flat')+'">'+item.value+'</div><div class="metric-meta">'+item.meta+'</div><div class="metric-sub">'+item.sub+'</div></div>';
+  }).join('');
+  document.getElementById('deskNotes').innerHTML=DESK_NOTES.map(function(item){
+    return '<div class="note-card"><div class="metric-label">'+item.src+'</div><h3>'+item.title+'</h3><p>'+item.summary+'</p></div>';
   }).join('');
   document.getElementById('signalGrid').innerHTML=SIGNAL.items.map(function(item){
     return '<div class="signal-card"><div class="label">'+item.label+'</div><div class="state">'+item.state+'</div><div class="meta">'+item.meta+'</div></div>';
@@ -816,8 +865,10 @@ function hydrateLive(payload){
   if(payload.signal&&typeof payload.signal==='object')SIGNAL=payload.signal;
   if(Array.isArray(payload.storyDeck))STORY_DECK=payload.storyDeck;
   if(Array.isArray(payload.inboxHighlights))INBOX_HIGHLIGHTS=payload.inboxHighlights;
+  if(Array.isArray(payload.macroBoard))MACRO_BOARD=payload.macroBoard;
   if(Array.isArray(payload.xTracker))X_TRACKER=payload.xTracker;
   if(Array.isArray(payload.catalystCalendar))CATALYST_CALENDAR=payload.catalystCalendar;
+  if(Array.isArray(payload.deskNotes))DESK_NOTES=payload.deskNotes;
   if(Array.isArray(payload.flowWatch))FLOW_WATCH=payload.flowWatch;
   if(Array.isArray(payload.moverBoard))MOVER_BOARD=payload.moverBoard;
   if(payload.liveStatus&&typeof payload.liveStatus==='object')LIVE_STATUS=payload.liveStatus;
