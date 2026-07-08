@@ -635,7 +635,13 @@ footer .mono{font-size:11px}
   </div>
 </div>
 <script>
-const COT={"asof":"Tuesday, June 30, 2026","fin":[{"n":"Canadian Dollar","c":"fx","net":167242,"d":1092},{"n":"Swiss Franc","c":"fx","net":65956,"d":-3195},{"n":"British Pound","c":"fx","net":159925,"d":-67},{"n":"Japanese Yen","c":"fx","net":129418,"d":11028},{"n":"Euro FX","c":"fx","net":-253465,"d":21865},{"n":"Aussie Dollar","c":"fx","net":-11391,"d":7354},{"n":"Mexican Peso","c":"fx","net":-65090,"d":3846},{"n":"Dow (DJIA)","c":"equity","net":-6576,"d":-2614},{"n":"S&P 500","c":"equity","net":-746475,"d":8740},{"n":"Nasdaq-100","c":"equity","net":3578,"d":21425},{"n":"Russell 2000","c":"equity","net":72099,"d":20946},{"n":"UST Bond","c":"rates","net":-298722,"d":38917},{"n":"UST 2Y","c":"rates","net":-426888,"d":57157},{"n":"UST 10Y","c":"rates","net":-429521,"d":58289},{"n":"UST 5Y","c":"rates","net":-832074,"d":-41220},{"n":"Fed Funds","c":"rates","net":97082,"d":-5903}],"com":[{"n":"Crude Oil (WTI)","c":"energy","net":371227,"d":-7649},{"n":"Natural Gas","c":"energy","net":-31500,"d":-885},{"n":"Gold","c":"metals","net":-17046,"d":-7710},{"n":"Silver","c":"metals","net":-12271,"d":1451},{"n":"Copper","c":"metals","net":-89338,"d":8248},{"n":"Corn","c":"ags","net":-353041,"d":-2524},{"n":"Soybeans","c":"ags","net":-164894,"d":36410},{"n":"Wheat (SRW)","c":"ags","net":-6496,"d":15506}]};
+var COT={"asof":"Tuesday, June 30, 2026","fin":[{"n":"Canadian Dollar","c":"fx","net":167242,"d":1092},{"n":"Swiss Franc","c":"fx","net":65956,"d":-3195},{"n":"British Pound","c":"fx","net":159925,"d":-67},{"n":"Japanese Yen","c":"fx","net":129418,"d":11028},{"n":"Euro FX","c":"fx","net":-253465,"d":21865},{"n":"Aussie Dollar","c":"fx","net":-11391,"d":7354},{"n":"Mexican Peso","c":"fx","net":-65090,"d":3846},{"n":"Dow (DJIA)","c":"equity","net":-6576,"d":-2614},{"n":"S&P 500","c":"equity","net":-746475,"d":8740},{"n":"Nasdaq-100","c":"equity","net":3578,"d":21425},{"n":"Russell 2000","c":"equity","net":72099,"d":20946},{"n":"UST Bond","c":"rates","net":-298722,"d":38917},{"n":"UST 2Y","c":"rates","net":-426888,"d":57157},{"n":"UST 10Y","c":"rates","net":-429521,"d":58289},{"n":"UST 5Y","c":"rates","net":-832074,"d":-41220},{"n":"Fed Funds","c":"rates","net":97082,"d":-5903}],"com":[{"n":"Crude Oil (WTI)","c":"energy","net":371227,"d":-7649},{"n":"Natural Gas","c":"energy","net":-31500,"d":-885},{"n":"Gold","c":"metals","net":-17046,"d":-7710},{"n":"Silver","c":"metals","net":-12271,"d":1451},{"n":"Copper","c":"metals","net":-89338,"d":8248},{"n":"Corn","c":"ags","net":-353041,"d":-2524},{"n":"Soybeans","c":"ags","net":-164894,"d":36410},{"n":"Wheat (SRW)","c":"ags","net":-6496,"d":15506}]};
+var LIVE_CONFIG={
+  convexUrl:"",
+  httpEndpoint:"",
+  queryName:"live:getHomepagePayload",
+  pollMs:60000
+};
 var LIVE_STATUS={
   mode:'Daily static edition is live on Vercel.',
   meta:'The new Story Deck, Inbox Radar and X Tracker UI ship now. True real-time refresh still needs a backend ingestion layer, and Convex is the preferred path once the connector is authenticated.',
@@ -714,14 +720,15 @@ var TKR=[
  ['S&P 500','7,503.85',-0.40],['NASDAQ','25,818.69',-1.20],['DOW','52,925.15',-0.20],
  ['US 10Y','4.58',0.44],['BRENT','$78.10',5.08],['GOLD','$4,055.00',-2.40],['BITCOIN','$61,905.00',-2.37]
 ];
-(function(){
+function renderTicker(){
   var html='';
   for(var k=0;k<2;k++){TKR.forEach(function(t){
     var cls=t[2]>=0?'up':'down', arrow=t[2]>=0?'▲':'▼';
     html+='<span class="tk"><span class="sym">'+t[0]+'</span><span class="val">'+t[1]+'</span><span class="'+cls+'">'+arrow+' '+Math.abs(t[2])+'%</span></span>';
   });}
   document.getElementById('tick').innerHTML=html;
-})();
+}
+renderTicker();
 var SIGNAL={
   summary:'Tuesday closed weaker, Wednesday futures are sliding on the Iran headline, oil is surging and June 30 COT still leans defensive beneath the tape',
   bias:'Mixed',
@@ -761,10 +768,11 @@ var MOVER_BOARD=[
   {title:'BRENT',value:'+5.08%',meta:'Wednesday build-time move',tone:'up'},
   {title:'SOL',value:'-5.35%',meta:'live 24h move at build time',tone:'down'}
 ];
-(function(){
+function renderNewsletterModules(){
   document.getElementById('signalSummary').textContent=SIGNAL.summary;
   var badge=document.getElementById('signalBias');
   badge.textContent=SIGNAL.bias;
+  badge.className='bias-badge';
   badge.classList.add(SIGNAL.bias==='Bullish'?'bias-up':'bias-mixed');
   document.getElementById('liveStatus').innerHTML='<div class="label">'+LIVE_STATUS.updated+'</div><div class="state">'+LIVE_STATUS.mode+'</div><div class="meta">'+LIVE_STATUS.meta+'</div>';
   document.getElementById('storyDeck').innerHTML=STORY_DECK.map(function(story,idx){
@@ -792,7 +800,108 @@ var MOVER_BOARD=[
   }).join('');
   renderList('flowWatch',FLOW_WATCH);
   renderList('moverBoard',MOVER_BOARD);
-})();
+}
+renderNewsletterModules();
+
+function applyLiveCot(){
+  document.getElementById('cotAsof').textContent='as of '+COT.asof;
+  document.getElementById('cotMeta').textContent='CFTC Commitments of Traders · Futures-Only · Dealers/Intermediaries (financials) + Swap Dealers (commodities) · as of '+COT.asof;
+  if(window.__cot){buildCot(window.__cotFilter||'all');}
+  cotRead();
+}
+
+function hydrateLive(payload){
+  if(!payload||typeof payload!=='object')return;
+  if(Array.isArray(payload.ticker))TKR=payload.ticker;
+  if(payload.signal&&typeof payload.signal==='object')SIGNAL=payload.signal;
+  if(Array.isArray(payload.storyDeck))STORY_DECK=payload.storyDeck;
+  if(Array.isArray(payload.inboxHighlights))INBOX_HIGHLIGHTS=payload.inboxHighlights;
+  if(Array.isArray(payload.xTracker))X_TRACKER=payload.xTracker;
+  if(Array.isArray(payload.catalystCalendar))CATALYST_CALENDAR=payload.catalystCalendar;
+  if(Array.isArray(payload.flowWatch))FLOW_WATCH=payload.flowWatch;
+  if(Array.isArray(payload.moverBoard))MOVER_BOARD=payload.moverBoard;
+  if(payload.liveStatus&&typeof payload.liveStatus==='object')LIVE_STATUS=payload.liveStatus;
+  if(payload.cot&&typeof payload.cot==='object')COT=payload.cot;
+  renderTicker();
+  renderNewsletterModules();
+  applyLiveCot();
+}
+
+function resolveLiveConfig(){
+  var params=new URLSearchParams(window.location.search);
+  var convexUrl=params.get('convexUrl')||window.__DEBRIEF_CONVEX_URL||LIVE_CONFIG.convexUrl;
+  var httpEndpoint=params.get('liveEndpoint')||LIVE_CONFIG.httpEndpoint;
+  var pollMs=+(params.get('livePollMs')||LIVE_CONFIG.pollMs||60000);
+  return {
+    convexUrl:convexUrl||'',
+    httpEndpoint:httpEndpoint||'',
+    queryName:LIVE_CONFIG.queryName,
+    pollMs:isFinite(pollMs)&&pollMs>0?pollMs:60000
+  };
+}
+
+function setLiveStatus(mode,meta){
+  LIVE_STATUS.mode=mode;
+  if(meta)LIVE_STATUS.meta=meta;
+  LIVE_STATUS.updated='Updated '+new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+  renderNewsletterModules();
+}
+
+function startHttpLive(config){
+  var run=function(){
+    fetch(config.httpEndpoint,{headers:{'Accept':'application/json'}})
+      .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+      .then(function(payload){
+        hydrateLive(payload);
+        setLiveStatus('Live HTTP snapshot connected.','The page is polling a live backend snapshot. This is not as immediate as Convex subscriptions but keeps the static edition fresh without a full redeploy.');
+      })
+      .catch(function(err){
+        setLiveStatus('Live HTTP snapshot unavailable.','The static edition is still serving normally. Backend error: '+err.message);
+      });
+  };
+  run();
+  window.setInterval(run,config.pollMs);
+}
+
+function startConvexLive(config){
+  function connect(){
+    try{
+      var client=new convex.ConvexClient(config.convexUrl);
+      client.onUpdate(config.queryName,{},function(payload){
+        hydrateLive(payload);
+        setLiveStatus('Convex realtime connected.','Story cards, market data, X tracker rows and Friday COT can update as soon as the backend writes a new snapshot.');
+      });
+      window.__debriefConvexClient=client;
+    }catch(err){
+      setLiveStatus('Convex realtime failed to initialize.','The page kept the static edition because the browser client could not connect. '+err.message);
+    }
+  }
+  if(window.convex&&window.convex.ConvexClient){
+    connect();
+    return;
+  }
+  var script=document.createElement('script');
+  script.src='https://unpkg.com/convex@1.3.1/dist/browser.bundle.js';
+  script.async=true;
+  script.onload=connect;
+  script.onerror=function(){
+    setLiveStatus('Convex browser client failed to load.','The static edition is still intact, but the realtime bundle could not be fetched.');
+  };
+  document.head.appendChild(script);
+}
+
+function startLiveBridge(){
+  var config=resolveLiveConfig();
+  if(config.convexUrl){
+    startConvexLive(config);
+    return;
+  }
+  if(config.httpEndpoint){
+    startHttpLive(config);
+    return;
+  }
+  setLiveStatus('Daily static edition is live on Vercel.','To turn on live updates without rebuilding the UI, set window.__DEBRIEF_CONVEX_URL or pass ?convexUrl=<deployment>.convex.cloud. HTTP fallback is also supported with ?liveEndpoint=<url>.');
+}
 
 /* ---------- modal story reader ---------- */
 (function(){
@@ -928,6 +1037,7 @@ document.querySelectorAll('.cbtn').forEach(function(b){
   });
 });
 buildCot('all'); cotRead();
+startLiveBridge();
 /* ---------- podcasts (iTunes Search JSONP) ---------- */
 var SHOWS=[
  ['All-In','All-In Podcast'],['Acquired','Acquired'],['Prof G Markets','Prof G Markets'],

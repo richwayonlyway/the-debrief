@@ -11,6 +11,8 @@
 
 It is not enough for true live social, live price refresh, or live story ingestion without a backend.
 
+Important nuance: the frontend does not need a framework rewrite to use Convex. Convex can subscribe from plain browser JavaScript, so the current static site can stay in place.
+
 ## Recommended live architecture
 
 Use Convex as the realtime data layer and keep Vercel as the public app host.
@@ -39,6 +41,11 @@ Use Convex as the realtime data layer and keep Vercel as the public app host.
    - X Tracker
    - Inbox Radar
    - Friday COT status
+
+The current page can do this either by:
+
+- direct Convex browser subscriptions, or
+- polling a Convex HTTP action as a fallback
 
 4. Keep a daily static fallback
    - If live fetch fails, the site still serves the latest published edition
