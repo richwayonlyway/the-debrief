@@ -97,6 +97,9 @@ The current Vercel `/api/live` bridge can turn on account-level X tracker pulls 
 
 - `X_BEARER_TOKEN`
 - optional `X_TRACKER_USERNAME_MAP_JSON`
+- optional `DEBRIEF_EDITORIAL_URL`
+- optional `DEBRIEF_EDITORIAL_BEARER_TOKEN`
+- optional `DEBRIEF_EDITORIAL_HEADERS_JSON`
 
 Example:
 
@@ -108,6 +111,8 @@ Example:
 ```
 
 Use the override map only when the display handle in the newsletter should differ from the exact X API username used for lookup.
+
+When `DEBRIEF_EDITORIAL_URL` is set, `/api/live` will fetch a JSON object and merge supported editorial keys over the request-time market payload. That allows Story Deck, Inbox Radar, Desk Notes, Tape Setup, Flow Watch, Mover Board, Signal Stack, and COT updates to land between static HTML republishes.
 
 ## Operational model
 

@@ -12,6 +12,23 @@ const SPARK_SYMBOLS = [
   "XLE",
   "UUP",
 ];
+const EDITORIAL_KEYS = [
+  "storyDeck",
+  "inboxHighlights",
+  "optionsPulse",
+  "macroBoard",
+  "leadershipBoard",
+  "deskNotes",
+  "setupBoard",
+  "xTracker",
+  "crowdPulse",
+  "catalystCalendar",
+  "flowWatch",
+  "moverBoard",
+  "signal",
+  "liveStatus",
+  "cot",
+];
 const X_TRACKER_ACCOUNTS = [
   { handle: "@NoLimitGains", focus: "Momentum + premarket setups" },
   { handle: "@unsusual_whales", focus: "Flow + options sentiment" },
@@ -94,6 +111,86 @@ function parseJsonEnv(name) {
   } catch {
     return {};
   }
+}
+
+function withTimeout(ms) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), ms);
+  return {
+    signal: controller.signal,
+    clear: () => clearTimeout(timeout),
+  };
+}
+
+async function fetchOptionalEditorialPayload() {
+  const url = process.env.DEBRIEF_EDITORIAL_URL;
+  if (!url) {
+    return { payload: null, source: null };
+  }
+
+  const extraHeaders = parseJsonEnv("DEBRIEF_EDITORIAL_HEADERS_JSON");
+  const headers = {
+    Accept: "application/json",
+    "User-Agent": "Mozilla/5.0",
+    ...extraHeaders,
+  };
+
+  if (process.env.DEBRIEF_EDITORIAL_BEARER_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.DEBRIEF_EDITORIAL_BEARER_TOKEN}`;
+  }
+
+  const timer = withTimeout(8000);
+  try {
+    const response = await fetch(url, {
+      headers,
+      signal: timer.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error(`editorial HTTP ${response.status}`);
+    }
+
+    const payload = await response.json();
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new Error("editorial payload must be an object");
+    }
+
+    return { payload, source: url };
+  } finally {
+    timer.clear();
+  }
+}
+
+function mergeEditorialPayload(basePayload, editorialPayload, editorialSource) {
+  if (!editorialPayload) return basePayload;
+
+  const merged = { ...basePayload };
+
+  for (const key of EDITORIAL_KEYS) {
+    if (Object.prototype.hasOwnProperty.call(editorialPayload, key)) {
+      merged[key] = editorialPayload[key];
+    }
+  }
+
+  const defaultStatus = basePayload.liveStatus || {};
+  const incomingStatus =
+    editorialPayload.liveStatus && typeof editorialPayload.liveStatus === "object"
+      ? editorialPayload.liveStatus
+      : {};
+
+  merged.liveStatus = {
+    ...defaultStatus,
+    ...incomingStatus,
+  };
+
+  if (editorialSource && (!incomingStatus.meta || incomingStatus.meta === defaultStatus.meta)) {
+    const baseMeta = merged.liveStatus.meta || defaultStatus.meta || "";
+    merged.liveStatus.meta = baseMeta
+      ? `${baseMeta} Editorial payload merged from ${editorialSource}.`
+      : `Editorial payload merged from ${editorialSource}.`;
+  }
+
+  return merged;
 }
 
 function defaultXTracker(metaSuffix) {
@@ -496,12 +593,16 @@ module.exports = async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   try {
-    const [spark, crypto, xTracker] = await Promise.all([
+    const [spark, crypto, xTracker, editorial] = await Promise.all([
       fetchSparkQuotes(),
       fetchCryptoQuotes(),
       fetchLiveXTracker(),
+      fetchOptionalEditorialPayload(),
     ]);
-    res.status(200).send(JSON.stringify(buildPayload(spark, crypto, xTracker)));
+    const payload = buildPayload(spark, crypto, xTracker);
+    res.status(200).send(
+      JSON.stringify(mergeEditorialPayload(payload, editorial.payload, editorial.source)),
+    );
   } catch (error) {
     res.status(500).send(
       JSON.stringify({

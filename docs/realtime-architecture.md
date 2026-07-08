@@ -96,7 +96,26 @@ What is live right now after deploy:
 - `/api/live` polls Yahoo Finance spark for indices, yields, Brent, and gold
 - `/api/live` polls CoinGecko for BTC, ETH, and SOL
 - `/api/live` can also poll the official X API for the selected tracker accounts when `X_BEARER_TOKEN` is configured
+- `/api/live` can optionally merge a remote editorial JSON payload when `DEBRIEF_EDITORIAL_URL` is configured
 - the static edition hydrates those values every minute by default
+
+Available editorial bridge env vars:
+
+- `DEBRIEF_EDITORIAL_URL`
+- optional `DEBRIEF_EDITORIAL_BEARER_TOKEN`
+- optional `DEBRIEF_EDITORIAL_HEADERS_JSON`
+
+The editorial bridge is intentionally additive. Market data can stay request-time live from Yahoo Finance and CoinGecko, while a separate authenticated JSON source can override editorial modules such as:
+
+- `storyDeck`
+- `inboxHighlights`
+- `optionsPulse`
+- `deskNotes`
+- `setupBoard`
+- `crowdPulse`
+- `catalystCalendar`
+- `signal`
+- `cot`
 
 What still needs Convex or other authenticated backends:
 

@@ -55,6 +55,14 @@ npx convex dev
 - use `?liveEndpoint=https://<deployment>.convex.site/debrief-live`
 - or keep the current Vercel bridge active at `/api/live` until Convex auth is restored
 
+The Vercel bridge can also merge an external editorial JSON source with:
+
+- `DEBRIEF_EDITORIAL_URL`
+- optional `DEBRIEF_EDITORIAL_BEARER_TOKEN`
+- optional `DEBRIEF_EDITORIAL_HEADERS_JSON`
+
+That path keeps live market snapshots request-time fresh while allowing editorial modules to update from a separate authenticated source.
+
 ## Important blocker in this workspace
 
 The Convex app connector in Codex currently requires reauthentication, so this scaffold is ready but not yet attached to a live Convex deployment from inside this session.
