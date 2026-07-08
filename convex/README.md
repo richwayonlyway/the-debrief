@@ -15,6 +15,13 @@ It is intentionally separated from the current static Vercel newsletter so the p
 - Friday CFTC COT refreshes
 - an optional HTTP snapshot endpoint for the static page
 
+The X tracker scaffold now includes a real scheduled ingestion path:
+
+- `internal.xTracker.refreshSelectedAccounts`
+- official X API lookups for the three selected accounts
+- storage in the `xPosts` table
+- merge into `live:getMergedHomepagePayload`
+
 ## Expected frontend query
 
 The static newsletter can subscribe to this public query directly from plain HTML:
@@ -54,6 +61,20 @@ npx convex dev
 
 - use `?liveEndpoint=https://<deployment>.convex.site/debrief-live`
 - or keep the current Vercel bridge active at `/api/live` until Convex auth is restored
+
+## Required env vars for live X tracker refreshes
+
+- `X_BEARER_TOKEN`
+- optional `X_TRACKER_USERNAME_MAP_JSON`
+
+Recommended override map for the current selected handles:
+
+```json
+{
+  "@unsusual_whales": "unusual_whales",
+  "@DeItaone": "Deltaone"
+}
+```
 
 The Vercel bridge can also merge an external editorial JSON source with:
 

@@ -91,6 +91,14 @@ Fallback:
 
 - periodic polling every 5 minutes for the three selected accounts
 
+Current scaffold status:
+
+- `convex/xTracker.ts` now includes `refreshSelectedAccounts`
+- the action fetches the selected accounts through the official X API
+- posts are persisted into `xPosts`
+- `live:getMergedHomepagePayload` reads the latest stored row per handle for the homepage tracker
+- `convex/crons.ts` already schedules the refresh every 5 minutes
+
 ## Vercel bridge env vars available now
 
 The current Vercel `/api/live` bridge can turn on account-level X tracker pulls before Convex is connected:

@@ -149,16 +149,30 @@ export const refreshHomepageFeeds = internalAction({
       source: "homepage-refresh",
       status: "started",
       startedAt,
-      detail: "Stub action. Replace this with newsletter parsing, market data refresh, and X ingestion.",
+      detail:
+        "Homepage refresh started. Current implementation refreshes selected X tracker accounts and leaves room for newsletter, market, and COT ingestion.",
     });
 
-    // This scaffold keeps the action safe to deploy before external APIs are connected.
-    await ctx.runMutation(internal.live.recordFeedRun, {
-      source: "homepage-refresh",
-      status: "success",
-      startedAt,
-      finishedAt: new Date().toISOString(),
-      detail: "No-op scaffold completed. Connect ingestion sources before enabling production refreshes.",
-    });
+    try {
+      await ctx.runAction(internal.xTracker.refreshSelectedAccounts, {});
+
+      await ctx.runMutation(internal.live.recordFeedRun, {
+        source: "homepage-refresh",
+        status: "success",
+        startedAt,
+        finishedAt: new Date().toISOString(),
+        detail:
+          "Homepage refresh completed. X tracker data was refreshed from the official API; other editorial and market ingestion sources can be layered in next.",
+      });
+    } catch (error: any) {
+      await ctx.runMutation(internal.live.recordFeedRun, {
+        source: "homepage-refresh",
+        status: "error",
+        startedAt,
+        finishedAt: new Date().toISOString(),
+        detail: error?.message || "Homepage refresh failed.",
+      });
+      throw error;
+    }
   },
 });
