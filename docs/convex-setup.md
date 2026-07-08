@@ -98,6 +98,9 @@ Current scaffold status:
 - posts are persisted into `xPosts`
 - `live:getMergedHomepagePayload` reads the latest stored row per handle for the homepage tracker
 - `convex/crons.ts` already schedules the refresh every 5 minutes
+- `convex/live.ts` now also includes `refreshHomepageEditorialPayload`
+- that action can fetch a JSON homepage payload from `DEBRIEF_EDITORIAL_URL`
+- the stored result is written into `homepagePayloads` and merged with live X rows
 
 ## Vercel bridge env vars available now
 
@@ -121,6 +124,15 @@ Example:
 Use the override map only when the display handle in the newsletter should differ from the exact X API username used for lookup.
 
 When `DEBRIEF_EDITORIAL_URL` is set, `/api/live` will fetch a JSON object and merge supported editorial keys over the request-time market payload. That allows Story Deck, Inbox Radar, Desk Notes, Tape Setup, Flow Watch, Mover Board, Signal Stack, and COT updates to land between static HTML republishes.
+
+The Convex scaffold can use the same editorial source shape for stored homepage refreshes. Supported response forms are:
+
+1. a raw homepage payload object
+2. an envelope with:
+   - `editionDate`
+   - `generatedAt`
+   - `sourceNotes`
+   - `payload`
 
 ## Operational model
 

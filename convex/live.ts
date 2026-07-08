@@ -30,6 +30,56 @@ function relativeTime(value: string) {
   return `${days}d ago`;
 }
 
+function parseJsonEnv(name: string) {
+  const raw = process.env[name];
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function withTimeout(ms: number) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), ms);
+  return {
+    signal: controller.signal,
+    clear: () => clearTimeout(timeout),
+  };
+}
+
+function isRecord(value: unknown): value is Record<string, any> {
+  return !!value && typeof value === "object" && !Array.isArray(value);
+}
+
+function normalizeEditorialEnvelope(raw: unknown) {
+  if (!isRecord(raw)) {
+    throw new Error("Editorial payload must be a JSON object.");
+  }
+
+  const payload = isRecord(raw.payload) ? raw.payload : raw;
+  const editionDate =
+    typeof raw.editionDate === "string" && raw.editionDate.trim()
+      ? raw.editionDate
+      : new Date().toISOString().slice(0, 10);
+  const generatedAt =
+    typeof raw.generatedAt === "string" && raw.generatedAt.trim()
+      ? raw.generatedAt
+      : new Date().toISOString();
+  const sourceNotes = Array.isArray(raw.sourceNotes)
+    ? raw.sourceNotes.filter((entry): entry is string => typeof entry === "string")
+    : undefined;
+
+  return {
+    editionDate,
+    generatedAt,
+    payload,
+    sourceNotes,
+  };
+}
+
 export const getHomepagePayload = query({
   args: {},
   handler: async (ctx) => {
@@ -141,6 +191,88 @@ export const recordFeedRun = internalMutation({
   },
 });
 
+export const refreshHomepageEditorialPayload = internalAction({
+  args: {},
+  handler: async (ctx) => {
+    const startedAt = new Date().toISOString();
+    await ctx.runMutation(internal.live.recordFeedRun, {
+      source: "homepage-editorial-refresh",
+      status: "started",
+      startedAt,
+      detail: "Refreshing homepage editorial payload from the configured JSON source.",
+    });
+
+    const url = process.env.DEBRIEF_EDITORIAL_URL;
+    if (!url) {
+      const detail =
+        "Skipped homepage editorial refresh because DEBRIEF_EDITORIAL_URL is not configured.";
+      await ctx.runMutation(internal.live.recordFeedRun, {
+        source: "homepage-editorial-refresh",
+        status: "success",
+        startedAt,
+        finishedAt: new Date().toISOString(),
+        detail,
+      });
+      return { skipped: true, detail };
+    }
+
+    const extraHeaders = parseJsonEnv("DEBRIEF_EDITORIAL_HEADERS_JSON");
+    const headers = {
+      Accept: "application/json",
+      "User-Agent": "Mozilla/5.0",
+      ...extraHeaders,
+    } as Record<string, string>;
+
+    if (process.env.DEBRIEF_EDITORIAL_BEARER_TOKEN) {
+      headers.Authorization = `Bearer ${process.env.DEBRIEF_EDITORIAL_BEARER_TOKEN}`;
+    }
+
+    const timer = withTimeout(8000);
+
+    try {
+      const response = await fetch(url, {
+        headers,
+        signal: timer.signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Editorial HTTP ${response.status}`);
+      }
+
+      const raw = await response.json();
+      const normalized = normalizeEditorialEnvelope(raw);
+
+      await ctx.runMutation(internal.live.upsertHomepagePayload, normalized);
+
+      const detail = `Homepage editorial payload refreshed from ${url}.`;
+      await ctx.runMutation(internal.live.recordFeedRun, {
+        source: "homepage-editorial-refresh",
+        status: "success",
+        startedAt,
+        finishedAt: new Date().toISOString(),
+        detail,
+      });
+
+      return {
+        skipped: false,
+        detail,
+        editionDate: normalized.editionDate,
+      };
+    } catch (error: any) {
+      await ctx.runMutation(internal.live.recordFeedRun, {
+        source: "homepage-editorial-refresh",
+        status: "error",
+        startedAt,
+        finishedAt: new Date().toISOString(),
+        detail: error?.message || "Homepage editorial refresh failed.",
+      });
+      throw error;
+    } finally {
+      timer.clear();
+    }
+  },
+});
+
 export const refreshHomepageFeeds = internalAction({
   args: {},
   handler: async (ctx) => {
@@ -150,29 +282,67 @@ export const refreshHomepageFeeds = internalAction({
       status: "started",
       startedAt,
       detail:
-        "Homepage refresh started. Current implementation refreshes selected X tracker accounts and leaves room for newsletter, market, and COT ingestion.",
+        "Homepage refresh started. Current implementation refreshes stored editorial content plus selected X tracker accounts.",
     });
+
+    const successParts: string[] = [];
+    const errors: string[] = [];
+
+    try {
+      const editorial = await ctx.runAction(internal.live.refreshHomepageEditorialPayload, {});
+      successParts.push(
+        editorial?.skipped
+          ? "editorial skipped (no DEBRIEF_EDITORIAL_URL)"
+          : `editorial refreshed for ${editorial?.editionDate ?? "current edition"}`,
+      );
+    } catch (error: any) {
+      errors.push(`editorial: ${error?.message || "unknown failure"}`);
+    }
 
     try {
       await ctx.runAction(internal.xTracker.refreshSelectedAccounts, {});
+      successParts.push("x tracker refreshed");
+    } catch (error: any) {
+      errors.push(`x tracker: ${error?.message || "unknown failure"}`);
+    }
 
+    const finishedAt = new Date().toISOString();
+
+    if (errors.length === 0) {
       await ctx.runMutation(internal.live.recordFeedRun, {
         source: "homepage-refresh",
         status: "success",
         startedAt,
-        finishedAt: new Date().toISOString(),
-        detail:
-          "Homepage refresh completed. X tracker data was refreshed from the official API; other editorial and market ingestion sources can be layered in next.",
+        finishedAt,
+        detail: `Homepage refresh completed successfully (${successParts.join("; ")}).`,
       });
-    } catch (error: any) {
-      await ctx.runMutation(internal.live.recordFeedRun, {
-        source: "homepage-refresh",
-        status: "error",
-        startedAt,
-        finishedAt: new Date().toISOString(),
-        detail: error?.message || "Homepage refresh failed.",
-      });
-      throw error;
+      return {
+        ok: true,
+        successParts,
+        errors,
+      };
     }
+
+    const detail = `Homepage refresh finished with issues (${[
+      ...successParts,
+      ...errors,
+    ].join("; ")}).`;
+    await ctx.runMutation(internal.live.recordFeedRun, {
+      source: "homepage-refresh",
+      status: successParts.length ? "success" : "error",
+      startedAt,
+      finishedAt,
+      detail,
+    });
+
+    if (!successParts.length) {
+      throw new Error(detail);
+    }
+
+    return {
+      ok: false,
+      successParts,
+      errors,
+    };
   },
 });

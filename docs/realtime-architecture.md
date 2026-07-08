@@ -55,6 +55,13 @@ The current page can do this either by:
 
 When Convex is connected again, the preferred public query is `live:getMergedHomepagePayload`, which merges the stored homepage snapshot with the latest ingested `xPosts` rows for the selected tracker accounts.
 
+That means the practical Convex shape is now:
+
+- stored editorial homepage payload in `homepagePayloads`
+- scheduled X ingestion into `xPosts`
+- merged live query for the frontend
+- static HTML fallback still published on Vercel
+
 4. Keep a daily static fallback
    - If live fetch fails, the site still serves the latest published edition
    - This preserves a stable shareable page even during API failures
@@ -119,9 +126,14 @@ The editorial bridge is intentionally additive. Market data can stay request-tim
 
 What still needs Convex or other authenticated backends:
 
-- durable X account ingestion into a realtime store instead of request-time polling
 - live newsletter/highlight ingestion from inbox sources
-- intraday story card refreshes
+- intraday story card refreshes from upstream editorial/news systems
 - durable live state shared across editions and operators
+
+What Convex can now own in this repo once authenticated:
+
+- scheduled X account ingestion
+- scheduled homepage editorial payload refresh from an external JSON source
+- merged frontend subscription payload without a full Vercel redeploy
 
 That keeps the newsletter improving immediately while the live backend is connected later.

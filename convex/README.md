@@ -22,6 +22,13 @@ The X tracker scaffold now includes a real scheduled ingestion path:
 - storage in the `xPosts` table
 - merge into `live:getMergedHomepagePayload`
 
+The homepage payload scaffold now also includes a stored editorial refresh path:
+
+- `internal.live.refreshHomepageEditorialPayload`
+- optional fetch from `DEBRIEF_EDITORIAL_URL`
+- persistent write into `homepagePayloads`
+- merge with live X tracker rows in `live:getMergedHomepagePayload`
+
 ## Expected frontend query
 
 The static newsletter can subscribe to this public query directly from plain HTML:
@@ -83,6 +90,21 @@ The Vercel bridge can also merge an external editorial JSON source with:
 - optional `DEBRIEF_EDITORIAL_HEADERS_JSON`
 
 That path keeps live market snapshots request-time fresh while allowing editorial modules to update from a separate authenticated source.
+
+## Required env vars for stored homepage editorial refreshes
+
+- `DEBRIEF_EDITORIAL_URL`
+- optional `DEBRIEF_EDITORIAL_BEARER_TOKEN`
+- optional `DEBRIEF_EDITORIAL_HEADERS_JSON`
+
+The editorial endpoint can return either:
+
+1. a raw homepage payload object, or
+2. an envelope object with:
+   - `editionDate`
+   - `generatedAt`
+   - `sourceNotes`
+   - `payload`
 
 ## Important blocker in this workspace
 
