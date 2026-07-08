@@ -72,6 +72,11 @@ section{margin:40px 0;scroll-margin-top:64px}
 .sec-head .tag{width:11px;height:26px;border-radius:3px;background:var(--accent,var(--ember))}
 .sec-head h2{font-size:27px;font-weight:700}
 .sec-head .cnt{margin-left:auto;font-family:'Space Mono',monospace;font-size:12px;color:var(--ink-soft)}
+@media(max-width:760px){
+  .sec-head{flex-wrap:wrap;align-items:flex-start;gap:8px 12px}
+  .sec-head h2{font-size:24px}
+  .sec-head .cnt{margin-left:23px;width:100%;font-size:11px}
+}
 .lead{font-size:15px;color:var(--ink-soft);margin:-6px 0 18px;max-width:70ch}
 /* cards */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
@@ -288,6 +293,12 @@ footer .mono{font-size:11px}
   <div class="sec-head" style="--accent:var(--c-markets)"><span class="tag"></span><h2>Cross-Asset Dashboard</h2><span class="cnt">Dense market reads built for quick scanning</span></div>
   <p class="lead">This block is meant to make the newsletter more useful in practice: the most important price, positioning and stress readings are condensed into one fast dashboard instead of being scattered across sections.</p>
   <div class="data-grid" id="macroBoard"></div>
+</section>
+
+<section id="leadership" class="reveal">
+  <div class="sec-head" style="--accent:var(--c-tech)"><span class="tag"></span><h2>Leadership Monitor</h2><span class="cnt">Live relative strength and stress</span></div>
+  <p class="lead">This is the quick answer to a practical trading question: which parts of the market are actually carrying risk, which are absorbing it, and where the leadership map is starting to fracture.</p>
+  <div class="data-grid" id="leadershipBoard"></div>
 </section>
 
 <section id="desk-notes" class="reveal">
@@ -814,6 +825,14 @@ var MACRO_BOARD=[
   {label:'Dealer S&P net',value:'-746,475',tone:'down',meta:'The current official COT file still leans defensive beneath the tape.',sub:'Jun 30 CFTC'},
   {label:'WTI swap-dealer net',value:'+371,227',tone:'up',meta:'Commodity positioning still says energy hedging flows remain important.',sub:'Jun 30 CFTC'}
 ];
+var LEADERSHIP_BOARD=[
+  {label:'VIX',value:'17.30',tone:'up',meta:'Volatility is rising fast enough to matter again instead of staying decorative.',sub:'+7.25%'},
+  {label:'Russell 2000',value:'2,963.78',tone:'down',meta:'Small caps are lagging, which keeps the growth/risk appetite read cautious.',sub:'-0.63%'},
+  {label:'SOXX',value:'556.19',tone:'up',meta:'Semis are trying to stabilize after the Samsung-led unwind, but leadership is still fragile.',sub:'+0.82%'},
+  {label:'XLK',value:'179.07',tone:'down',meta:'Broad tech is flatter than semis, which says the market still trusts mega-cap ballast more than beta.',sub:'-0.06%'},
+  {label:'XLE',value:'55.40',tone:'up',meta:'Energy is still doing the cleanest job of reflecting the oil shock in real time.',sub:'+1.38%'},
+  {label:'UUP',value:'28.41',tone:'up',meta:'The dollar bid is modest, but it confirms the market has not relaxed back into pure risk-taking.',sub:'+0.04%'}
+];
 var CATALYST_CALENDAR=[
   {title:'Overnight macro',meta:'Monitor Iran and shipping-headline follow-through into U.S. open.',tag:'Live'},
   {title:'AI leadership check',meta:'Watch whether semis stabilize or keep dragging the Nasdaq complex.',tag:'Tech'},
@@ -862,6 +881,9 @@ function renderNewsletterModules(){
     return '<button class="story-card" type="button" data-story-index="'+idx+'"><div class="story-visual"><img src="'+story.image+'" alt="" loading="lazy"></div><div class="story-copy"><div class="story-topline"><span class="story-src">'+story.src+'</span><span class="story-open">Open in platform</span></div><h3>'+story.title+'</h3><p>'+story.summary+'</p></div></button>';
   }).join('');
   document.getElementById('macroBoard').innerHTML=MACRO_BOARD.map(function(item){
+    return '<div class="metric-card"><div class="metric-label">'+item.label+'</div><div class="metric-value '+(item.tone||'flat')+'">'+item.value+'</div><div class="metric-meta">'+item.meta+'</div><div class="metric-sub">'+item.sub+'</div></div>';
+  }).join('');
+  document.getElementById('leadershipBoard').innerHTML=LEADERSHIP_BOARD.map(function(item){
     return '<div class="metric-card"><div class="metric-label">'+item.label+'</div><div class="metric-value '+(item.tone||'flat')+'">'+item.value+'</div><div class="metric-meta">'+item.meta+'</div><div class="metric-sub">'+item.sub+'</div></div>';
   }).join('');
   document.getElementById('deskNotes').innerHTML=DESK_NOTES.map(function(item){
@@ -919,6 +941,7 @@ function hydrateLive(payload){
   if(Array.isArray(payload.inboxHighlights))INBOX_HIGHLIGHTS=payload.inboxHighlights;
   if(Array.isArray(payload.optionsPulse))OPTIONS_PULSE=payload.optionsPulse;
   if(Array.isArray(payload.macroBoard))MACRO_BOARD=payload.macroBoard;
+  if(Array.isArray(payload.leadershipBoard))LEADERSHIP_BOARD=payload.leadershipBoard;
   if(Array.isArray(payload.xTracker))X_TRACKER=payload.xTracker;
   if(Array.isArray(payload.crowdPulse))CROWD_PULSE=payload.crowdPulse;
   if(Array.isArray(payload.catalystCalendar))CATALYST_CALENDAR=payload.catalystCalendar;

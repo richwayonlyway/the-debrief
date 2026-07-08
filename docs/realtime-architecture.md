@@ -15,6 +15,8 @@ Important nuance: the frontend does not need a framework rewrite to use Convex. 
 
 There is now also an intermediate step in place: a same-origin Vercel snapshot endpoint at `/api/live` can refresh the market bar, signal stack, cross-asset cards, Flow Watch, and Mover Board without waiting for Convex auth.
 
+That same bridge now also refreshes the `Leadership Monitor` section with live volatility, small-cap, semiconductor, tech, energy, and dollar proxies.
+
 ## Recommended live architecture
 
 Use Convex as the realtime data layer and keep Vercel as the public app host.
@@ -39,8 +41,9 @@ Use Convex as the realtime data layer and keep Vercel as the public app host.
 
 3. Subscribe on the frontend
    - Story Deck
-   - market bar
-   - X Tracker
+- market bar
+- Leadership Monitor
+- X Tracker
    - Inbox Radar
    - Friday COT status
 

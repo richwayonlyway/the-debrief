@@ -1,4 +1,17 @@
-const SPARK_SYMBOLS = ["^GSPC", "^IXIC", "^DJI", "^TNX", "BZ=F", "GC=F"];
+const SPARK_SYMBOLS = [
+  "^GSPC",
+  "^IXIC",
+  "^DJI",
+  "^TNX",
+  "BZ=F",
+  "GC=F",
+  "^VIX",
+  "^RUT",
+  "SOXX",
+  "XLK",
+  "XLE",
+  "UUP",
+];
 const X_TRACKER_ACCOUNTS = [
   { handle: "@NoLimitGains", focus: "Momentum + premarket setups" },
   { handle: "@unsusual_whales", focus: "Flow + options sentiment" },
@@ -238,6 +251,12 @@ function buildPayload(spark, crypto, xTracker) {
   const tnx = spark["^TNX"];
   const brent = spark["BZ=F"];
   const gold = spark["GC=F"];
+  const vix = spark["^VIX"];
+  const rut = spark["^RUT"];
+  const soxx = spark["SOXX"];
+  const xlk = spark["XLK"];
+  const xle = spark["XLE"];
+  const uup = spark["UUP"];
 
   const btc = crypto.bitcoin || {};
   const eth = crypto.ethereum || {};
@@ -249,6 +268,12 @@ function buildPayload(spark, crypto, xTracker) {
   const tnxChg = pctChange(tnx.regularMarketPrice, tnx.chartPreviousClose);
   const brentChg = pctChange(brent.regularMarketPrice, brent.chartPreviousClose);
   const goldChg = pctChange(gold.regularMarketPrice, gold.chartPreviousClose);
+  const vixChg = pctChange(vix.regularMarketPrice, vix.chartPreviousClose);
+  const rutChg = pctChange(rut.regularMarketPrice, rut.chartPreviousClose);
+  const soxxChg = pctChange(soxx.regularMarketPrice, soxx.chartPreviousClose);
+  const xlkChg = pctChange(xlk.regularMarketPrice, xlk.chartPreviousClose);
+  const xleChg = pctChange(xle.regularMarketPrice, xle.chartPreviousClose);
+  const uupChg = pctChange(uup.regularMarketPrice, uup.chartPreviousClose);
   const btcChg = Number.isFinite(btc.usd_24h_change) ? btc.usd_24h_change : 0;
   const solChg = Number.isFinite(sol.usd_24h_change) ? sol.usd_24h_change : 0;
 
@@ -306,6 +331,51 @@ function buildPayload(spark, crypto, xTracker) {
       sub: signed(btcChg, 2),
     },
     ...STATIC_COT_CARDS,
+  ];
+
+  const leadershipBoard = [
+    {
+      label: "VIX",
+      value: formatNumber(vix.regularMarketPrice, 2),
+      tone: toneFrom(vixChg),
+      meta: "Volatility is the cleanest live stress gauge once positioning starts to matter again.",
+      sub: signed(vixChg, 2),
+    },
+    {
+      label: "Russell 2000",
+      value: formatNumber(rut.regularMarketPrice, 2),
+      tone: toneFrom(rutChg),
+      meta: "Small caps help show whether risk appetite is broadening or staying narrow.",
+      sub: signed(rutChg, 2),
+    },
+    {
+      label: "SOXX",
+      value: formatNumber(soxx.regularMarketPrice, 2),
+      tone: toneFrom(soxxChg),
+      meta: "Semis remain one of the fastest leadership stress reads in this market.",
+      sub: signed(soxxChg, 2),
+    },
+    {
+      label: "XLK",
+      value: formatNumber(xlk.regularMarketPrice, 2),
+      tone: toneFrom(xlkChg),
+      meta: "Broad tech helps separate mega-cap resilience from chip-specific fragility.",
+      sub: signed(xlkChg, 2),
+    },
+    {
+      label: "XLE",
+      value: formatNumber(xle.regularMarketPrice, 2),
+      tone: toneFrom(xleChg),
+      meta: "Energy shows how directly the tape is still responding to oil and geopolitics.",
+      sub: signed(xleChg, 2),
+    },
+    {
+      label: "UUP",
+      value: formatNumber(uup.regularMarketPrice, 2),
+      tone: toneFrom(uupChg),
+      meta: "Dollar firmness helps confirm whether traders are seeking safety or still leaning into beta.",
+      sub: signed(uupChg, 2),
+    },
   ];
 
   const flowWatch = [
@@ -399,6 +469,7 @@ function buildPayload(spark, crypto, xTracker) {
   return {
     ticker,
     macroBoard,
+    leadershipBoard,
     flowWatch,
     moverBoard,
     signal,

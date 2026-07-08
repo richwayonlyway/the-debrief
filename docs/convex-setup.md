@@ -68,6 +68,7 @@ The page can hydrate these keys when present:
 - `signal`
 - `storyDeck`
 - `macroBoard`
+- `leadershipBoard`
 - `deskNotes`
 - `setupBoard`
 - `inboxHighlights`
