@@ -1,0 +1,13 @@
+{
+  "name": "the-debrief",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "convex:dev": "convex dev",
+    "convex:codegen": "convex codegen",
+    "convex:deploy": "convex deploy"
+  },
+  "dependencies": {
+    "convex": "^1.42.1"
+  }
+}

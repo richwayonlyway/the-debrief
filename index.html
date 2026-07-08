@@ -706,14 +706,14 @@ footer .mono{font-size:11px}
 <script>
 var COT={"asof":"Tuesday, June 30, 2026","fin":[{"n":"Canadian Dollar","c":"fx","net":167242,"d":1092},{"n":"Swiss Franc","c":"fx","net":65956,"d":-3195},{"n":"British Pound","c":"fx","net":159925,"d":-67},{"n":"Japanese Yen","c":"fx","net":129418,"d":11028},{"n":"Euro FX","c":"fx","net":-253465,"d":21865},{"n":"Aussie Dollar","c":"fx","net":-11391,"d":7354},{"n":"Mexican Peso","c":"fx","net":-65090,"d":3846},{"n":"Dow (DJIA)","c":"equity","net":-6576,"d":-2614},{"n":"S&P 500","c":"equity","net":-746475,"d":8740},{"n":"Nasdaq-100","c":"equity","net":3578,"d":21425},{"n":"Russell 2000","c":"equity","net":72099,"d":20946},{"n":"UST Bond","c":"rates","net":-298722,"d":38917},{"n":"UST 2Y","c":"rates","net":-426888,"d":57157},{"n":"UST 10Y","c":"rates","net":-429521,"d":58289},{"n":"UST 5Y","c":"rates","net":-832074,"d":-41220},{"n":"Fed Funds","c":"rates","net":97082,"d":-5903}],"com":[{"n":"Crude Oil (WTI)","c":"energy","net":371227,"d":-7649},{"n":"Natural Gas","c":"energy","net":-31500,"d":-885},{"n":"Gold","c":"metals","net":-17046,"d":-7710},{"n":"Silver","c":"metals","net":-12271,"d":1451},{"n":"Copper","c":"metals","net":-89338,"d":8248},{"n":"Corn","c":"ags","net":-353041,"d":-2524},{"n":"Soybeans","c":"ags","net":-164894,"d":36410},{"n":"Wheat (SRW)","c":"ags","net":-6496,"d":15506}]};
 var LIVE_CONFIG={
-  convexUrl:"",
+  convexUrl:"https://beaming-meerkat-772.convex.cloud",
   httpEndpoint:"/api/live",
   queryName:"live:getMergedHomepagePayload",
   pollMs:60000
 };
 var LIVE_STATUS={
   mode:'Daily static edition is live on Vercel.',
-  meta:'The Story Deck, rates pulse, global map, source wire, Inbox Radar and X Tracker UI ship now. True real-time refresh still needs a backend ingestion layer, and Convex is the preferred path once the connector is authenticated.',
+  meta:'The Story Deck, rates pulse, global map, source wire, Inbox Radar and X Tracker UI now have a live Convex backend path, with the Vercel market bridge still filling in request-time market snapshots.',
   updated:'Updated Wednesday, July 8, 2026'
 };
 var STORY_DECK=[
@@ -1026,11 +1026,15 @@ function setLiveStatus(mode,meta){
   renderNewsletterModules();
 }
 
-function startHttpLive(config){
+function startHttpLive(config,preserveStatus){
   var run=function(){
     fetch(config.httpEndpoint,{headers:{'Accept':'application/json'}})
       .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
       .then(function(payload){
+        if(preserveStatus&&window.__debriefConvexActive&&payload&&typeof payload==='object'){
+          payload=Object.assign({},payload);
+          delete payload.liveStatus;
+        }
         hydrateLive(payload);
         if(!(payload&&payload.liveStatus)){
           setLiveStatus('Live HTTP snapshot connected.','The page is polling a live backend snapshot. This is not as immediate as Convex subscriptions but keeps the static edition fresh without a full redeploy.');
@@ -1049,11 +1053,13 @@ function startConvexLive(config){
     try{
       var client=new convex.ConvexClient(config.convexUrl);
       client.onUpdate(config.queryName,{},function(payload){
+        window.__debriefConvexActive=true;
         hydrateLive(payload);
-        setLiveStatus('Convex realtime connected.','Story cards, market data, X tracker rows and Friday COT can update as soon as the backend writes a new snapshot.');
+        setLiveStatus('Convex realtime connected.','Editorial modules and X tracker rows can update from Convex immediately, while the Vercel bridge can keep request-time market snapshots fresh.');
       });
       window.__debriefConvexClient=client;
     }catch(err){
+      window.__debriefConvexActive=false;
       setLiveStatus('Convex realtime failed to initialize.','The page kept the static edition because the browser client could not connect. '+err.message);
     }
   }
@@ -1066,6 +1072,7 @@ function startConvexLive(config){
   script.async=true;
   script.onload=connect;
   script.onerror=function(){
+    window.__debriefConvexActive=false;
     setLiveStatus('Convex browser client failed to load.','The static edition is still intact, but the realtime bundle could not be fetched.');
   };
   document.head.appendChild(script);
@@ -1075,10 +1082,9 @@ function startLiveBridge(){
   var config=resolveLiveConfig();
   if(config.convexUrl){
     startConvexLive(config);
-    return;
   }
   if(config.httpEndpoint){
-    startHttpLive(config);
+    startHttpLive(config,!!config.convexUrl);
     return;
   }
   setLiveStatus('Daily static edition is live on Vercel.','To turn on live updates without rebuilding the UI, set window.__DEBRIEF_CONVEX_URL or pass ?convexUrl=<deployment>.convex.cloud. HTTP fallback is also supported with ?liveEndpoint=<url>.');
