@@ -8,6 +8,27 @@ import {
 import { v } from "convex/values";
 
 const HOMEPAGE_SLUG = "homepage";
+const TRACKER_HANDLES = [
+  "@NoLimitGains",
+  "@unsusual_whales",
+  "@DeItaone",
+] as const;
+const TRACKER_FOCUS: Record<(typeof TRACKER_HANDLES)[number], string> = {
+  "@NoLimitGains": "Momentum + premarket setups",
+  "@unsusual_whales": "Flow + options sentiment",
+  "@DeItaone": "Macro headline tape",
+};
+
+function relativeTime(value: string) {
+  const date = new Date(value);
+  const diffMs = Date.now() - date.getTime();
+  const minutes = Math.max(0, Math.round(diffMs / 60000));
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.round(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.round(hours / 24);
+  return `${days}d ago`;
+}
 
 export const getHomepagePayload = query({
   args: {},
@@ -18,6 +39,59 @@ export const getHomepagePayload = query({
       .take(1);
 
     return rows[0]?.payload ?? null;
+  },
+});
+
+export const getMergedHomepagePayload = query({
+  args: {},
+  handler: async (ctx) => {
+    const rows = await ctx.db
+      .query("homepagePayloads")
+      .withIndex("by_slug", (q) => q.eq("slug", HOMEPAGE_SLUG))
+      .take(1);
+
+    const basePayload = (rows[0]?.payload ?? {}) as Record<string, any>;
+    const xTracker = [];
+
+    for (const handle of TRACKER_HANDLES) {
+      const posts = await ctx.db
+        .query("xPosts")
+        .withIndex("by_handle_and_postedAt", (q) => q.eq("handle", handle))
+        .order("desc")
+        .take(1);
+
+      const latest = posts[0];
+
+      if (!latest) {
+        xTracker.push({
+          handle,
+          focus: TRACKER_FOCUS[handle],
+          state: "Awaiting posts",
+          meta: "No X posts have been ingested into Convex for this handle yet.",
+        });
+        continue;
+      }
+
+      const metricParts = [];
+      if (typeof latest.likeCount === "number") metricParts.push(`Likes ${latest.likeCount}`);
+      if (typeof latest.repostCount === "number") metricParts.push(`Reposts ${latest.repostCount}`);
+      if (typeof latest.replyCount === "number") metricParts.push(`Replies ${latest.replyCount}`);
+
+      xTracker.push({
+        handle,
+        focus: TRACKER_FOCUS[handle],
+        state: "Live",
+        latestText: latest.text,
+        meta: `${latest.authorDisplayName ?? handle} · ${relativeTime(latest.postedAt)}${metricParts.length ? ` · ${metricParts.join(" · ")}` : ""}`,
+        url: latest.url,
+        mediaUrl: latest.mediaUrl,
+      });
+    }
+
+    return {
+      ...basePayload,
+      xTracker,
+    };
   },
 });
 

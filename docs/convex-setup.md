@@ -58,7 +58,7 @@ Option B: HTTP fallback
 
 The page subscribes to:
 
-- `live:getHomepagePayload`
+- `live:getMergedHomepagePayload`
 
 ## Expected payload shape
 

@@ -9,7 +9,7 @@ http.route({
   path: "/debrief-live",
   method: "GET",
   handler: httpAction(async (ctx) => {
-    const payload = await ctx.runQuery(api.live.getHomepagePayload, {});
+    const payload = await ctx.runQuery(api.live.getMergedHomepagePayload, {});
     return Response.json(payload ?? {});
   }),
 });

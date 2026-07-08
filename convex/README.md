@@ -19,7 +19,7 @@ It is intentionally separated from the current static Vercel newsletter so the p
 
 The static newsletter can subscribe to this public query directly from plain HTML:
 
-- `live:getHomepagePayload`
+- `live:getMergedHomepagePayload`
 
 It can also use the HTTP action:
 

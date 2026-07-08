@@ -53,6 +53,8 @@ The current page can do this either by:
 - polling a Convex HTTP action as a fallback
 - polling the shipped Vercel `/api/live` endpoint as the lightweight bridge that works today
 
+When Convex is connected again, the preferred public query is `live:getMergedHomepagePayload`, which merges the stored homepage snapshot with the latest ingested `xPosts` rows for the selected tracker accounts.
+
 4. Keep a daily static fallback
    - If live fetch fails, the site still serves the latest published edition
    - This preserves a stable shareable page even during API failures
