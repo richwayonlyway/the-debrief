@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Debrief — July 8, 2026</title>
 <meta property="og:title" content="The Debrief — daily markets, tech & geopolitics">
-<meta property="og:description" content="A daily briefing with clickable story cards, inbox-led market context, crypto, CFTC positioning, world clocks and podcasts.">
+<meta property="og:description" content="A daily briefing with clickable story cards, live market context, rates and credit pulse, crypto, CFTC positioning, world clocks and podcasts.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:,">
@@ -603,7 +603,7 @@ footer .mono{font-size:11px}
 <footer>
   <p><b>The Debrief</b> · automated daily build · generated Wednesday, July 8, 2026.</p>
   <p class="mono">Sources — Newsletters: Morning Brew, WSJ Markets A.M., Barron's Daily, Stocktwits Daily Rip, NYT The World, SemiAnalysis, The Chip Letter, SCSP, The Business Engineer, Prof G, Ray Fu, Barchart Brief, Barchart Unusual Options, Scanz Market Movers. Wire and official data: AP, Reuters via MarketScreener, CoinDesk, CoinGecko, cftc.gov, publicreporting.cftc.gov. Crypto prices: BTC, ETH and SOL market snapshots at build time. Weather: Open-Meteo. Podcasts: iTunes Search API.</p>
-  <p class="src-note">COT positioning reflects Tuesday, June 30, 2026, which remains the latest official Friday-released dataset posted by the CFTC at build time. The market bar reflects Tuesday, July 7 cash-index closes plus Wednesday, July 8 build-time snapshots for the U.S. 10-year, Brent, gold and crypto. Story Deck, Inbox Radar, Desk Notes, Tape Setup and Options Heat are source-backed newsletter modules; the Vercel live snapshot can refresh the market bar, Cross-Asset Dashboard, Flow Watch and Mover Board without a full redeploy. X Tracker is still a UI scaffold until a live social backend is connected. No financial advice.</p>
+  <p class="src-note">COT positioning reflects Tuesday, June 30, 2026, which remains the latest official Friday-released dataset posted by the CFTC at build time. The market bar reflects Tuesday, July 7 cash-index closes plus Wednesday, July 8 build-time snapshots for the U.S. 10-year, Brent, gold and crypto. Story Deck, Inbox Radar, Desk Notes, Tape Setup and Options Heat are source-backed newsletter modules; the Vercel live snapshot can refresh the market bar, Rates &amp; Credit Pulse, Cross-Asset Dashboard, Flow Watch, Mover Board and Rotation Radar without a full redeploy. X Tracker is still a UI scaffold until a live social backend is connected. No financial advice.</p>
 </footer>
 
 </main>
@@ -634,6 +634,10 @@ footer .mono{font-size:11px}
     <div class="signal-grid" id="signalGrid"></div>
   </div>
   <div class="swid">
+    <h4>🏦 Rates &amp; Credit Pulse</h4>
+    <div class="side-list" id="ratesCreditPulse"></div>
+  </div>
+  <div class="swid">
     <h4>📰 Inbox Radar</h4>
     <div class="highlight-stack" id="inboxHighlights"></div>
   </div>
@@ -660,6 +664,10 @@ footer .mono{font-size:11px}
   <div class="swid">
     <h4>⚡ Mover Board</h4>
     <div class="side-list" id="moverBoard"></div>
+  </div>
+  <div class="swid">
+    <h4>🧩 Rotation Radar</h4>
+    <div class="side-list" id="rotationRadar"></div>
   </div>
   <div class="swid">
     <h4>🎧 New Episodes</h4>
@@ -697,7 +705,7 @@ var LIVE_CONFIG={
 };
 var LIVE_STATUS={
   mode:'Daily static edition is live on Vercel.',
-  meta:'The new Story Deck, Inbox Radar and X Tracker UI ship now. True real-time refresh still needs a backend ingestion layer, and Convex is the preferred path once the connector is authenticated.',
+  meta:'The Story Deck, rates pulse, Inbox Radar and X Tracker UI ship now. True real-time refresh still needs a backend ingestion layer, and Convex is the preferred path once the connector is authenticated.',
   updated:'Updated Wednesday, July 8, 2026'
 };
 var STORY_DECK=[
@@ -810,6 +818,12 @@ var OPTIONS_PULSE=[
   {src:'Barchart',title:'SPX Aug 7 6,725 put',meta:'7,750 contracts traded versus 141 open interest. Protection stayed active beyond same-day expiry.'},
   {src:'Barchart',title:'SPX Jul 8 zero-day strikes',meta:'7,490 puts and 7,505 calls were both busy into Wednesday expiry, which keeps same-day gamma pinned near spot.'}
 ];
+var RATES_CREDIT_PULSE=[
+  {title:'U.S. 10Y yield',value:'4.58%',meta:'Rates are still rising into the oil shock, which keeps duration and equity multiples under pressure.',tone:'up'},
+  {title:'TLT',value:'-0.92%',meta:'Long-duration Treasuries are not absorbing the stress cleanly yet, which says funding pressure still matters.',tone:'down'},
+  {title:'HYG',value:'-0.41%',meta:'High-yield credit is softer, but not yet pricing a full credit accident.',tone:'down'},
+  {title:'KRE',value:'-1.06%',meta:'Regional banks remain a useful stress read when yields and growth fear rise together.',tone:'down'}
+];
 var CROWD_PULSE=[
   {handle:'$SPCX',focus:'Post-IPO analyst flood',state:'Bearish',meta:'Stocktwits Daily Rip says bullish launches and Nasdaq-100 inclusion still failed to protect price.'},
   {handle:'$RIVN',focus:'75M-share offering',state:'Debated',meta:'Community chatter stayed loud around runway versus rug-pull after the dilution shock.'},
@@ -865,6 +879,12 @@ var MOVER_BOARD=[
   {title:'BRENT',value:'+5.08%',meta:'Wednesday build-time move',tone:'up'},
   {title:'SOL',value:'-5.35%',meta:'live 24h move at build time',tone:'down'}
 ];
+var ROTATION_RADAR=[
+  {title:'XLE vs XLK',value:'+1.38% / -0.06%',meta:'Energy is beating broad tech, which fits the oil-and-inflation regime more than a clean growth rebound.',tone:'up'},
+  {title:'SOXX vs XLK',value:'+0.82% / -0.06%',meta:'Semis are trying to stabilize faster than broad tech, but leadership still looks fragile instead of decisive.',tone:'up'},
+  {title:'Russell vs S&P',value:'-0.63% / -0.40%',meta:'Small caps are still lagging the broad market, which says breadth is not healing yet.',tone:'down'},
+  {title:'UUP vs Gold',value:'+0.04% / -2.40%',meta:'Dollar firmness with weaker gold reads more like liquidity pressure than a classic haven rush.',tone:'up'}
+];
 function htmlSafe(value){
   return String(value==null?'':value).replace(/[&<>"']/g,function(ch){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
@@ -902,6 +922,7 @@ function renderNewsletterModules(){
       return '<div class="side-item"><div class="title">'+title+'</div><div class="meta">'+row.meta+'</div>'+value+'</div>';
     }).join('');
   }
+  renderList('ratesCreditPulse',RATES_CREDIT_PULSE);
   document.getElementById('inboxHighlights').innerHTML=INBOX_HIGHLIGHTS.map(function(row){
     var tag=row.url?['a',' href="'+row.url+'" target="_blank" rel="noopener"']:['div',''];
     return '<'+tag[0]+' class="highlight-card"'+tag[1]+'><div class="eyebrow">'+row.src+'</div><div class="headline">'+row.title+'</div><div class="summary">'+row.meta+'</div></'+tag[0]+'>';
@@ -923,6 +944,7 @@ function renderNewsletterModules(){
   }).join('');
   renderList('flowWatch',FLOW_WATCH);
   renderList('moverBoard',MOVER_BOARD);
+  renderList('rotationRadar',ROTATION_RADAR);
 }
 renderNewsletterModules();
 
@@ -940,6 +962,7 @@ function hydrateLive(payload){
   if(Array.isArray(payload.storyDeck))STORY_DECK=payload.storyDeck;
   if(Array.isArray(payload.inboxHighlights))INBOX_HIGHLIGHTS=payload.inboxHighlights;
   if(Array.isArray(payload.optionsPulse))OPTIONS_PULSE=payload.optionsPulse;
+  if(Array.isArray(payload.ratesCreditPulse))RATES_CREDIT_PULSE=payload.ratesCreditPulse;
   if(Array.isArray(payload.macroBoard))MACRO_BOARD=payload.macroBoard;
   if(Array.isArray(payload.leadershipBoard))LEADERSHIP_BOARD=payload.leadershipBoard;
   if(Array.isArray(payload.xTracker))X_TRACKER=payload.xTracker;
@@ -949,6 +972,7 @@ function hydrateLive(payload){
   if(Array.isArray(payload.setupBoard))SETUP_BOARD=payload.setupBoard;
   if(Array.isArray(payload.flowWatch))FLOW_WATCH=payload.flowWatch;
   if(Array.isArray(payload.moverBoard))MOVER_BOARD=payload.moverBoard;
+  if(Array.isArray(payload.rotationRadar))ROTATION_RADAR=payload.rotationRadar;
   if(payload.liveStatus&&typeof payload.liveStatus==='object')LIVE_STATUS=payload.liveStatus;
   if(payload.cot&&typeof payload.cot==='object')COT=payload.cot;
   renderTicker();

@@ -11,11 +11,15 @@ const SPARK_SYMBOLS = [
   "XLK",
   "XLE",
   "UUP",
+  "TLT",
+  "HYG",
+  "KRE",
 ];
 const EDITORIAL_KEYS = [
   "storyDeck",
   "inboxHighlights",
   "optionsPulse",
+  "ratesCreditPulse",
   "macroBoard",
   "leadershipBoard",
   "deskNotes",
@@ -25,6 +29,7 @@ const EDITORIAL_KEYS = [
   "catalystCalendar",
   "flowWatch",
   "moverBoard",
+  "rotationRadar",
   "signal",
   "liveStatus",
   "cot",
@@ -354,6 +359,9 @@ function buildPayload(spark, crypto, xTracker) {
   const xlk = spark["XLK"];
   const xle = spark["XLE"];
   const uup = spark["UUP"];
+  const tlt = spark["TLT"];
+  const hyg = spark["HYG"];
+  const kre = spark["KRE"];
 
   const btc = crypto.bitcoin || {};
   const eth = crypto.ethereum || {};
@@ -371,6 +379,9 @@ function buildPayload(spark, crypto, xTracker) {
   const xlkChg = pctChange(xlk.regularMarketPrice, xlk.chartPreviousClose);
   const xleChg = pctChange(xle.regularMarketPrice, xle.chartPreviousClose);
   const uupChg = pctChange(uup.regularMarketPrice, uup.chartPreviousClose);
+  const tltChg = pctChange(tlt.regularMarketPrice, tlt.chartPreviousClose);
+  const hygChg = pctChange(hyg.regularMarketPrice, hyg.chartPreviousClose);
+  const kreChg = pctChange(kre.regularMarketPrice, kre.chartPreviousClose);
   const btcChg = Number.isFinite(btc.usd_24h_change) ? btc.usd_24h_change : 0;
   const solChg = Number.isFinite(sol.usd_24h_change) ? sol.usd_24h_change : 0;
 
@@ -428,6 +439,33 @@ function buildPayload(spark, crypto, xTracker) {
       sub: signed(btcChg, 2),
     },
     ...STATIC_COT_CARDS,
+  ];
+
+  const ratesCreditPulse = [
+    {
+      title: "U.S. 10Y yield",
+      value: `${formatNumber(tnx.regularMarketPrice, 2)}%`,
+      meta: "Rates still set the tone for equity duration, funding costs, and risk appetite.",
+      tone: toneFrom(tnxChg),
+    },
+    {
+      title: "TLT",
+      value: signed(tltChg, 2),
+      meta: "Long-duration Treasuries show whether the tape is embracing safety or rejecting duration.",
+      tone: toneFrom(tltChg),
+    },
+    {
+      title: "HYG",
+      value: signed(hygChg, 2),
+      meta: "High-yield credit is a cleaner funding-stress read than equities alone once macro fear rises.",
+      tone: toneFrom(hygChg),
+    },
+    {
+      title: "KRE",
+      value: signed(kreChg, 2),
+      meta: "Regional banks help show whether higher yields are becoming a banking and credit problem.",
+      tone: toneFrom(kreChg),
+    },
   ];
 
   const leadershipBoard = [
@@ -529,6 +567,33 @@ function buildPayload(spark, crypto, xTracker) {
     },
   ];
 
+  const rotationRadar = [
+    {
+      title: "XLE vs XLK",
+      value: `${signed(xleChg, 2)} / ${signed(xlkChg, 2)}`,
+      meta: "Energy leadership over tech usually means inflation and geopolitics are overpowering clean growth optimism.",
+      tone: xleChg >= xlkChg ? "up" : "down",
+    },
+    {
+      title: "SOXX vs XLK",
+      value: `${signed(soxxChg, 2)} / ${signed(xlkChg, 2)}`,
+      meta: "Semis versus broad tech helps separate chip-specific stress from wider software and platform resilience.",
+      tone: soxxChg >= xlkChg ? "up" : "down",
+    },
+    {
+      title: "Russell vs S&P",
+      value: `${signed(rutChg, 2)} / ${signed(spxChg, 2)}`,
+      meta: "Small-cap lag still points to narrow risk appetite rather than a broadening bull tape.",
+      tone: rutChg >= spxChg ? "up" : "down",
+    },
+    {
+      title: "UUP vs Gold",
+      value: `${signed(uupChg, 2)} / ${signed(goldChg, 2)}`,
+      meta: "Dollar strength with softer gold often signals liquidity stress more than a textbook haven rotation.",
+      tone: uupChg >= goldChg ? "up" : "down",
+    },
+  ];
+
   const riskOff =
     spxChg < 0 && ndxChg < 0 && brentChg > 0
       ? "Risk-Off"
@@ -565,10 +630,12 @@ function buildPayload(spark, crypto, xTracker) {
 
   return {
     ticker,
+    ratesCreditPulse,
     macroBoard,
     leadershipBoard,
     flowWatch,
     moverBoard,
+    rotationRadar,
     signal,
     xTracker,
     liveStatus: {
