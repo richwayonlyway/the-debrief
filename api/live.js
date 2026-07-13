@@ -49,17 +49,17 @@ const X_TRACKER_ACCOUNTS = [
 const STATIC_COT_CARDS = [
   {
     label: "Dealer S&P net",
-    value: "-746,475",
+    value: "-731,085",
     tone: "down",
     meta: "The current official COT file still leans defensive beneath the tape.",
-    sub: "Jun 30 CFTC",
+    sub: "Jul 7 CFTC",
   },
   {
-    label: "WTI swap-dealer net",
-    value: "+371,227",
+    label: "WTI producer net",
+    value: "+390,293",
     tone: "up",
     meta: "Commodity positioning still says energy hedging flows remain important.",
-    sub: "Jun 30 CFTC",
+    sub: "Jul 7 CFTC",
   },
 ];
 
