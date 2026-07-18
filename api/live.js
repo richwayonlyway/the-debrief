@@ -49,17 +49,17 @@ const X_TRACKER_ACCOUNTS = [
 const STATIC_COT_CARDS = [
   {
     label: "Dealer S&P net",
-    value: "-731,085",
+    value: "-699,781",
     tone: "down",
-    meta: "The current official COT file still leans defensive beneath the tape.",
-    sub: "Jul 7 CFTC",
+    meta: "The newly posted official COT file still leans defensive beneath the tape.",
+    sub: "Jul 14 CFTC",
   },
   {
     label: "WTI producer net",
-    value: "+390,293",
+    value: "+60,007",
     tone: "up",
-    meta: "Commodity positioning still says energy hedging flows remain important.",
-    sub: "Jul 7 CFTC",
+    meta: "Producer hedger length fell sharply week over week even though crude stayed central to the macro tape.",
+    sub: "Jul 14 CFTC",
   },
 ];
 
