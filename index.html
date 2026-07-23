@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Debrief | July 23, 2026</title>
-  <meta name="description" content="The Debrief is a multi-page daily briefing for financial markets, technology, derivatives, crypto, and positioning.">
+  <meta name="description" content="The Debrief is a multi-page financial newsroom with market data, technology analysis, derivatives, research, company financials, and portfolio tools.">
   <meta property="og:title" content="The Debrief | Markets, technology and positioning">
-  <meta property="og:description" content="A detailed daily market briefing with live quote boards, internal story reading, options flow and source links.">
+  <meta property="og:description" content="A detailed daily market briefing with live quote boards, internal story reading, options flow, company financials, research, and calculators.">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
   <link rel="icon" href="data:,">
@@ -22,16 +22,11 @@
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <header class="app-header">
-    <div class="header-primary shell">
-      <a class="brand" href="?view=today" aria-label="The Debrief home">THE DEBRIEF</a>
-      <div class="edition-date" id="editionDate">Thursday, July 23, 2026</div>
-      <nav class="primary-nav" aria-label="Primary">
-        <a data-view-link="today" href="?view=today">Today</a>
-        <a data-view-link="markets" href="?view=markets">Markets</a>
-        <a data-view-link="technology" href="?view=technology">Technology</a>
-        <a data-view-link="derivatives" href="?view=derivatives">Derivatives</a>
-        <a data-view-link="crypto" href="?view=crypto">Crypto</a>
-      </nav>
+    <div class="header-top shell">
+      <div class="header-edition">
+        <a class="brand" href="?view=today" aria-label="The Debrief home">THE DEBRIEF</a>
+        <div class="edition-date" id="editionDate">Thursday, July 23, 2026</div>
+      </div>
       <div class="header-actions">
         <button class="icon-button" id="searchButton" type="button" aria-label="Search stories" title="Search stories">
           <i data-lucide="search" aria-hidden="true"></i>
@@ -48,12 +43,27 @@
         </button>
       </div>
     </div>
+    <div class="header-primary shell">
+      <nav class="primary-nav" aria-label="Primary">
+        <a data-view-link="today" href="?view=today">Today</a>
+        <a data-view-link="markets" href="?view=markets">Markets</a>
+        <a data-view-link="technology" href="?view=technology">Technology</a>
+        <a data-view-link="derivatives" href="?view=derivatives">Derivatives</a>
+        <a data-view-link="crypto" href="?view=crypto">Crypto</a>
+        <a data-view-link="research" href="?view=research">Research</a>
+        <a data-view-link="companies" href="?view=companies">Companies</a>
+        <a data-view-link="tools" href="?view=tools">Tools</a>
+      </nav>
+    </div>
     <nav class="mobile-nav shell" id="mobileNav" aria-label="Mobile">
       <a data-view-link="today" href="?view=today">Today</a>
       <a data-view-link="markets" href="?view=markets">Markets</a>
       <a data-view-link="technology" href="?view=technology">Technology</a>
       <a data-view-link="derivatives" href="?view=derivatives">Derivatives</a>
       <a data-view-link="crypto" href="?view=crypto">Crypto</a>
+      <a data-view-link="research" href="?view=research">Research</a>
+      <a data-view-link="companies" href="?view=companies">Companies</a>
+      <a data-view-link="tools" href="?view=tools">Tools</a>
     </nav>
   </header>
 
@@ -63,11 +73,11 @@
     <div class="shell footer-grid">
       <div>
         <a class="brand footer-brand" href="?view=today">THE DEBRIEF</a>
-        <p>Original analysis and source-backed summaries for markets and technology.</p>
+        <p>Original analysis, company fundamentals, research, and practical portfolio tools.</p>
       </div>
       <div>
         <strong>Data policy</strong>
-        <p>Quotes and options analytics are delayed estimates, not executable prices or investment advice.</p>
+        <p>Quotes and options analytics are delayed estimates. Company fundamentals are sourced from SEC filings. Nothing here is investment advice.</p>
       </div>
       <div class="footer-meta">
         <span id="generatedAt">Generated Thursday, July 23, 2026</span>
@@ -88,7 +98,7 @@
     </div>
     <label class="search-field">
       <i data-lucide="search" aria-hidden="true"></i>
-      <input id="searchInput" type="search" autocomplete="off" placeholder="Search markets, companies, technology...">
+      <input id="searchInput" type="search" autocomplete="off" placeholder="Search stories, research, companies, technology...">
     </label>
     <div class="search-results" id="searchResults"></div>
   </dialog>

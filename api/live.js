@@ -133,6 +133,16 @@ function formatMoney(value, digits) {
   return `$${formatNumber(value, digits)}`;
 }
 
+function sampleSeries(values, target = 26) {
+  const clean = (values || []).map(Number).filter(Number.isFinite);
+  if (clean.length <= target) return clean;
+  const step = (clean.length - 1) / (target - 1);
+  return Array.from(
+    { length: target },
+    (_, index) => clean[Math.round(index * step)],
+  );
+}
+
 function buildQuoteGroups(spark, crypto) {
   const groups = {};
   for (const [group, rows] of Object.entries(QUOTE_GROUPS)) {
@@ -151,7 +161,7 @@ function buildQuoteGroups(spark, crypto) {
             pctChange(meta.regularMarketPrice, previous).toFixed(2),
           ),
           currency: meta.currency || "USD",
-          spark: [],
+          spark: meta.spark || [],
           asOf: meta.regularMarketTime
             ? new Date(meta.regularMarketTime * 1000).toISOString()
             : null,
@@ -294,9 +304,14 @@ async function fetchSparkQuotes() {
     const payload = await response.json();
     const results = (((payload || {}).spark || {}).result) || [];
     results.forEach((entry) => {
-      const meta =
-        entry && entry.response && entry.response[0] && entry.response[0].meta;
-      if (entry && entry.symbol && meta) bySymbol[entry.symbol] = meta;
+      const chart = entry && entry.response && entry.response[0];
+      const meta = chart && chart.meta;
+      if (entry && entry.symbol && meta) {
+        bySymbol[entry.symbol] = {
+          ...meta,
+          spark: sampleSeries(chart?.indicators?.quote?.[0]?.close || []),
+        };
+      }
     });
   }
 

@@ -8,6 +8,9 @@
     "technology",
     "derivatives",
     "crypto",
+    "research",
+    "companies",
+    "tools",
   ]);
   const params = new URLSearchParams(window.location.search);
   const storyId = params.get("story");
@@ -22,6 +25,14 @@
     market: null,
     weather: null,
     weatherLoading: false,
+    researchFilter: "All",
+    company: null,
+    companyMatches: [],
+    companyQuery: "AAPL",
+    companyLoading: false,
+    companyError: null,
+    companyRequested: false,
+    tool: "compound",
     loading: true,
     refreshTimer: null,
   };
@@ -70,24 +81,6 @@
     { city: "Tokyo", timeZone: "Asia/Tokyo", latitude: 35.68, longitude: 139.65 },
     { city: "Madrid", timeZone: "Europe/Madrid", latitude: 40.42, longitude: -3.7 },
     { city: "San Juan", timeZone: "America/Puerto_Rico", latitude: 18.47, longitude: -66.11 },
-  ];
-
-  const listeningQueue = [
-    {
-      title: "All-In",
-      lens: "Macro, policy and technology",
-      url: "https://podcasts.apple.com/us/search?term=All-In%20Podcast",
-    },
-    {
-      title: "Acquired",
-      lens: "Company strategy and market history",
-      url: "https://podcasts.apple.com/us/search?term=Acquired",
-    },
-    {
-      title: "Prof G Markets",
-      lens: "Markets, business and capital allocation",
-      url: "https://podcasts.apple.com/us/search?term=Prof%20G%20Markets",
-    },
   ];
 
   const main = document.getElementById("main");
@@ -219,6 +212,77 @@
       })
       .join(" ");
     return `<svg class="sparkline ${tone(change)}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true"><polyline points="${points}"></polyline></svg>`;
+  }
+
+  function lineChart(values, options = {}) {
+    const clean = (values || []).map(Number).filter(Number.isFinite);
+    if (clean.length < 2) {
+      return `<div class="chart-empty">${escapeHtml(options.empty || "Chart data unavailable")}</div>`;
+    }
+    const width = options.width || 720;
+    const height = options.height || 220;
+    const padding = 18;
+    const min = Math.min(...clean);
+    const max = Math.max(...clean);
+    const span = max - min || 1;
+    const points = clean
+      .map((value, index) => {
+        const x = padding + (index / (clean.length - 1)) * (width - padding * 2);
+        const y = height - padding - ((value - min) / span) * (height - padding * 2);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      })
+      .join(" ");
+    const baseline = height - padding;
+    const areaPoints = `${padding},${baseline} ${points} ${width - padding},${baseline}`;
+    const label = options.label || "Line chart";
+    return `
+      <div class="line-chart-wrap">
+        <svg class="line-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="${escapeHtml(label)}">
+          <line class="chart-gridline" x1="${padding}" y1="${height * 0.25}" x2="${width - padding}" y2="${height * 0.25}"></line>
+          <line class="chart-gridline" x1="${padding}" y1="${height * 0.5}" x2="${width - padding}" y2="${height * 0.5}"></line>
+          <line class="chart-gridline" x1="${padding}" y1="${height * 0.75}" x2="${width - padding}" y2="${height * 0.75}"></line>
+          <polygon class="chart-area" points="${areaPoints}"></polygon>
+          <polyline class="chart-line" points="${points}"></polyline>
+        </svg>
+        <div class="chart-scale">
+          <span>${escapeHtml(options.startLabel || "")}</span>
+          <span>${escapeHtml(options.endLabel || "")}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderCrossAssetChart() {
+    const assets = [
+      ["S&P 500", findQuote("^GSPC")],
+      ["Nasdaq", findQuote("^IXIC")],
+      ["Russell 2000", findQuote("^RUT")],
+      ["Brent", findQuote("BZ=F")],
+      ["Gold", findQuote("GC=F")],
+      ["Bitcoin", findQuote("BTC")],
+      ["U.S. 10Y", findQuote("^TNX")],
+    ].filter(([, row]) => Number.isFinite(Number(row?.change)));
+    const max = Math.max(...assets.map(([, row]) => Math.abs(Number(row.change))), 1);
+    return `
+      <div class="performance-chart" role="img" aria-label="Cross-asset percentage performance">
+        ${assets
+          .map(([label, row]) => {
+            const change = Number(row.change);
+            const width = Math.max(2, (Math.abs(change) / max) * 48);
+            return `
+              <div class="performance-row">
+                <span>${escapeHtml(label)}</span>
+                <div class="performance-track">
+                  <span class="performance-zero" aria-hidden="true"></span>
+                  <span class="performance-bar ${tone(change)} ${change >= 0 ? "positive" : "negative"}" style="width:${width}%"></span>
+                </div>
+                <strong class="${tone(change)}">${formatChange(change)}</strong>
+              </div>
+            `;
+          })
+          .join("")}
+      </div>
+    `;
   }
 
   function renderQuoteBoard(activeGroup = state.quoteGroup, customRows = null) {
@@ -471,13 +535,14 @@
     `;
   }
 
-  function renderWorldDesk() {
+  function renderWorldRail() {
+    const podcasts = content.podcasts || [];
+    const research = content.research || [];
     return `
-      <section class="section-band utility-desk" aria-labelledby="global-desk-title">
-        <div class="world-desk">
+      <aside class="utility-rail" aria-label="Global context and listening">
+        <section class="rail-section world-desk" aria-labelledby="global-desk-title">
           <div class="section-title-row">
             <h2 id="global-desk-title">World Clocks &amp; Weather</h2>
-            <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo ${icon("external-link")}</a>
           </div>
           <div class="world-list">
             ${worldCities
@@ -497,20 +562,22 @@
               )
               .join("")}
           </div>
-        </div>
-        <div class="listening-desk">
+          <a class="rail-source" href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Weather by Open-Meteo ${icon("external-link")}</a>
+        </section>
+        <section class="rail-section listening-desk">
           <div class="section-title-row">
-            <h2>Listening Queue</h2>
-            <span class="page-meta">Three useful lenses</span>
+            <h2>Podcast Desk</h2>
+            <span class="page-meta">8 shows</span>
           </div>
           <div class="listening-list">
-            ${listeningQueue
+            ${podcasts
+              .slice(0, 5)
               .map(
                 (show) => `
                   <a href="${escapeHtml(show.url)}" target="_blank" rel="noopener noreferrer">
                     <span>
                       <strong>${escapeHtml(show.title)}</strong>
-                      <small>${escapeHtml(show.lens)}</small>
+                      <small>${escapeHtml(show.focus)}</small>
                     </span>
                     ${icon("external-link")}
                   </a>
@@ -518,37 +585,90 @@
               )
               .join("")}
           </div>
-        </div>
-      </section>
+        </section>
+        <section class="rail-section">
+          <div class="section-title-row">
+            <h2>Research Shelf</h2>
+            <a href="?view=research">View all ${icon("arrow-right")}</a>
+          </div>
+          <div class="rail-research-list">
+            ${research
+              .slice(0, 3)
+              .map(
+                (item) => `
+                  <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+                    <span class="utility-label">${escapeHtml(item.category)} · ${escapeHtml(item.year)}</span>
+                    <strong>${escapeHtml(item.title)}</strong>
+                    <small>${escapeHtml(item.source)}</small>
+                  </a>
+                `,
+              )
+              .join("")}
+          </div>
+        </section>
+      </aside>
     `;
   }
 
   function renderToday() {
     const lead = storyById(content.leadId);
-    const technology = content.stories.filter((story) => story.page === "technology").slice(0, 3);
+    const technology = content.stories.filter((story) => story.page === "technology").slice(0, 4);
     const technologyIds = new Set(technology.map((story) => story.id));
     const latest = content.stories
       .filter((story) => story.id !== lead.id && !technologyIds.has(story.id))
-      .slice(0, 4);
+      .slice(0, 6);
     const takeaways =
       lead.sections.find((section) => section.bullets)?.bullets.slice(0, 3) || [];
     return `
       <div class="page shell">
         ${renderQuoteBoard()}
-        <section class="lead-layout">
-          <article class="lead-story">
-            <span class="utility-label">Top story</span>
-            <h1>${escapeHtml(lead.headline)}</h1>
-            ${storyByline(lead)}
-            ${storyActions(lead)}
-            <p class="lead-summary">${escapeHtml(lead.summary)}</p>
-            <div class="key-takeaways">
-              <h2>Key takeaways</h2>
-              <ul>${takeaways.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
-            </div>
-            ${numberStrip(lead)}
-          </article>
-          ${renderMarketPulse()}
+        <section class="front-page-grid">
+          ${renderWorldRail()}
+          <div class="front-page-center">
+            <article class="lead-story newsroom-lead">
+              <span class="utility-label">Top story</span>
+              <h1>${escapeHtml(lead.headline)}</h1>
+              ${storyByline(lead)}
+              <p class="lead-summary">${escapeHtml(lead.summary)}</p>
+              <div class="key-takeaways compact-takeaways">
+                <h2>Why it matters</h2>
+                <ul>${takeaways.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+              </div>
+              ${numberStrip(lead)}
+              ${storyActions(lead)}
+            </article>
+            <section class="front-latest">
+              <div class="section-title-row">
+                <h2>Latest Analysis</h2>
+                <span class="page-meta">${escapeHtml(content.edition.readTime)}</span>
+              </div>
+              ${renderStoryList(latest.slice(0, 4))}
+            </section>
+          </div>
+          <aside class="front-page-right">
+            ${renderMarketPulse()}
+            <section class="rail-section">
+              <div class="section-title-row">
+                <h2>Options &amp; Positioning</h2>
+                <a href="?view=derivatives">Open desk ${icon("arrow-right")}</a>
+              </div>
+              ${renderMacroMatrix()}
+            </section>
+            <section class="rail-section">
+              <div class="section-title-row">
+                <h2>Next Catalysts</h2>
+              </div>
+              ${renderTimeline()}
+            </section>
+          </aside>
+        </section>
+
+        <section class="section-band market-overview-band">
+          <div class="section-title-row">
+            <h2>Cross-Asset Performance</h2>
+            <a href="?view=markets">Open market dashboard ${icon("arrow-right")}</a>
+          </div>
+          ${renderCrossAssetChart()}
         </section>
 
         <div class="split-band section-band">
@@ -561,22 +681,12 @@
           </section>
           <section>
             <div class="section-title-row">
-              <h2>What Matters Next</h2>
-              <span class="page-meta">Verified catalysts</span>
+              <h2>More From Today's Debrief</h2>
+              <span class="page-meta">Markets + crypto</span>
             </div>
-            ${renderTimeline()}
+            ${renderStoryList(latest.slice(4))}
           </section>
         </div>
-
-        ${renderWorldDesk()}
-
-        <section class="section-band">
-          <div class="section-title-row">
-            <h2>More From Today's Debrief</h2>
-            <span class="page-meta">${escapeHtml(content.edition.readTime)}</span>
-          </div>
-          ${renderStoryList(latest)}
-        </section>
       </div>
     `;
   }
@@ -653,6 +763,26 @@
     `;
   }
 
+  function renderSectorMap() {
+    return `
+      <div class="sector-grid">
+        ${(content.sectorMap || [])
+          .map(
+            (row) => `
+              <div class="sector-cell">
+                <div class="sector-head">
+                  <strong>${escapeHtml(row.sector)}</strong>
+                  <span class="${escapeHtml(row.tone)}">${escapeHtml(row.signal)}</span>
+                </div>
+                <p>${escapeHtml(row.driver)}</p>
+              </div>
+            `,
+          )
+          .join("")}
+      </div>
+    `;
+  }
+
   function renderMarkets() {
     const stories = content.stories.filter((story) => story.page === "markets");
     return `
@@ -663,12 +793,26 @@
           "Quotes delayed · COT weekly",
         )}
         ${renderQuoteBoard()}
+        <section class="section-band market-overview-band">
+          <div class="section-title-row">
+            <h2>Cross-Asset Performance</h2>
+            <span class="page-meta">Current delayed session</span>
+          </div>
+          ${renderCrossAssetChart()}
+        </section>
         <section class="section-band">
           <div class="section-title-row">
             <h2>Risk Map</h2>
             <span class="page-meta">What is driving the tape</span>
           </div>
           ${renderDrivers()}
+        </section>
+        <section class="section-band">
+          <div class="section-title-row">
+            <h2>Sector Transmission Map</h2>
+            <span class="page-meta">Price action to earnings impact</span>
+          </div>
+          ${renderSectorMap()}
         </section>
         <section class="section-band content-grid">
           <div>
@@ -721,6 +865,9 @@
   function renderTechnology() {
     const stories = content.stories.filter((story) => story.page === "technology");
     const lead = storyById("alphabet-capex-reset");
+    const research = (content.research || [])
+      .filter((item) => item.category.startsWith("AI"))
+      .slice(0, 4);
     return `
       <div class="page shell">
         ${renderPageHead(
@@ -747,12 +894,33 @@
         <section class="section-band">
           ${renderTechMatrix()}
         </section>
-        <section class="section-band">
-          <div class="section-title-row">
-            <h2>Detailed Technology Stories</h2>
-            <span class="page-meta">${stories.length} reports</span>
+        <section class="section-band content-grid">
+          <div>
+            <div class="section-title-row">
+              <h2>Detailed Technology Stories</h2>
+              <span class="page-meta">${stories.length} reports</span>
+            </div>
+            ${renderStoryList(stories)}
           </div>
-          ${renderStoryList(stories)}
+          <aside class="surface-panel research-aside">
+            <div class="panel-title-row">
+              <h2>Technical Reading</h2>
+              <a href="?view=research">Research library ${icon("arrow-right")}</a>
+            </div>
+            <div class="compact-research-list">
+              ${research
+                .map(
+                  (item) => `
+                    <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+                      <span class="utility-label">${escapeHtml(item.category)} · ${escapeHtml(item.year)}</span>
+                      <strong>${escapeHtml(item.title)}</strong>
+                      <small>${escapeHtml(item.relevance)}</small>
+                    </a>
+                  `,
+                )
+                .join("")}
+            </div>
+          </aside>
         </section>
       </div>
     `;
@@ -1146,6 +1314,699 @@
     `;
   }
 
+  function renderResearch() {
+    const research = content.research || [];
+    const categories = ["All", ...new Set(research.map((item) => item.category))];
+    const filtered =
+      state.researchFilter === "All"
+        ? research
+        : research.filter((item) => item.category === state.researchFilter);
+    return `
+      <div class="page shell">
+        ${renderPageHead(
+          "Research Library",
+          "Primary papers and institutional research that deepen the market, portfolio-risk, options, crypto and AI analysis in each edition.",
+          `${research.length} curated references`,
+        )}
+        <div class="research-filter-bar" role="tablist" aria-label="Research category">
+          ${categories
+            .map(
+              (category) => `
+                <button class="research-filter ${state.researchFilter === category ? "active" : ""}" type="button" data-research-filter="${escapeHtml(category)}" role="tab" aria-selected="${state.researchFilter === category}">
+                  ${escapeHtml(category)}
+                </button>
+              `,
+            )
+            .join("")}
+        </div>
+        <section class="research-layout">
+          <div class="research-index">
+            ${filtered
+              .map(
+                (item, index) => `
+                  <article class="research-entry">
+                    <div class="research-number">${String(index + 1).padStart(2, "0")}</div>
+                    <div class="research-copy">
+                      <span class="utility-label">${escapeHtml(item.category)} · ${escapeHtml(item.kind)} · ${escapeHtml(item.year)}</span>
+                      <h2>${escapeHtml(item.title)}</h2>
+                      <p class="research-authors">${escapeHtml(item.authors)} · ${escapeHtml(item.source)}</p>
+                      <p>${escapeHtml(item.summary)}</p>
+                      <div class="research-relevance">
+                        <strong>Why it matters</strong>
+                        <span>${escapeHtml(item.relevance)}</span>
+                      </div>
+                    </div>
+                    <a class="research-open" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" aria-label="Open ${escapeHtml(item.title)}">${icon("external-link")}</a>
+                  </article>
+                `,
+              )
+              .join("")}
+          </div>
+          <aside class="research-guide">
+            <span class="utility-label">Reading guide</span>
+            <h2>From headline to framework</h2>
+            <p>Use the library to inspect the models and evidence behind the newsroom analysis. Each reference is linked to the publisher or paper page.</p>
+            <div class="guide-step"><strong>1</strong><span>Start with the daily story and its key claim.</span></div>
+            <div class="guide-step"><strong>2</strong><span>Use the category filter to find the underlying framework.</span></div>
+            <div class="guide-step"><strong>3</strong><span>Test the implication in Companies or Tools.</span></div>
+            <a class="button primary" href="?view=tools">Open analytical tools ${icon("arrow-right")}</a>
+          </aside>
+        </section>
+      </div>
+    `;
+  }
+
+  function formatFinancial(value) {
+    if (!Number.isFinite(Number(value))) return "--";
+    const number = Number(value);
+    const absolute = Math.abs(number);
+    if (absolute >= 1e12) return `${number < 0 ? "-" : ""}$${(absolute / 1e12).toFixed(2)}T`;
+    if (absolute >= 1e9) return `${number < 0 ? "-" : ""}$${(absolute / 1e9).toFixed(2)}B`;
+    if (absolute >= 1e6) return `${number < 0 ? "-" : ""}$${(absolute / 1e6).toFixed(1)}M`;
+    return formatMoney(number, 0);
+  }
+
+  function companyMetric(label, value, meta, valueTone = "flat") {
+    return `
+      <div class="company-metric">
+        <span>${escapeHtml(label)}</span>
+        <strong class="${escapeHtml(valueTone)}">${escapeHtml(value)}</strong>
+        <small>${escapeHtml(meta)}</small>
+      </div>
+    `;
+  }
+
+  function renderCompanyResults() {
+    if (state.companyLoading) {
+      return `
+        <div class="company-loading">
+          <span class="loading-bar" aria-hidden="true"></span>
+          <strong>Reading SEC filings and delayed price history</strong>
+          <span>This can take a few seconds on the first lookup.</span>
+        </div>
+      `;
+    }
+    if (state.companyError) {
+      return `
+        <div class="empty-state">
+          <strong>Company data could not be loaded</strong>
+          <span>${escapeHtml(state.companyError)}</span>
+        </div>
+      `;
+    }
+    if (state.companyMatches.length) {
+      return `
+        <div class="company-match-panel">
+          <span class="utility-label">Search results</span>
+          <h2>Choose a U.S.-listed company</h2>
+          <div class="company-matches">
+            ${state.companyMatches
+              .map(
+                (match) => `
+                  <button type="button" data-company-symbol="${escapeHtml(match.ticker)}">
+                    <strong>${escapeHtml(match.ticker)}</strong>
+                    <span>${escapeHtml(match.name)}</span>
+                    ${icon("arrow-right")}
+                  </button>
+                `,
+              )
+              .join("")}
+          </div>
+        </div>
+      `;
+    }
+    const payload = state.company;
+    if (!payload) return "";
+    const company = payload.company || {};
+    const price = payload.price || {};
+    const metrics = payload.metrics || {};
+    const annuals = payload.annuals || [];
+    const prices = (price.points || []).map((point) => point.close);
+    const firstDate = price.points?.[0]?.date || "";
+    const lastDate = price.points?.[price.points.length - 1]?.date || "";
+    const qualityRead =
+      Number(metrics.freeCashFlowMargin) >= 15
+        ? "Strong cash conversion"
+        : Number(metrics.freeCashFlowMargin) > 0
+          ? "Positive cash conversion"
+          : "Cash conversion requires review";
+    const growthRead =
+      Number(metrics.revenueGrowth) >= 10
+        ? "Double-digit growth"
+        : Number(metrics.revenueGrowth) > 0
+          ? "Positive growth"
+          : "Revenue under pressure";
+    return `
+      <section class="company-result">
+        <header class="company-identity">
+          <div>
+            <span class="ticker-badge">${escapeHtml(company.ticker)}</span>
+            <h2>${escapeHtml(company.name)}</h2>
+            <p>${escapeHtml(company.exchange || "U.S. listed")} · ${escapeHtml(company.currency || "USD")} · SEC CIK ${escapeHtml(company.cik)}</p>
+          </div>
+          <div class="company-price">
+            <span>Delayed price</span>
+            <strong>${formatMoney(price.price, 2)}</strong>
+            <em class="${tone(price.oneYearChange)}">${formatChange(price.oneYearChange)} 1Y</em>
+          </div>
+        </header>
+        <div class="company-metric-grid">
+          ${companyMetric("Revenue", formatFinancial(metrics.revenue), `FY ${metrics.fiscalYear || "--"}`)}
+          ${companyMetric("Revenue growth", formatChange(metrics.revenueGrowth), growthRead, tone(metrics.revenueGrowth))}
+          ${companyMetric("Net income", formatFinancial(metrics.netIncome), `${Number.isFinite(Number(metrics.netMargin)) ? `${formatNumber(metrics.netMargin, 1)}% margin` : "Margin unavailable"}`)}
+          ${companyMetric("Free cash flow", formatFinancial(metrics.freeCashFlow), `${Number.isFinite(Number(metrics.freeCashFlowMargin)) ? `${formatNumber(metrics.freeCashFlowMargin, 1)}% margin` : "Margin unavailable"}`, tone(metrics.freeCashFlow))}
+          ${companyMetric("Return on equity", Number.isFinite(Number(metrics.returnOnEquity)) ? `${formatNumber(metrics.returnOnEquity, 1)}%` : "--", "Net income / year-end equity", tone(metrics.returnOnEquity))}
+          ${companyMetric("Diluted EPS", Number.isFinite(Number(metrics.dilutedEps)) ? formatMoney(metrics.dilutedEps, 2) : "--", "Latest annual filing")}
+        </div>
+        <div class="company-analysis-grid">
+          <section class="surface-panel company-chart-panel">
+            <div class="panel-title-row">
+              <div>
+                <h2>One-Year Price Path</h2>
+                <span class="page-meta">${escapeHtml(firstDate)} to ${escapeHtml(lastDate)}</span>
+              </div>
+              <div class="chart-range">
+                <span>Low ${formatMoney(price.oneYearLow, 2)}</span>
+                <span>High ${formatMoney(price.oneYearHigh, 2)}</span>
+              </div>
+            </div>
+            ${lineChart(prices, {
+              label: `${company.name} one-year delayed price chart`,
+              startLabel: firstDate,
+              endLabel: lastDate,
+              empty: "Yahoo price history is temporarily unavailable",
+            })}
+          </section>
+          <aside class="surface-panel company-read-panel">
+            <div class="panel-title-row"><h2>Fundamental Read</h2></div>
+            <div class="company-read">
+              <div><span>Growth</span><strong class="${tone(metrics.revenueGrowth)}">${escapeHtml(growthRead)}</strong></div>
+              <div><span>Cash conversion</span><strong class="${tone(metrics.freeCashFlowMargin)}">${escapeHtml(qualityRead)}</strong></div>
+              <div><span>Balance sheet</span><strong>${formatFinancial(metrics.assets)} assets</strong></div>
+              <div><span>Liabilities</span><strong>${formatFinancial(metrics.liabilities)}</strong></div>
+            </div>
+            <p>These are screening observations from annual filings, not a valuation conclusion. Read the latest 10-K and current filings before making an investment decision.</p>
+          </aside>
+        </div>
+        <section class="table-panel company-financials">
+          <div class="table-panel-head">
+            <div>
+              <h2>Five-Year Financial History</h2>
+              <span class="page-meta">Annual SEC XBRL facts</span>
+            </div>
+            <a class="text-link" href="${escapeHtml(company.secFilingsUrl)}" target="_blank" rel="noopener noreferrer">Open SEC filings ${icon("external-link")}</a>
+          </div>
+          <div class="table-scroll">
+            <table class="data-table">
+              <thead><tr><th>FY</th><th>Revenue</th><th>Operating income</th><th>Net income</th><th>Operating cash</th><th>Capex</th><th>Free cash flow</th><th>Diluted EPS</th></tr></thead>
+              <tbody>
+                ${annuals
+                  .map(
+                    (row) => `
+                      <tr>
+                        <td class="company-cell">${escapeHtml(row.year)}</td>
+                        <td>${formatFinancial(row.revenue)}</td>
+                        <td>${formatFinancial(row.operatingIncome)}</td>
+                        <td>${formatFinancial(row.netIncome)}</td>
+                        <td>${formatFinancial(row.operatingCashFlow)}</td>
+                        <td>${formatFinancial(row.capex)}</td>
+                        <td>${formatFinancial(row.freeCashFlow)}</td>
+                        <td>${Number.isFinite(Number(row.dilutedEps)) ? formatMoney(row.dilutedEps, 2) : "--"}</td>
+                      </tr>
+                    `,
+                  )
+                  .join("") || `<tr><td colspan="8">Annual filing data is temporarily unavailable.</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <div class="company-sources">
+          ${(payload.sources || [])
+            .map(
+              (source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)} ${icon("external-link")}</a>`,
+            )
+            .join("")}
+          ${(payload.warnings || []).map((warning) => `<span>${escapeHtml(warning)}</span>`).join("")}
+        </div>
+      </section>
+    `;
+  }
+
+  function renderCompanies() {
+    return `
+      <div class="page shell company-page">
+        ${renderPageHead(
+          "Company Lab",
+          "Look up a U.S.-listed public company to inspect annual SEC financials, cash generation, profitability and a delayed one-year price path.",
+          "SEC filings + delayed prices",
+        )}
+        <form class="company-search" data-company-search>
+          <label for="companyQuery">Company name or ticker</label>
+          <div>
+            <i data-lucide="search" aria-hidden="true"></i>
+            <input id="companyQuery" name="company" type="search" autocomplete="off" value="${escapeHtml(state.companyQuery)}" placeholder="AAPL or Apple">
+            <button class="button primary" type="submit">Analyze company ${icon("arrow-right")}</button>
+          </div>
+          <p>Try AAPL, MSFT, NVDA, JPM or search by company name. Coverage follows the SEC company directory.</p>
+        </form>
+        ${renderCompanyResults()}
+      </div>
+    `;
+  }
+
+  function field(id, label, value, suffix, min = "0", step = "0.1") {
+    return `
+      <label class="tool-field" for="${escapeHtml(id)}">
+        <span>${escapeHtml(label)}</span>
+        <div>
+          <input id="${escapeHtml(id)}" name="${escapeHtml(id)}" type="number" value="${escapeHtml(value)}" min="${escapeHtml(min)}" step="${escapeHtml(step)}">
+          ${suffix ? `<em>${escapeHtml(suffix)}</em>` : ""}
+        </div>
+      </label>
+    `;
+  }
+
+  function renderCompoundTool() {
+    return `
+      <div class="tool-workspace" data-calculator="compound">
+        <form class="tool-inputs" autocomplete="off">
+          <span class="utility-label">Wealth path</span>
+          <h2>Compound Growth</h2>
+          <p>Model a starting balance, recurring contribution, return and time horizon.</p>
+          ${field("compoundPrincipal", "Starting balance", "25000", "$", "0", "100")}
+          ${field("compoundContribution", "Monthly contribution", "750", "$", "0", "25")}
+          ${field("compoundRate", "Expected annual return", "7", "%", "-50", "0.1")}
+          ${field("compoundYears", "Time horizon", "20", "years", "1", "1")}
+        </form>
+        <section class="tool-output" aria-live="polite">
+          <div class="tool-output-head"><span>Projected ending value</span><strong data-output="compoundValue">--</strong></div>
+          <div class="tool-stat-row">
+            <div><span>Total contributed</span><strong data-output="compoundContributed">--</strong></div>
+            <div><span>Estimated growth</span><strong data-output="compoundGrowth">--</strong></div>
+          </div>
+          <div data-output-chart="compound"></div>
+          <p class="tool-note">Illustrative, before taxes, fees and inflation. Returns are assumed constant and are not guaranteed.</p>
+        </section>
+      </div>
+    `;
+  }
+
+  function renderRiskTool() {
+    return `
+      <div class="tool-workspace" data-calculator="risk">
+        <form class="tool-inputs" autocomplete="off">
+          <span class="utility-label">Risk budget</span>
+          <h2>Position Size &amp; Value at Risk</h2>
+          <p>Estimate stop-based position size plus one-day parametric VaR and expected shortfall.</p>
+          ${field("riskPortfolio", "Portfolio value", "100000", "$", "1", "100")}
+          ${field("riskBudget", "Risk per trade", "1", "%", "0.1", "0.1")}
+          ${field("riskStop", "Distance to stop", "5", "%", "0.1", "0.1")}
+          ${field("riskVolatility", "Annualized volatility", "22", "%", "0.1", "0.1")}
+          ${field("riskConfidence", "Confidence level", "95", "%", "90", "1")}
+        </form>
+        <section class="tool-output" aria-live="polite">
+          <div class="tool-output-head"><span>Maximum position</span><strong data-output="riskPosition">--</strong></div>
+          <div class="tool-stat-row">
+            <div><span>One-day VaR</span><strong data-output="riskVar">--</strong></div>
+            <div><span>Expected shortfall</span><strong data-output="riskEs">--</strong></div>
+            <div><span>Risk dollars</span><strong data-output="riskDollars">--</strong></div>
+          </div>
+          <div class="risk-meter"><span data-output="riskMeter"></span></div>
+          <p class="tool-note">Normal-distribution estimates can materially understate tail risk, jumps, liquidity gaps and correlation changes.</p>
+        </section>
+      </div>
+    `;
+  }
+
+  function renderOptionsTool() {
+    return `
+      <div class="tool-workspace" data-calculator="options">
+        <form class="tool-inputs" autocomplete="off">
+          <span class="utility-label">Black-Scholes baseline</span>
+          <h2>Option Price &amp; Greeks</h2>
+          <p>Estimate a European call and put with standard Black-Scholes assumptions.</p>
+          ${field("optionSpot", "Underlying price", "100", "$", "0.01", "0.5")}
+          ${field("optionStrike", "Strike price", "105", "$", "0.01", "0.5")}
+          ${field("optionDays", "Days to expiration", "45", "days", "1", "1")}
+          ${field("optionVolatility", "Implied volatility", "28", "%", "0.1", "0.1")}
+          ${field("optionRate", "Risk-free rate", "4.5", "%", "0", "0.1")}
+          ${field("optionDividend", "Dividend yield", "0", "%", "0", "0.1")}
+        </form>
+        <section class="tool-output" aria-live="polite">
+          <div class="option-price-pair">
+            <div><span>Call value</span><strong data-output="optionCall">--</strong></div>
+            <div><span>Put value</span><strong data-output="optionPut">--</strong></div>
+          </div>
+          <div class="greeks-grid">
+            <div><span>Call delta</span><strong data-output="optionDelta">--</strong></div>
+            <div><span>Gamma</span><strong data-output="optionGamma">--</strong></div>
+            <div><span>Theta / day</span><strong data-output="optionTheta">--</strong></div>
+            <div><span>Vega / 1 vol</span><strong data-output="optionVega">--</strong></div>
+          </div>
+          <div data-output-chart="options"></div>
+          <p class="tool-note">European-model estimate only. American exercise, skew, term structure, dividends, rates, spreads and assignment can change real prices.</p>
+        </section>
+      </div>
+    `;
+  }
+
+  function renderHedgeTool() {
+    return `
+      <div class="tool-workspace" data-calculator="hedge">
+        <form class="tool-inputs" autocomplete="off">
+          <span class="utility-label">Exposure control</span>
+          <h2>Portfolio Hedge Planner</h2>
+          <p>Estimate shares or contracts needed to move portfolio beta toward a target.</p>
+          ${field("hedgePortfolio", "Portfolio value", "250000", "$", "1", "100")}
+          ${field("hedgeBeta", "Current portfolio beta", "1.15", "β", "0", "0.05")}
+          ${field("hedgeTarget", "Target beta", "0.35", "β", "0", "0.05")}
+          ${field("hedgePrice", "Hedge ETF price", "750", "$", "0.01", "1")}
+          ${field("hedgeMultiplier", "Option / futures multiplier", "100", "x", "1", "1")}
+        </form>
+        <section class="tool-output" aria-live="polite">
+          <div class="tool-output-head"><span>Notional hedge</span><strong data-output="hedgeNotional">--</strong></div>
+          <div class="tool-stat-row">
+            <div><span>ETF shares to short</span><strong data-output="hedgeShares">--</strong></div>
+            <div><span>Equivalent contracts</span><strong data-output="hedgeContracts">--</strong></div>
+            <div><span>Beta reduction</span><strong data-output="hedgeReduction">--</strong></div>
+          </div>
+          <div class="hedge-diagram">
+            <span>Current β <strong data-output="hedgeCurrentBeta">--</strong></span>
+            <div><i data-output="hedgeBar"></i></div>
+            <span>Target β <strong data-output="hedgeTargetBeta">--</strong></span>
+          </div>
+          <p class="tool-note">A beta hedge does not eliminate basis, gap, volatility, liquidity, tax or tracking risk. Option deltas also change over time.</p>
+        </section>
+      </div>
+    `;
+  }
+
+  function renderBuilderTool() {
+    const assets = [
+      ["builderEquity", "U.S. equity", 45],
+      ["builderInternational", "International equity", 15],
+      ["builderBonds", "Bonds", 25],
+      ["builderRealAssets", "Real assets", 10],
+      ["builderCash", "Cash", 5],
+    ];
+    return `
+      <div class="tool-workspace" data-calculator="builder">
+        <form class="tool-inputs builder-inputs" autocomplete="off">
+          <span class="utility-label">Allocation design</span>
+          <h2>Portfolio Builder</h2>
+          <p>Translate target weights into dollars and check whether the plan balances to 100%.</p>
+          ${field("builderCapital", "Capital to allocate", "100000", "$", "1", "100")}
+          ${assets.map(([id, label, value]) => field(id, label, value, "%", "0", "1")).join("")}
+        </form>
+        <section class="tool-output" aria-live="polite">
+          <div class="tool-output-head"><span>Total allocation</span><strong data-output="builderTotal">--</strong></div>
+          <div class="allocation-chart" data-output-chart="builder"></div>
+          <div class="allocation-table" data-output="builderRows"></div>
+          <p class="tool-note">Allocation is illustrative. Diversification does not guarantee a profit or protect against loss, and correlations can rise in stressed markets.</p>
+        </section>
+      </div>
+    `;
+  }
+
+  function renderTools() {
+    const tools = [
+      ["compound", "Compound", "trending-up"],
+      ["risk", "Risk", "shield-alert"],
+      ["options", "Options", "activity"],
+      ["hedge", "Hedge", "scale"],
+      ["builder", "Builder", "pie-chart"],
+    ];
+    const renderers = {
+      compound: renderCompoundTool,
+      risk: renderRiskTool,
+      options: renderOptionsTool,
+      hedge: renderHedgeTool,
+      builder: renderBuilderTool,
+    };
+    return `
+      <div class="page shell tools-page">
+        ${renderPageHead(
+          "Portfolio Tools",
+          "Practical calculators for compounding, position sizing, parametric risk, option Greeks, beta hedging and portfolio allocation.",
+          "Educational estimates",
+        )}
+        <div class="tool-tabs" role="tablist" aria-label="Calculator">
+          ${tools
+            .map(
+              ([key, label, iconName]) => `
+                <button class="${state.tool === key ? "active" : ""}" type="button" data-tool="${key}" role="tab" aria-selected="${state.tool === key}">
+                  ${icon(iconName)}<span>${label}</span>
+                </button>
+              `,
+            )
+            .join("")}
+        </div>
+        ${renderers[state.tool]()}
+        <section class="tools-methodology">
+          <span class="utility-label">Model discipline</span>
+          <h2>Every output is an estimate, not a recommendation</h2>
+          <p>The calculators expose their inputs and key limitations so readers can challenge the assumptions. They do not use personal account data and nothing is stored or transmitted.</p>
+          <a href="?view=research" class="text-link">Read the supporting research ${icon("arrow-right")}</a>
+        </section>
+      </div>
+    `;
+  }
+
+  function normalCdf(value) {
+    const sign = value < 0 ? -1 : 1;
+    const x = Math.abs(value) / Math.sqrt(2);
+    const t = 1 / (1 + 0.3275911 * x);
+    const erf =
+      1 -
+      (((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t -
+        0.284496736) *
+        t +
+        0.254829592) *
+        t) *
+        Math.exp(-x * x);
+    return 0.5 * (1 + sign * erf);
+  }
+
+  function normalPdf(value) {
+    return Math.exp(-0.5 * value * value) / Math.sqrt(2 * Math.PI);
+  }
+
+  function inverseNormal(probability) {
+    if (probability >= 0.995) return 2.576;
+    if (probability >= 0.99) return 2.326;
+    if (probability >= 0.975) return 1.96;
+    if (probability >= 0.95) return 1.645;
+    if (probability >= 0.9) return 1.282;
+    return 1.645;
+  }
+
+  function readNumber(id, fallback = 0) {
+    const value = Number(document.getElementById(id)?.value);
+    return Number.isFinite(value) ? value : fallback;
+  }
+
+  function setOutput(name, value) {
+    const node = main.querySelector(`[data-output="${name}"]`);
+    if (node) node.textContent = value;
+  }
+
+  function hydrateCompound() {
+    const principal = Math.max(0, readNumber("compoundPrincipal"));
+    const contribution = Math.max(0, readNumber("compoundContribution"));
+    const annualRate = readNumber("compoundRate") / 100;
+    const years = Math.max(1, Math.min(80, readNumber("compoundYears", 1)));
+    const monthlyRate = annualRate / 12;
+    const months = Math.round(years * 12);
+    const series = [principal];
+    let balance = principal;
+    for (let month = 1; month <= months; month += 1) {
+      balance = balance * (1 + monthlyRate) + contribution;
+      if (month % 12 === 0 || month === months) series.push(balance);
+    }
+    const contributed = principal + contribution * months;
+    setOutput("compoundValue", formatFinancial(balance));
+    setOutput("compoundContributed", formatFinancial(contributed));
+    setOutput("compoundGrowth", formatFinancial(balance - contributed));
+    const chart = main.querySelector('[data-output-chart="compound"]');
+    if (chart) {
+      chart.innerHTML = lineChart(series, {
+        label: "Projected compounded portfolio balance",
+        startLabel: "Today",
+        endLabel: `Year ${formatNumber(years, 0)}`,
+      });
+    }
+  }
+
+  function hydrateRisk() {
+    const portfolio = Math.max(0, readNumber("riskPortfolio"));
+    const riskBudget = Math.max(0, readNumber("riskBudget")) / 100;
+    const stop = Math.max(0.0001, readNumber("riskStop")) / 100;
+    const annualVol = Math.max(0, readNumber("riskVolatility")) / 100;
+    const confidence = Math.min(99.9, Math.max(50, readNumber("riskConfidence"))) / 100;
+    const z = inverseNormal(confidence);
+    const dailyVol = annualVol / Math.sqrt(252);
+    const riskDollars = portfolio * riskBudget;
+    const position = Math.min(portfolio, riskDollars / stop);
+    const valueAtRisk = portfolio * dailyVol * z;
+    const expectedShortfall =
+      portfolio * dailyVol * (normalPdf(z) / Math.max(1 - confidence, 0.001));
+    setOutput("riskPosition", formatFinancial(position));
+    setOutput("riskVar", formatFinancial(valueAtRisk));
+    setOutput("riskEs", formatFinancial(expectedShortfall));
+    setOutput("riskDollars", formatFinancial(riskDollars));
+    const meter = main.querySelector('[data-output="riskMeter"]');
+    if (meter) meter.style.width = `${Math.min(100, (position / Math.max(portfolio, 1)) * 100)}%`;
+  }
+
+  function hydrateOptions() {
+    const spot = Math.max(0.01, readNumber("optionSpot", 100));
+    const strike = Math.max(0.01, readNumber("optionStrike", 100));
+    const time = Math.max(1, readNumber("optionDays", 30)) / 365;
+    const vol = Math.max(0.001, readNumber("optionVolatility", 20) / 100);
+    const rate = readNumber("optionRate") / 100;
+    const dividend = readNumber("optionDividend") / 100;
+    const rootTime = Math.sqrt(time);
+    const d1 =
+      (Math.log(spot / strike) + (rate - dividend + 0.5 * vol * vol) * time) /
+      (vol * rootTime);
+    const d2 = d1 - vol * rootTime;
+    const call =
+      spot * Math.exp(-dividend * time) * normalCdf(d1) -
+      strike * Math.exp(-rate * time) * normalCdf(d2);
+    const put =
+      strike * Math.exp(-rate * time) * normalCdf(-d2) -
+      spot * Math.exp(-dividend * time) * normalCdf(-d1);
+    const delta = Math.exp(-dividend * time) * normalCdf(d1);
+    const gamma =
+      (Math.exp(-dividend * time) * normalPdf(d1)) /
+      (spot * vol * rootTime);
+    const theta =
+      (-spot * Math.exp(-dividend * time) * normalPdf(d1) * vol /
+        (2 * rootTime) -
+        rate * strike * Math.exp(-rate * time) * normalCdf(d2) +
+        dividend * spot * Math.exp(-dividend * time) * normalCdf(d1)) /
+      365;
+    const vega =
+      (spot * Math.exp(-dividend * time) * normalPdf(d1) * rootTime) / 100;
+    setOutput("optionCall", formatMoney(call, 2));
+    setOutput("optionPut", formatMoney(put, 2));
+    setOutput("optionDelta", formatNumber(delta, 3));
+    setOutput("optionGamma", formatNumber(gamma, 4));
+    setOutput("optionTheta", formatMoney(theta, 3));
+    setOutput("optionVega", formatMoney(vega, 3));
+    const chart = main.querySelector('[data-output-chart="options"]');
+    if (chart) {
+      const prices = Array.from({ length: 31 }, (_, index) => spot * (0.7 + index * 0.02));
+      const payoffs = prices.map((price) => Math.max(0, price - strike) - call);
+      chart.innerHTML = lineChart(payoffs, {
+        label: "Call option profit and loss at expiration",
+        startLabel: `${formatMoney(prices[0], 0)} underlying`,
+        endLabel: `${formatMoney(prices[prices.length - 1], 0)} underlying`,
+      });
+    }
+  }
+
+  function hydrateHedge() {
+    const portfolio = Math.max(0, readNumber("hedgePortfolio"));
+    const beta = Math.max(0, readNumber("hedgeBeta"));
+    const target = Math.max(0, readNumber("hedgeTarget"));
+    const price = Math.max(0.01, readNumber("hedgePrice", 1));
+    const multiplier = Math.max(1, readNumber("hedgeMultiplier", 100));
+    const reduction = Math.max(0, beta - target);
+    const notional = portfolio * reduction;
+    const shares = notional / price;
+    const contracts = notional / (price * multiplier);
+    setOutput("hedgeNotional", formatFinancial(notional));
+    setOutput("hedgeShares", formatNumber(Math.ceil(shares), 0));
+    setOutput("hedgeContracts", formatNumber(Math.ceil(contracts), 0));
+    setOutput("hedgeReduction", `${formatNumber(reduction, 2)}β`);
+    setOutput("hedgeCurrentBeta", formatNumber(beta, 2));
+    setOutput("hedgeTargetBeta", formatNumber(target, 2));
+    const bar = main.querySelector('[data-output="hedgeBar"]');
+    if (bar) bar.style.width = `${Math.min(100, beta ? (target / beta) * 100 : 0)}%`;
+  }
+
+  function hydrateBuilder() {
+    const capital = Math.max(0, readNumber("builderCapital"));
+    const assets = [
+      ["U.S. equity", Math.max(0, readNumber("builderEquity")), "#0b47d6"],
+      ["International equity", Math.max(0, readNumber("builderInternational")), "#16823c"],
+      ["Bonds", Math.max(0, readNumber("builderBonds")), "#7a62c9"],
+      ["Real assets", Math.max(0, readNumber("builderRealAssets")), "#d58c14"],
+      ["Cash", Math.max(0, readNumber("builderCash")), "#66717f"],
+    ];
+    const total = assets.reduce((sum, [, weight]) => sum + weight, 0);
+    setOutput("builderTotal", `${formatNumber(total, 1)}%${Math.abs(total - 100) < 0.01 ? " balanced" : " needs adjustment"}`);
+    const rows = main.querySelector('[data-output="builderRows"]');
+    if (rows) {
+      rows.innerHTML = assets
+        .map(
+          ([label, weight, color]) => `
+            <div>
+              <i style="background:${color}"></i>
+              <span>${escapeHtml(label)}</span>
+              <strong>${formatNumber(weight, 1)}%</strong>
+              <em>${formatFinancial(capital * (weight / 100))}</em>
+            </div>
+          `,
+        )
+        .join("");
+    }
+    const chart = main.querySelector('[data-output-chart="builder"]');
+    if (chart) {
+      let cursor = 0;
+      const normalizedTotal = total || 1;
+      const stops = assets.map(([, weight, color]) => {
+        const start = cursor;
+        cursor += (weight / normalizedTotal) * 100;
+        return `${color} ${start.toFixed(1)}% ${cursor.toFixed(1)}%`;
+      });
+      chart.style.background = `conic-gradient(${stops.join(",")})`;
+      chart.innerHTML = `<span>${formatFinancial(capital)}</span>`;
+    }
+  }
+
+  function hydrateCalculators() {
+    if (state.view !== "tools" || state.storyId) return;
+    const hydrators = {
+      compound: hydrateCompound,
+      risk: hydrateRisk,
+      options: hydrateOptions,
+      hedge: hydrateHedge,
+      builder: hydrateBuilder,
+    };
+    hydrators[state.tool]?.();
+  }
+
+  async function loadCompany(query) {
+    const normalized = String(query || "").trim();
+    if (!normalized) return;
+    state.companyQuery = normalized;
+    state.companyLoading = true;
+    state.companyError = null;
+    state.companyMatches = [];
+    renderPage({ preserveScroll: true });
+    try {
+      const payload = await fetchJson(`/api/company?q=${encodeURIComponent(normalized)}`, 20000);
+      if (payload.type === "search") {
+        state.company = null;
+        state.companyMatches = payload.matches || [];
+        if (!state.companyMatches.length) {
+          state.companyError = "No matching U.S.-listed company was found.";
+        }
+      } else {
+        state.company = payload;
+        state.companyMatches = [];
+        state.companyQuery = payload.company?.ticker || normalized;
+      }
+    } catch (error) {
+      state.companyError = "The SEC or delayed-price provider did not respond. Please try again.";
+    } finally {
+      state.companyLoading = false;
+      renderPage({ preserveScroll: true });
+    }
+  }
+
   function renderSources(story) {
     return `
       <div class="source-box" id="sources">
@@ -1307,12 +2168,27 @@
       main.innerHTML = renderDerivatives();
     } else if (state.view === "crypto") {
       main.innerHTML = renderCrypto();
+    } else if (state.view === "research") {
+      main.innerHTML = renderResearch();
+    } else if (state.view === "companies") {
+      main.innerHTML = renderCompanies();
+    } else if (state.view === "tools") {
+      main.innerHTML = renderTools();
     } else {
       main.innerHTML = renderToday();
     }
     setDocumentState();
     activateIcons();
     updateWorldDesk();
+    hydrateCalculators();
+    if (
+      state.view === "companies" &&
+      !state.storyId &&
+      !state.companyRequested
+    ) {
+      state.companyRequested = true;
+      window.setTimeout(() => loadCompany(state.companyQuery), 0);
+    }
     if (options.preserveScroll) window.scrollTo({ top: scrollY, behavior: "instant" });
   }
 
@@ -1469,7 +2345,7 @@
 
   function renderSearchResults(query = "") {
     const normalized = query.trim().toLowerCase();
-    const matches = content.stories.filter((story) => {
+    const storyMatches = content.stories.filter((story) => {
       if (!normalized) return true;
       return [
         story.headline,
@@ -1483,8 +2359,22 @@
         .toLowerCase()
         .includes(normalized);
     });
+    const researchMatches = (content.research || []).filter((item) => {
+      if (!normalized) return false;
+      return [
+        item.title,
+        item.authors,
+        item.category,
+        item.source,
+        item.summary,
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(normalized);
+    });
     searchResults.innerHTML =
-      matches
+      storyMatches
+        .slice(0, normalized ? 12 : 8)
         .map(
           (story) => `
             <div class="search-result">
@@ -1496,7 +2386,21 @@
             </div>
           `,
         )
-        .join("") ||
+        .join("") +
+        researchMatches
+          .slice(0, 6)
+          .map(
+            (item) => `
+              <div class="search-result research-result">
+                <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+                  <strong>${escapeHtml(item.title)}</strong>
+                  <span>Research · ${escapeHtml(item.category)} · ${escapeHtml(item.source)}</span>
+                </a>
+                <a class="icon-button" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer" aria-label="Open research paper">${icon("external-link")}</a>
+              </div>
+            `,
+          )
+          .join("") ||
       `<div class="empty-state"><strong>No stories found</strong><span>Try a company, asset class or broader topic.</span></div>`;
     activateIcons();
   }
@@ -1549,7 +2453,40 @@
     const shareButton = event.target.closest("[data-share-story]");
     if (shareButton) {
       shareStory(shareButton.dataset.shareStory);
+      return;
     }
+
+    const researchButton = event.target.closest("[data-research-filter]");
+    if (researchButton) {
+      state.researchFilter = researchButton.dataset.researchFilter;
+      renderPage({ preserveScroll: true });
+      return;
+    }
+
+    const companyButton = event.target.closest("[data-company-symbol]");
+    if (companyButton) {
+      loadCompany(companyButton.dataset.companySymbol);
+      return;
+    }
+
+    const toolButton = event.target.closest("[data-tool]");
+    if (toolButton) {
+      state.tool = toolButton.dataset.tool;
+      renderPage({ preserveScroll: true });
+    }
+  });
+
+  main.addEventListener("submit", (event) => {
+    const form = event.target.closest("[data-company-search]");
+    if (!form) return;
+    event.preventDefault();
+    const query = new FormData(form).get("company");
+    loadCompany(query);
+  });
+
+  main.addEventListener("input", (event) => {
+    if (!event.target.closest("[data-calculator]")) return;
+    hydrateCalculators();
   });
 
   searchButton.addEventListener("click", openSearch);
