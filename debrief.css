@@ -3080,7 +3080,7 @@ main {
   .company-analysis-grid,
   .research-layout,
   .tool-workspace {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .front-page-grid {
@@ -3335,10 +3335,18 @@ main {
 
   .section-title-row {
     align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px 16px;
   }
 
   .section-title-row h2 {
     font-size: 24px;
+  }
+
+  .content-grid > *,
+  .section-title-row > * {
+    min-width: 0;
+    max-width: 100%;
   }
 
   .story-row {
@@ -3380,6 +3388,21 @@ main {
 
   .matrix-row span:last-child {
     grid-column: 2;
+  }
+
+  .cot-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 12px;
+  }
+
+  .cot-row span {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .cot-row strong:last-child {
+    grid-column: 2;
+    grid-row: 1;
   }
 
   .utility-rail {

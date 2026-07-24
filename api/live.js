@@ -150,9 +150,22 @@ function buildQuoteGroups(spark, crypto) {
       .map(([symbol, name]) => {
         const meta = spark[symbol];
         if (!meta || !Number.isFinite(meta.regularMarketPrice)) return null;
-        const previous = Number.isFinite(meta.chartPreviousClose)
-          ? meta.chartPreviousClose
-          : meta.regularMarketPrice;
+        const rawSpark = meta.spark || [];
+        const quoteSpark =
+          symbol === "BZ=F"
+            ? rawSpark.filter(
+                (value) =>
+                  Math.abs(value - meta.regularMarketPrice) /
+                    meta.regularMarketPrice <
+                  0.04,
+              )
+            : rawSpark;
+        const previous =
+          symbol === "BZ=F" && Number.isFinite(quoteSpark[0])
+            ? quoteSpark[0]
+            : Number.isFinite(meta.chartPreviousClose)
+              ? meta.chartPreviousClose
+              : meta.regularMarketPrice;
         return {
           symbol,
           name,
@@ -161,7 +174,7 @@ function buildQuoteGroups(spark, crypto) {
             pctChange(meta.regularMarketPrice, previous).toFixed(2),
           ),
           currency: meta.currency || "USD",
-          spark: meta.spark || [],
+          spark: quoteSpark,
           asOf: meta.regularMarketTime
             ? new Date(meta.regularMarketTime * 1000).toISOString()
             : null,
@@ -292,9 +305,11 @@ async function fetchSparkQuotes() {
     url.searchParams.set("range", "1d");
     url.searchParams.set("interval", "5m");
     url.searchParams.set("indicators", "close");
+    url.searchParams.set("_", String(Date.now()));
 
     const response = await fetch(url, {
       headers: { "User-Agent": "Mozilla/5.0" },
+      cache: "no-store",
     });
 
     if (!response.ok) {
