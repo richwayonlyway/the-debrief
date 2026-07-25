@@ -39,42 +39,42 @@
 
   const fallbackQuotes = {
     indices: [
-      { symbol: "^GSPC", name: "S&P 500", value: 7408.3, change: -1.21, spark: [] },
-      { symbol: "^IXIC", name: "Nasdaq", value: 25137.693, change: -2.15, spark: [] },
-      { symbol: "^DJI", name: "Dow", value: 51711.65, change: -0.97, spark: [] },
-      { symbol: "^RUT", name: "Russell 2000", value: 2940.163, change: -0.67, spark: [] },
-      { symbol: "^VIX", name: "VIX", value: 18.78, change: 0.43, spark: [] },
+      { symbol: "^GSPC", name: "S&P 500", value: 7411.98, change: 0.05, spark: [] },
+      { symbol: "^IXIC", name: "Nasdaq", value: 24975.824, change: -0.64, spark: [] },
+      { symbol: "^DJI", name: "Dow", value: 51947.25, change: 0.46, spark: [] },
+      { symbol: "^RUT", name: "Russell 2000", value: 2929.999, change: -0.35, spark: [] },
+      { symbol: "^VIX", name: "VIX", value: 18.58, change: -0.64, spark: [] },
     ],
     currencies: [
-      { symbol: "DX-Y.NYB", name: "U.S. Dollar", value: 101.494, change: 0.05, spark: [] },
-      { symbol: "EURUSD=X", name: "EUR / USD", value: 1.1371, change: -0.1, spark: [] },
-      { symbol: "GBPUSD=X", name: "GBP / USD", value: 1.331, change: -0.05, spark: [] },
-      { symbol: "JPY=X", name: "USD / JPY", value: 163.858, change: 0.06, spark: [] },
-      { symbol: "AUDUSD=X", name: "AUD / USD", value: 0.698, change: 0.17, spark: [] },
+      { symbol: "DX-Y.NYB", name: "U.S. Dollar", value: 101.465, change: 0, spark: [] },
+      { symbol: "EURUSD=X", name: "EUR / USD", value: 1.1375, change: -0.06, spark: [] },
+      { symbol: "GBPUSD=X", name: "GBP / USD", value: 1.3319, change: 0.02, spark: [] },
+      { symbol: "JPY=X", name: "USD / JPY", value: 163.791, change: 0.02, spark: [] },
+      { symbol: "AUDUSD=X", name: "AUD / USD", value: 0.6983, change: 0.22, spark: [] },
     ],
     commodities: [
-      { symbol: "CL=F", name: "WTI Crude", value: 89.49, change: -2.93, spark: [] },
-      { symbol: "BZ=F", name: "Brent Crude", value: 97.35, change: -3.25, spark: [] },
-      { symbol: "NG=F", name: "Natural Gas", value: 2.971, change: 1.75, spark: [] },
-      { symbol: "ZC=F", name: "Corn", value: 482, change: -1.13, spark: [] },
-      { symbol: "ZW=F", name: "Wheat", value: 674.5, change: -3.12, spark: [] },
+      { symbol: "CL=F", name: "WTI Crude", value: 89.31, change: -3.12, spark: [] },
+      { symbol: "BZ=F", name: "Brent Crude", value: 96.78, change: -3.82, spark: [] },
+      { symbol: "NG=F", name: "Natural Gas", value: 2.888, change: -1.1, spark: [] },
+      { symbol: "ZC=F", name: "Corn", value: 487.25, change: -0.05, spark: [] },
+      { symbol: "ZW=F", name: "Wheat", value: 678, change: -2.62, spark: [] },
     ],
     metals: [
-      { symbol: "GC=F", name: "Gold", value: 4057.9, change: 0.19, spark: [] },
-      { symbol: "SI=F", name: "Silver", value: 58.705, change: 1.12, spark: [] },
-      { symbol: "HG=F", name: "Copper", value: 6.3425, change: -0.02, spark: [] },
-      { symbol: "PL=F", name: "Platinum", value: 1610.5, change: 0.11, spark: [] },
-      { symbol: "PA=F", name: "Palladium", value: 1261.5, change: -0.06, spark: [] },
+      { symbol: "GC=F", name: "Gold", value: 4070.8, change: 0.51, spark: [] },
+      { symbol: "SI=F", name: "Silver", value: 58.906, change: 1.47, spark: [] },
+      { symbol: "HG=F", name: "Copper", value: 6.3575, change: 0.22, spark: [] },
+      { symbol: "PL=F", name: "Platinum", value: 1604.1, change: -0.29, spark: [] },
+      { symbol: "PA=F", name: "Palladium", value: 1253.6, change: -0.69, spark: [] },
     ],
     other: [
       { symbol: "^TNX", name: "U.S. 10Y", value: 4.679, change: -0.51, spark: [] },
-      { symbol: "TLT", name: "Long Treasuries", value: 83.17, change: -0.32, spark: [] },
-      { symbol: "HYG", name: "High Yield", value: 79.23, change: -0.36, spark: [] },
-      { symbol: "SOXX", name: "Semiconductors", value: 551.24, change: -0.77, spark: [] },
-      { symbol: "KRE", name: "Regional Banks", value: 75.15, change: -0.6, spark: [] },
-      { symbol: "BTC", name: "Bitcoin", value: 64735, change: -0.65, spark: [] },
-      { symbol: "ETH", name: "Ethereum", value: 1871.97, change: -1.69, spark: [] },
-      { symbol: "SOL", name: "Solana", value: 74.83, change: -2.71, spark: [] },
+      { symbol: "TLT", name: "Long Treasuries", value: 83.25, change: 0.1, spark: [] },
+      { symbol: "HYG", name: "High Yield", value: 79.23, change: 0, spark: [] },
+      { symbol: "SOXX", name: "Semiconductors", value: 527.01, change: -4.4, spark: [] },
+      { symbol: "KRE", name: "Regional Banks", value: 75.73, change: 0.77, spark: [] },
+      { symbol: "BTC", name: "Bitcoin", value: 64058, change: -0.94, spark: [] },
+      { symbol: "ETH", name: "Ethereum", value: 1858.92, change: -0.66, spark: [] },
+      { symbol: "SOL", name: "Solana", value: 73.89, change: -1.18, spark: [] },
     ],
   };
 
@@ -2309,9 +2309,16 @@
 
     if (marketResult.status === "fulfilled" && marketResult.value) {
       const warnings = marketResult.value.warnings || [];
-      setLiveState("live", warnings.length ? "Live · partial" : "Live · delayed");
+      setLiveState(
+        "live",
+        state.live?.liveStatus?.label ||
+          (warnings.length ? "Live · partial" : "Live · delayed"),
+      );
     } else if (liveResult.status === "fulfilled") {
-      setLiveState("live", "Editorial live");
+      setLiveState(
+        "live",
+        state.live?.liveStatus?.label || "Editorial live",
+      );
     } else {
       setLiveState("error", "Offline snapshot");
     }

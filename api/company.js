@@ -306,7 +306,10 @@ async function fetchPriceHistory(symbol) {
       const points = timestamps
         .map((timestamp, index) => ({
           date: new Date(timestamp * 1000).toISOString().slice(0, 10),
-          close: Number(closes[index]),
+          close:
+            closes[index] === null || closes[index] === undefined
+              ? null
+              : Number(closes[index]),
         }))
         .filter((point) => Number.isFinite(point.close));
       const meta = result.meta || {};

@@ -93,17 +93,17 @@ const EDITORIAL_KEYS = [
 const STATIC_COT_CARDS = [
   {
     label: "Dealer S&P net",
-    value: "-699,781",
+    value: "-724,971",
     tone: "down",
-    meta: "The newly posted official COT file still leans defensive beneath the tape.",
-    sub: "Jul 14 CFTC",
+    meta: "Dealer net shorts increased by 7,392 contracts in the latest official weekly file.",
+    sub: "Jul 21 CFTC",
   },
   {
     label: "WTI producer net",
-    value: "+60,007",
+    value: "+58,888",
     tone: "up",
-    meta: "Producer hedger length fell sharply week over week even though crude stayed central to the macro tape.",
-    sub: "Jul 14 CFTC",
+    meta: "ICE WTI producer net length fell by 6,182 contracts but remains positive.",
+    sub: "Jul 21 CFTC",
   },
 ];
 
@@ -134,7 +134,10 @@ function formatMoney(value, digits) {
 }
 
 function sampleSeries(values, target = 26) {
-  const clean = (values || []).map(Number).filter(Number.isFinite);
+  const clean = (values || [])
+    .filter((value) => value !== null && value !== undefined)
+    .map(Number)
+    .filter(Number.isFinite);
   if (clean.length <= target) return clean;
   const step = (clean.length - 1) / (target - 1);
   return Array.from(
@@ -348,6 +351,11 @@ async function fetchCryptoQuotes() {
 }
 
 function buildPayload(spark, crypto) {
+  const weekday = new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    timeZone: "America/New_York",
+  }).format(new Date());
+  const isWeekend = weekday === "Sat" || weekday === "Sun";
   const spx = spark["^GSPC"];
   const ndx = spark["^IXIC"];
   const dji = spark["^DJI"];
@@ -676,8 +684,13 @@ function buildPayload(spark, crypto) {
     rotationRadar,
     signal,
     liveStatus: {
-      mode: "Live Vercel snapshot connected.",
-      meta: "The page is polling /api/live for delayed cross-asset market refreshes. Traditional assets come from Yahoo Finance spark; crypto comes from CoinGecko.",
+      label: isWeekend ? "Weekend · Friday close" : "Live · delayed",
+      mode: isWeekend
+        ? "Weekend market snapshot connected."
+        : "Live Vercel snapshot connected.",
+      meta: isWeekend
+        ? "Traditional assets show Friday's delayed close from Yahoo Finance; crypto continues to update through CoinGecko."
+        : "The page is polling /api/live for delayed cross-asset market refreshes. Traditional assets come from Yahoo Finance spark; crypto comes from CoinGecko.",
       updated: `Updated ${new Date().toLocaleString("en-US", {
         month: "short",
         day: "numeric",

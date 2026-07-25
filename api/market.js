@@ -228,8 +228,14 @@ function closestContract(options, spot) {
   }, null);
 }
 
-function wallByOpenInterest(options) {
-  return (options || []).reduce((best, option) => {
+function wallByOpenInterest(options, spot) {
+  const nearby = (options || []).filter(
+    (option) =>
+      spot > 0 &&
+      Math.abs(finite(option.strike) - spot) / spot <= 0.05,
+  );
+  const candidates = nearby.length ? nearby : options || [];
+  return candidates.reduce((best, option) => {
     if (!best) return option;
     return finite(option.openInterest) > finite(best.openInterest) ? option : best;
   }, null);
@@ -295,8 +301,8 @@ function buildOptionsDesk(chains) {
   const gammaByStrike = aggregateGamma(optionSet, spot);
   const netGamma = gammaByStrike.reduce((sum, row) => sum + row.exposure, 0);
   const zeroGamma = estimateZeroGamma(optionSet, spot);
-  const callWall = wallByOpenInterest(optionSet.calls);
-  const putWall = wallByOpenInterest(optionSet.puts);
+  const callWall = wallByOpenInterest(optionSet.calls, spot);
+  const putWall = wallByOpenInterest(optionSet.puts, spot);
   const atmCall = closestContract(optionSet.calls, spot);
   const atmPut = closestContract(optionSet.puts, spot);
   const expectedMove =
