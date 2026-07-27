@@ -351,11 +351,49 @@ async function fetchCryptoQuotes() {
 }
 
 function buildPayload(spark, crypto) {
+  const now = new Date();
   const weekday = new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     timeZone: "America/New_York",
-  }).format(new Date());
+  }).format(now);
   const isWeekend = weekday === "Sat" || weekday === "Sun";
+  const timeParts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+      timeZone: "America/New_York",
+    })
+      .formatToParts(now)
+      .filter((part) => part.type !== "literal")
+      .map((part) => [part.type, Number(part.value)]),
+  );
+  const minutesAfterMidnight = timeParts.hour * 60 + timeParts.minute;
+  const isPremarket = !isWeekend && minutesAfterMidnight < 9 * 60 + 30;
+  const isAfterHours = !isWeekend && minutesAfterMidnight >= 16 * 60;
+  const marketPhase = isWeekend
+    ? {
+        label: "Weekend · Friday close",
+        mode: "Weekend market snapshot connected.",
+        meta: "Traditional assets show Friday's delayed close from Yahoo Finance; crypto continues to update through CoinGecko.",
+      }
+    : isPremarket
+      ? {
+          label: "Premarket · mixed timestamps",
+          mode: "Premarket market snapshot connected.",
+          meta: "Cash indices and ETFs show the prior close; rates, currencies, commodities and crypto continue to refresh from delayed Yahoo Finance and CoinGecko feeds.",
+        }
+      : isAfterHours
+        ? {
+            label: "After hours · mixed timestamps",
+            mode: "After-hours market snapshot connected.",
+            meta: "Cash indices and ETFs show the latest close while currencies, commodities and crypto continue to refresh from delayed Yahoo Finance and CoinGecko feeds.",
+          }
+        : {
+            label: "Cash session · delayed",
+            mode: "Live Vercel snapshot connected.",
+            meta: "The page is polling /api/live for delayed cross-asset market refreshes. Traditional assets come from Yahoo Finance spark; crypto comes from CoinGecko.",
+          };
   const spx = spark["^GSPC"];
   const ndx = spark["^IXIC"];
   const dji = spark["^DJI"];
@@ -684,14 +722,10 @@ function buildPayload(spark, crypto) {
     rotationRadar,
     signal,
     liveStatus: {
-      label: isWeekend ? "Weekend · Friday close" : "Live · delayed",
-      mode: isWeekend
-        ? "Weekend market snapshot connected."
-        : "Live Vercel snapshot connected.",
-      meta: isWeekend
-        ? "Traditional assets show Friday's delayed close from Yahoo Finance; crypto continues to update through CoinGecko."
-        : "The page is polling /api/live for delayed cross-asset market refreshes. Traditional assets come from Yahoo Finance spark; crypto comes from CoinGecko.",
-      updated: `Updated ${new Date().toLocaleString("en-US", {
+      label: marketPhase.label,
+      mode: marketPhase.mode,
+      meta: marketPhase.meta,
+      updated: `Updated ${now.toLocaleString("en-US", {
         month: "short",
         day: "numeric",
         year: "numeric",

@@ -43,38 +43,38 @@
       { symbol: "^IXIC", name: "Nasdaq", value: 24975.824, change: -0.64, spark: [] },
       { symbol: "^DJI", name: "Dow", value: 51947.25, change: 0.46, spark: [] },
       { symbol: "^RUT", name: "Russell 2000", value: 2929.999, change: -0.35, spark: [] },
-      { symbol: "^VIX", name: "VIX", value: 18.58, change: -0.64, spark: [] },
+      { symbol: "^VIX", name: "VIX", value: 17.7, change: -4.74, spark: [] },
     ],
     currencies: [
-      { symbol: "DX-Y.NYB", name: "U.S. Dollar", value: 101.465, change: 0, spark: [] },
-      { symbol: "EURUSD=X", name: "EUR / USD", value: 1.1375, change: -0.06, spark: [] },
-      { symbol: "GBPUSD=X", name: "GBP / USD", value: 1.3319, change: 0.02, spark: [] },
-      { symbol: "JPY=X", name: "USD / JPY", value: 163.791, change: 0.02, spark: [] },
-      { symbol: "AUDUSD=X", name: "AUD / USD", value: 0.6983, change: 0.22, spark: [] },
+      { symbol: "DX-Y.NYB", name: "U.S. Dollar", value: 101.381, change: -0.09, spark: [] },
+      { symbol: "EURUSD=X", name: "EUR / USD", value: 1.1386, change: 0.1, spark: [] },
+      { symbol: "GBPUSD=X", name: "GBP / USD", value: 1.3312, change: -0.05, spark: [] },
+      { symbol: "JPY=X", name: "USD / JPY", value: 163.69, change: -0.06, spark: [] },
+      { symbol: "AUDUSD=X", name: "AUD / USD", value: 0.6999, change: 0.23, spark: [] },
     ],
     commodities: [
-      { symbol: "CL=F", name: "WTI Crude", value: 89.31, change: -3.12, spark: [] },
-      { symbol: "BZ=F", name: "Brent Crude", value: 96.78, change: -3.82, spark: [] },
-      { symbol: "NG=F", name: "Natural Gas", value: 2.888, change: -1.1, spark: [] },
-      { symbol: "ZC=F", name: "Corn", value: 487.25, change: -0.05, spark: [] },
-      { symbol: "ZW=F", name: "Wheat", value: 678, change: -2.62, spark: [] },
+      { symbol: "CL=F", name: "WTI Crude", value: 84.14, change: -5.79, spark: [] },
+      { symbol: "BZ=F", name: "Brent Crude", value: 90.56, change: -6.43, spark: [] },
+      { symbol: "NG=F", name: "Natural Gas", value: 2.808, change: -2.77, spark: [] },
+      { symbol: "ZC=F", name: "Corn", value: 473.75, change: -2.82, spark: [] },
+      { symbol: "ZW=F", name: "Wheat", value: 675, change: -0.44, spark: [] },
     ],
     metals: [
-      { symbol: "GC=F", name: "Gold", value: 4070.8, change: 0.51, spark: [] },
-      { symbol: "SI=F", name: "Silver", value: 58.906, change: 1.47, spark: [] },
-      { symbol: "HG=F", name: "Copper", value: 6.3575, change: 0.22, spark: [] },
-      { symbol: "PL=F", name: "Platinum", value: 1604.1, change: -0.29, spark: [] },
-      { symbol: "PA=F", name: "Palladium", value: 1253.6, change: -0.69, spark: [] },
+      { symbol: "GC=F", name: "Gold", value: 4086.1, change: 0.38, spark: [] },
+      { symbol: "SI=F", name: "Silver", value: 59.235, change: 0.56, spark: [] },
+      { symbol: "HG=F", name: "Copper", value: 6.392, change: 0.54, spark: [] },
+      { symbol: "PL=F", name: "Platinum", value: 1638.7, change: 2.16, spark: [] },
+      { symbol: "PA=F", name: "Palladium", value: 1285.5, change: 2.54, spark: [] },
     ],
     other: [
-      { symbol: "^TNX", name: "U.S. 10Y", value: 4.679, change: -0.51, spark: [] },
+      { symbol: "^TNX", name: "U.S. 10Y", value: 4.647, change: -0.68, spark: [] },
       { symbol: "TLT", name: "Long Treasuries", value: 83.25, change: 0.1, spark: [] },
       { symbol: "HYG", name: "High Yield", value: 79.23, change: 0, spark: [] },
       { symbol: "SOXX", name: "Semiconductors", value: 527.01, change: -4.4, spark: [] },
       { symbol: "KRE", name: "Regional Banks", value: 75.73, change: 0.77, spark: [] },
-      { symbol: "BTC", name: "Bitcoin", value: 64404, change: 0.54, spark: [] },
-      { symbol: "ETH", name: "Ethereum", value: 1883.71, change: 1.22, spark: [] },
-      { symbol: "SOL", name: "Solana", value: 74.75, change: 1.14, spark: [] },
+      { symbol: "BTC", name: "Bitcoin", value: 65011, change: 0.91, spark: [] },
+      { symbol: "ETH", name: "Ethereum", value: 1955.33, change: 3.73, spark: [] },
+      { symbol: "SOL", name: "Solana", value: 76.76, change: 2.59, spark: [] },
     ],
   };
 
@@ -725,6 +725,7 @@
   }
 
   function renderCot() {
+    const cotStory = content.stories.find((story) => story.category === "Positioning");
     return `
       <div class="cot-box">
         <span class="utility-label">CFTC COT · ${escapeHtml(content.cot.date)}</span>
@@ -742,7 +743,7 @@
             )
             .join("")}
         </div>
-        <a class="text-link" href="?story=cot-dealer-positioning-july-14">Read the positioning note ${icon("arrow-right")}</a>
+        <a class="text-link" href="?story=${escapeHtml(cotStory?.id || "")}">Read the positioning note ${icon("arrow-right")}</a>
       </div>
     `;
   }
