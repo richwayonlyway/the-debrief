@@ -39,42 +39,42 @@
 
   const fallbackQuotes = {
     indices: [
-      { symbol: "^GSPC", name: "S&P 500", value: 7413.18, change: 0.02, spark: [] },
-      { symbol: "^IXIC", name: "Nasdaq", value: 24932.082, change: -0.18, spark: [] },
-      { symbol: "^DJI", name: "Dow", value: 52210.08, change: 0.51, spark: [] },
-      { symbol: "^RUT", name: "Russell 2000", value: 2948.035, change: 0.62, spark: [] },
-      { symbol: "^VIX", name: "VIX", value: 18.58, change: -0.48, spark: [] },
+      { symbol: "^GSPC", name: "S&P 500", value: 7428.78, change: 0.21, spark: [] },
+      { symbol: "^IXIC", name: "Nasdaq", value: 24876.912, change: -0.22, spark: [] },
+      { symbol: "^DJI", name: "Dow", value: 52747.32, change: 1.03, spark: [] },
+      { symbol: "^RUT", name: "Russell 2000", value: 2953.8, change: 0.2, spark: [] },
+      { symbol: "^VIX", name: "VIX", value: 18.64, change: 2.36, spark: [] },
     ],
     currencies: [
-      { symbol: "DX-Y.NYB", name: "U.S. Dollar", value: 101.542, change: 0.01, spark: [] },
-      { symbol: "EURUSD=X", name: "EUR / USD", value: 1.1371, change: -0.04, spark: [] },
-      { symbol: "GBPUSD=X", name: "GBP / USD", value: 1.33, change: 0.06, spark: [] },
-      { symbol: "JPY=X", name: "USD / JPY", value: 163.868, change: 0.1, spark: [] },
-      { symbol: "AUDUSD=X", name: "AUD / USD", value: 0.6973, change: -0.29, spark: [] },
+      { symbol: "DX-Y.NYB", name: "U.S. Dollar", value: 101.458, change: 0.04, spark: [] },
+      { symbol: "EURUSD=X", name: "EUR / USD", value: 1.1382, change: -0.11, spark: [] },
+      { symbol: "GBPUSD=X", name: "GBP / USD", value: 1.3285, change: -0.06, spark: [] },
+      { symbol: "JPY=X", name: "USD / JPY", value: 163.79, change: -0.01, spark: [] },
+      { symbol: "AUDUSD=X", name: "AUD / USD", value: 0.6945, change: -0.47, spark: [] },
     ],
     commodities: [
-      { symbol: "CL=F", name: "WTI Crude", value: 80.85, change: -2.13, spark: [] },
-      { symbol: "BZ=F", name: "Brent Crude", value: 86.16, change: -1.22, spark: [] },
-      { symbol: "NG=F", name: "Natural Gas", value: 2.743, change: -1.61, spark: [] },
-      { symbol: "ZC=F", name: "Corn", value: 475.5, change: 0.32, spark: [] },
-      { symbol: "ZW=F", name: "Wheat", value: 655, change: -0.76, spark: [] },
+      { symbol: "CL=F", name: "WTI Crude", value: 84.66, change: 6.81, spark: [] },
+      { symbol: "BZ=F", name: "Brent Crude", value: 89.95, change: 6.97, spark: [] },
+      { symbol: "NG=F", name: "Natural Gas", value: 2.701, change: 0, spark: [] },
+      { symbol: "ZC=F", name: "Corn", value: 477, change: -0.73, spark: [] },
+      { symbol: "ZW=F", name: "Wheat", value: 665.5, change: 0.45, spark: [] },
     ],
     metals: [
-      { symbol: "GC=F", name: "Gold", value: 4031.6, change: -1.11, spark: [] },
-      { symbol: "SI=F", name: "Silver", value: 57.6, change: -1.89, spark: [] },
-      { symbol: "HG=F", name: "Copper", value: 6.321, change: -0.91, spark: [] },
-      { symbol: "PL=F", name: "Platinum", value: 1612.8, change: -1.19, spark: [] },
-      { symbol: "PA=F", name: "Palladium", value: 1270.5, change: -2.03, spark: [] },
+      { symbol: "GC=F", name: "Gold", value: 4080.1, change: -0.45, spark: [] },
+      { symbol: "SI=F", name: "Silver", value: 57.46, change: -0.12, spark: [] },
+      { symbol: "HG=F", name: "Copper", value: 6.3045, change: -0.86, spark: [] },
+      { symbol: "PL=F", name: "Platinum", value: 1598, change: -1.56, spark: [] },
+      { symbol: "PA=F", name: "Palladium", value: 1254, change: -1.51, spark: [] },
     ],
     other: [
-      { symbol: "^TNX", name: "U.S. 10Y", value: 4.626, change: -0.32, spark: [] },
-      { symbol: "TLT", name: "Long Treasuries", value: 83.75, change: 0.6, spark: [] },
-      { symbol: "HYG", name: "High Yield", value: 79.27, change: 0.05, spark: [] },
-      { symbol: "SOXX", name: "Semiconductors", value: 516.23, change: -2.05, spark: [] },
-      { symbol: "KRE", name: "Regional Banks", value: 75.52, change: -0.28, spark: [] },
-      { symbol: "BTC", name: "Bitcoin", value: 63466, change: -2.42, spark: [] },
-      { symbol: "ETH", name: "Ethereum", value: 1889.47, change: -3.45, spark: [] },
-      { symbol: "SOL", name: "Solana", value: 73.3, change: -4.58, spark: [] },
+      { symbol: "^TNX", name: "U.S. 10Y", value: 4.629, change: 0.54, spark: [] },
+      { symbol: "TLT", name: "Long Treasuries", value: 84.24, change: 0.59, spark: [] },
+      { symbol: "HYG", name: "High Yield", value: 79.42, change: 0.19, spark: [] },
+      { symbol: "SOXX", name: "Semiconductors", value: 491.46, change: -4.8, spark: [] },
+      { symbol: "KRE", name: "Regional Banks", value: 76.79, change: 1.68, spark: [] },
+      { symbol: "BTC", name: "Bitcoin", value: 64188, change: 1.13, spark: [] },
+      { symbol: "ETH", name: "Ethereum", value: 1902.73, change: 0.68, spark: [] },
+      { symbol: "SOL", name: "Solana", value: 73.42, change: 0.17, spark: [] },
     ],
   };
 
@@ -1129,6 +1129,10 @@
 
   function renderDerivatives() {
     const options = optionsDesk();
+    const usesHistoricalFallback =
+      Boolean(options) &&
+      options === content.fallbackMarket?.optionsDesk &&
+      !state.market?.optionsDesk;
     const gainers = state.market?.gainers?.length
       ? state.market.gainers
       : content.fallbackMarket?.gainers || [];
@@ -1160,6 +1164,11 @@
           </label>
           <a class="text-link" href="#methodology">${icon("info")} Methodology</a>
         </div>
+        ${
+          usesHistoricalFallback
+            ? `<div class="data-quality-note" role="note">${icon("history")} <span><strong>Historical fallback.</strong> Options and mover tables were captured July 24; the displayed July 27 contracts have expired and are not current trading signals.</span></div>`
+            : ""
+        }
         ${renderMetricRail(options)}
         <div class="analytics-grid">
           <section class="surface-panel gamma-panel">

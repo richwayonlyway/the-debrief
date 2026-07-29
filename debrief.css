@@ -1065,6 +1065,28 @@ main {
   color: var(--ink);
 }
 
+.data-quality-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 12px 0;
+  border: 1px solid var(--warning);
+  border-radius: 6px;
+  padding: 10px 12px;
+  background: var(--warning-soft);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.data-quality-note svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: var(--warning);
+}
+
 .metric-rail {
   margin-bottom: 12px;
 }
