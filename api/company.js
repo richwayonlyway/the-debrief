@@ -44,6 +44,19 @@ function normalizeQuery(value) {
     .replace(/[^a-zA-Z0-9 .&'/-]/g, "");
 }
 
+function canonicalCompanyName(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/&/g, " and ")
+    .replace(/[^a-z0-9 ]/g, " ")
+    .replace(
+      /\b(incorporated|inc|corporation|corp|company|co|limited|ltd|plc|holdings?|group|class [a-z]|common stock)\b/g,
+      " ",
+    )
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 async function loadTickerDirectory() {
   if (directoryCache && Date.now() - directoryCachedAt < 24 * 60 * 60 * 1000) {
     return directoryCache;
@@ -65,13 +78,16 @@ async function loadTickerDirectory() {
 
 function searchDirectory(directory, query) {
   const normalized = query.toLowerCase();
+  const canonicalQuery = canonicalCompanyName(query);
   return directory
     .map((company) => {
       const ticker = company.ticker.toLowerCase();
       const name = company.name.toLowerCase();
+      const canonicalName = canonicalCompanyName(company.name);
       let score = 0;
       if (ticker === normalized) score = 100;
       else if (name === normalized) score = 95;
+      else if (canonicalName === canonicalQuery) score = 94;
       else if (ticker.startsWith(normalized)) score = 80;
       else if (name.startsWith(normalized)) score = 70;
       else if (name.includes(normalized)) score = 50;

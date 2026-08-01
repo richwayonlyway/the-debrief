@@ -3405,7 +3405,7 @@ main {
   }
 
   .matrix-row {
-    grid-template-columns: 92px minmax(0, 1fr);
+    grid-template-columns: 110px minmax(0, 1fr);
   }
 
   .matrix-row span:last-child {
@@ -3463,6 +3463,17 @@ main {
     justify-content: flex-start;
   }
 
+  .table-panel-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 14px 0;
+  }
+
+  .table-tabs {
+    width: 100%;
+  }
+
   .gamma-chart {
     min-height: 390px;
   }
@@ -3489,6 +3500,11 @@ main {
   .research-entry {
     grid-template-columns: 28px minmax(0, 1fr) 38px;
     gap: 9px;
+  }
+
+  .research-open {
+    width: 38px;
+    height: 38px;
   }
 
   .research-copy h2 {
