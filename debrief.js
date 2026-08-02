@@ -54,7 +54,7 @@
     ],
     commodities: [
       { symbol: "CL=F", name: "WTI Crude", value: 84.67, change: 1.29, spark: [] },
-      { symbol: "BZ=F", name: "Brent Crude", value: 90.12, change: 2.64, spark: [] },
+      { symbol: "BZ=F", name: "Brent Crude", value: 90.12, change: 1.22, spark: [] },
       { symbol: "NG=F", name: "Natural Gas", value: 2.747, change: -0.4, spark: [] },
       { symbol: "ZC=F", name: "Corn", value: 464, change: -0.96, spark: [] },
       { symbol: "ZW=F", name: "Wheat", value: 639.25, change: -3.65, spark: [] },
@@ -72,9 +72,9 @@
       { symbol: "HYG", name: "High Yield", value: 79.48, change: 0.01, spark: [] },
       { symbol: "SOXX", name: "Semiconductors", value: 504.89, change: 0.07, spark: [] },
       { symbol: "KRE", name: "Regional Banks", value: 76.06, change: 0.21, spark: [] },
-      { symbol: "BTC", name: "Bitcoin", value: 63045, change: -1.03, spark: [] },
-      { symbol: "ETH", name: "Ethereum", value: 1867.39, change: -0.74, spark: [] },
-      { symbol: "SOL", name: "Solana", value: 72.86, change: -0.94, spark: [] },
+      { symbol: "BTC", name: "Bitcoin", value: 63085, change: 0.06, spark: [] },
+      { symbol: "ETH", name: "Ethereum", value: 1855.71, change: -0.62, spark: [] },
+      { symbol: "SOL", name: "Solana", value: 72.88, change: 0.01, spark: [] },
     ],
   };
 
