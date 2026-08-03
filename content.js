@@ -1,78 +1,78 @@
 window.DEBRIEF_CONTENT = {
   edition: {
-    isoDate: "2026-08-02",
-    dateLabel: "Sunday, August 2, 2026",
-    shortDate: "Sun, Aug 2",
-    generatedLabel: "Generated Sunday, August 2, 2026 at 9:15 AM ET",
+    isoDate: "2026-08-03",
+    dateLabel: "Monday, August 3, 2026",
+    shortDate: "Mon, Aug 3",
+    generatedLabel: "Generated Monday, August 3, 2026 at 9:15 AM ET",
     cotDate: "Tuesday, July 28, 2026",
-    readTime: "19 min briefing",
+    readTime: "20 min briefing",
   },
 
-  leadId: "sunday-oil-jobs-ai-setup",
+  leadId: "oil-relief-ism-ai-breadth",
 
   stories: [
     {
-      id: "sunday-oil-jobs-ai-setup",
+      id: "oil-relief-ism-ai-breadth",
       page: "markets",
-      category: "Sunday Market Setup",
-      source: "AP + OPEC + New York Fed + BLS + BIS",
-      sourceUrl: "https://apnews.com/article/stock-markets-rates-korea-ai-oil-e31b3a442bcb957a53f1823ef21e73e8",
+      category: "Monday Opening Brief",
+      source: "AP + Reuters + ISM + New York Fed + BLS",
+      sourceUrl: "https://apnews.com/article/stocks-markets-dollar-yen-trump-oil-d19a8f9a77b6fceca41da3e4b6bf17aa",
       updated: "9:15 AM ET",
       readTime: "9 min read",
-      headline: "Oil, yields and payrolls will decide whether Amazon's rally broadens",
-      deck: "Friday proved that visible AI returns can overpower a high discount rate for one company. Sunday begins a harder cross-asset test: OPEC+ meets before ISM, JOLTS and payrolls challenge a 10-year yield near 4.75% and a rally still missing small-cap and semiconductor breadth.",
-      summary: "Amazon's 15.3% surge carried the S&P 500, but Apple fell 7.4%, the Russell 2000 lost 0.5% and oil advanced. The coming week asks whether activity and labor can cool the rate premium without breaking earnings, credit or AI infrastructure demand.",
-      tags: ["Week ahead", "OPEC+", "Payrolls", "AI returns"],
+      headline: "Oil's 6% drop gives equities relief; ISM decides whether it becomes breadth",
+      deck: "U.S. futures point higher as crude and the 10-year yield retreat, reversing Friday's least friendly cross-asset combination. The opening relief becomes durable only if ISM supports activity without reviving prices and the cash session broadens beyond mega-cap AI.",
+      summary: "AP reported S&P 500 futures up 0.6%, Dow futures up 1.1% and Nasdaq futures up 0.3% before the bell. The 9:15 a.m. ET live snapshot put WTI at $78.82, down 6.91%, and the 10-year yield at 4.68%, about seven basis points below Friday's delayed reference.",
+      tags: ["Premarket", "Oil", "ISM", "Market breadth"],
       numbers: [
-        { label: "S&P 500", value: "7,489.72", change: "+0.70% Friday", tone: "up" },
-        { label: "U.S. 10Y", value: "4.75%", change: "delayed close", tone: "down" },
-        { label: "WTI", value: "$84.67", change: "+1.29% Friday", tone: "down" },
-        { label: "Bitcoin", value: "$63,085", change: "+0.06% 24h", tone: "flat" },
+        { label: "S&P futures", value: "+0.60%", change: "AP premarket", tone: "up" },
+        { label: "WTI", value: "$78.82", change: "-6.91% premarket", tone: "up" },
+        { label: "U.S. 10Y", value: "4.68%", change: "about -7 bps", tone: "up" },
+        { label: "Bitcoin", value: "$62,691", change: "-0.58% 24h", tone: "down" },
       ],
       sections: [
         {
-          id: "friday-split",
-          title: "Friday solved the AI-demand question, not the breadth question",
+          id: "relief-open",
+          title: "Oil and duration are handing equities an opening relief window",
           paragraphs: [
-            "The S&P 500 rose 52.09 points to 7,489.72, the Nasdaq gained 1.0% to 25,373.85 and the Dow added 276.97 points to 52,485.03. Amazon jumped 15.3% after AWS revenue accelerated 37%, giving investors direct evidence that installed AI capacity is turning into cloud consumption and operating leverage.",
-            "The participation beneath that headline stayed selective. Apple fell 7.4%, the Russell 2000 lost 0.5%, SOXX added only 0.07% and Micron reversed an early 6.4% gain to close down 5.9%. The next advance needs more than another mega-cap rescue if it is going to reduce concentration risk.",
+            "AP reported S&P 500 futures up 0.6%, Dow futures up 1.1% and Nasdaq futures up 0.3% before the bell. Its earlier oil capture put Brent down 4.9% at $83.66 and WTI down 5.8% at $79.81; by 9:15 a.m. ET, The Debrief's delayed feed showed WTI at $78.82 and Brent at $83.01.",
+            "The same snapshot put the 10-year yield at 4.680%, roughly seven basis points below Friday's 4.745% delayed reference. Lower energy and yields remove two valuation headwinds at once, but a premarket gap is not yet confirmation that earnings breadth or economic demand improved.",
+          ],
+          pullQuote: "Relief is the opening condition. Breadth, credit and ISM determine whether it becomes a regime change.",
+        },
+        {
+          id: "oil-causality",
+          title: "The oil move has two causes, and only one adds physical barrels",
+          paragraphs: [
+            "Reuters reported that seven core OPEC+ producers approved an approximately 188,000-barrel-per-day September quota increase, completing the phased rollback of a 1.65 million-barrel-per-day voluntary cut. The group will meet again September 6, while a separate roughly 2 million-barrel-per-day layer of cuts remains scheduled through year-end.",
+            "The more immediate price impulse came from renewed U.S.-Iran de-escalation. AP said President Trump would order U.S. forces to refrain from new attacks while negotiations continue. Quota capacity is permission to produce; ceasefire durability, shipping access, insurance and repaired infrastructure determine whether barrels actually reach refiners.",
           ],
         },
         {
-          id: "opec",
-          title: "Oil gets the first vote before U.S. data arrive",
+          id: "ism-test",
+          title: "ISM has to validate the good version of falling oil",
           paragraphs: [
-            "OPEC's July 5 statement implemented a 188,000-barrel-per-day production adjustment for August and scheduled the participating countries' next review for today. The group retained flexibility to increase, pause or reverse the phase-out of voluntary cuts as market conditions change.",
-            "No new official decision was available at the 9:15 a.m. ET editorial cutoff. That makes the meeting an unresolved catalyst, not a number to pre-fill. Friday's delayed feed put WTI at $84.67, while AP reported Brent settled at $87.93 and the 10-year Treasury yield rose to 4.71%. Any OPEC signal that changes the expected supply path can move inflation compensation before Monday's ISM release.",
-          ],
-          pullQuote: "The first question for Monday is whether energy adds to the rate premium before growth data get a vote.",
-        },
-        {
-          id: "macro-ladder",
-          title: "The data ladder separates activity, labor demand and wage pressure",
-          paragraphs: [
-            "The New York Fed calendar places ISM manufacturing Monday at 10:00 a.m. ET, JOLTS Tuesday at 10:00 and ADP plus ISM services Wednesday. Preliminary productivity and unit labor costs arrive Thursday at 8:30, followed by the July employment situation Friday at 8:30.",
-            "The sequence matters. A softer manufacturing prices index can relieve the energy-driven inflation concern, but firm openings, services prices or wages can keep long yields elevated. A constructive mix would hold activity above contraction while hiring and compensation cool enough to lower the discount rate without widening credit spreads.",
+            "ISM's official calendar places the July manufacturing report at 10:00 a.m. ET. New orders and production test real demand, employment provides the first labor signal of the week, and prices paid shows whether the premarket energy relief is consistent with the factory cost base.",
+            "The favorable combination is continued expansion with cooler prices and orderly hiring. A weak headline alongside collapsing new orders would turn lower yields into a growth warning; a strong report with renewed price pressure would rebuild the duration hurdle that eased before the open.",
           ],
         },
         {
-          id: "ai-macro",
-          title: "AI investment is now part of the macro signal",
+          id: "breadth-test",
+          title: "Friday's AI proof still needs a broader cash-market confirmation",
           paragraphs: [
-            "A new BIS Bulletin argues that the AI boom is driving a large, increasingly debt-financed investment surge while lifting trade and equity markets. It also says the productivity payoff remains uncertain and uneven, and that AI can blur cyclical signals because it raises demand today while potentially expanding supply later.",
-            "That framework explains the earnings split. Amazon proved current demand and margin, but trailing free cash flow fell below zero as infrastructure spending accelerated. Apple delivered record revenue, yet softer forward growth and component constraints were punished. Investors are no longer pricing AI as a single factor; they are separating demand, financing, cash conversion and future productivity.",
+            "Amazon's 15.3% Friday gain helped the S&P 500 rise 0.70%, but the Russell 2000 fell 0.50% and SOXX gained only 0.07%. Monday's higher futures improve the setup without erasing that concentration. The cash-session test is whether small caps, semiconductors, software and cyclicals participate with stable high-yield credit.",
+            "Global technology remains volatile. AP reported South Korea's Kospi down 5.1% Monday and Samsung Electronics and SK Hynix each down 8.8% after both had gained more than 25% Friday. That reversal is a reminder that AI demand can be durable while positioning and index-level price discovery remain unstable.",
           ],
         },
         {
           id: "decision-map",
-          title: "The Sunday decision map",
+          title: "The Monday decision map",
           paragraphs: [
-            "Bitcoin was nearly unchanged near $63,085 at the cutoff, while ether slipped 0.62% and U.S. cash markets remained closed. The quiet crypto tape does not resolve the Monday setup; it simply removes evidence of a fresh weekend liquidation event.",
-            "The strongest confirmation would combine stable energy, easing long yields, contained credit and broader equity participation. A renewed oil-and-yield rise with weak small caps would make Friday's Amazon-led gain look more like concentration than a durable risk-on turn.",
+            "Bitcoin traded near $62,691, ether near $1,842 and solana near $72.38 at the 9:15 a.m. snapshot, all down less than 1% over 24 hours. Crypto is not confirming the equity-futures relief, but it is also not showing a disorderly liquidation.",
+            "The strongest confirmation would combine crude holding below Friday's settle, a constructive ISM mix, contained credit spreads and broader cash equity participation. A reversal higher in oil and yields, or another mega-cap-only advance, would leave the rally dependent on concentration.",
           ],
           bullets: [
-            "Energy: the official OPEC+ decision and Monday crude reaction.",
-            "Rates: 10-year yield direction after ISM prices and before payrolls.",
+            "10:00 ET: ISM headline, new orders, employment and prices paid.",
+            "Cross-asset: WTI, Brent and the 10-year yield after the data.",
             "Breadth: Russell 2000, SOXX and equal-weight participation beside mega-cap AI.",
             "Liquidity: high-yield credit, VIX term structure and bitcoin spot demand.",
           ],
@@ -80,15 +80,19 @@ window.DEBRIEF_CONTENT = {
       ],
       sources: [
         {
-          label: "AP: Friday close, Amazon, Apple, oil and Treasury yields",
-          url: "https://apnews.com/article/stock-markets-rates-korea-ai-oil-e31b3a442bcb957a53f1823ef21e73e8",
+          label: "AP: Monday futures, oil, yen and global markets",
+          url: "https://apnews.com/article/stocks-markets-dollar-yen-trump-oil-d19a8f9a77b6fceca41da3e4b6bf17aa",
         },
         {
-          label: "OPEC: August production adjustment and August 2 meeting schedule",
-          url: "https://www.opec.org/pr-detail/1835609-5-july-2026.html",
+          label: "Reuters: OPEC+ approves September quota increase",
+          url: "https://www.reuters.com/business/energy/opec-has-agreement-principle-september-quota-increase-pause-thereafter-source-2026-08-02/",
         },
         {
-          label: "New York Fed: August 2026 economic indicators calendar",
+          label: "ISM: 2026 report release calendar",
+          url: "https://www.ismworld.org/supply-management-news-and-reports/reports/rob-report-calendar/",
+        },
+        {
+          label: "New York Fed: August economic indicators calendar",
           url: "https://www.newyorkfed.org/research/calendars/i-aug26.html",
         },
         {
@@ -96,16 +100,8 @@ window.DEBRIEF_CONTENT = {
           url: "https://www.bls.gov/schedule/2026/08_sched.htm",
         },
         {
-          label: "BIS: AI and the global economy",
-          url: "https://www.bis.org/publ/bisbull130.htm",
-        },
-        {
-          label: "Amazon: second-quarter 2026 results",
-          url: "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Second-Quarter-Results/default.aspx",
-        },
-        {
-          label: "Apple: fiscal third-quarter 2026 results",
-          url: "https://www.apple.com/newsroom/2026/07/apple-reports-third-quarter-results/",
+          label: "AP: Friday close and the Amazon-led breadth split",
+          url: "https://apnews.com/article/stock-markets-rates-korea-ai-oil-e31b3a442bcb957a53f1823ef21e73e8",
         },
       ],
     },
@@ -483,7 +479,7 @@ window.DEBRIEF_CONTENT = {
       category: "AI Economics",
       source: "BIS + The Debrief",
       sourceUrl: "https://www.bis.org/publ/bisbull130.htm",
-      updated: "Sunday research desk",
+      updated: "Monday research desk",
       readTime: "6 min read",
       headline: "The AI investment boom is becoming a monetary-policy variable",
       deck: "A new BIS Bulletin reframes hyperscaler spending as a global demand, financing and productivity shock. That makes the AI return debate relevant to yields, currencies and central banks, not only technology multiples.",
@@ -548,52 +544,131 @@ window.DEBRIEF_CONTENT = {
       ],
     },
     {
+      id: "ai-premium-usage-factor",
+      page: "technology",
+      category: "AI Asset Pricing",
+      source: "NBER + arXiv",
+      sourceUrl: "https://www.nber.org/papers/w35451",
+      updated: "Monday research desk",
+      readTime: "6 min read",
+      headline: "380 trillion tokens reveal an AI factor, not a free trading rule",
+      deck: "A new NBER working paper builds a high-frequency AI-demand factor from realized model usage, then maps it into firm-level stock exposure. The result is a useful market lens, but its short sample and proprietary coverage demand more caution than the headline return spread suggests.",
+      summary: "The authors analyze 380 trillion tokens across more than 400 models and estimate that the source data cover about 2% of current global monthly AI consumption. High AI-beta firms earned higher subsequent returns in the sample, with a value-weighted long-short spread of 64.1 basis points per week.",
+      tags: ["NBER", "AI demand", "Asset pricing", "Research limits"],
+      numbers: [
+        { label: "Usage sample", value: "380T", change: "tokens", tone: "flat" },
+        { label: "Models", value: "400+", change: "cross-provider", tone: "flat" },
+        { label: "Coverage", value: "about 2%", change: "global monthly use", tone: "flat" },
+        { label: "Sample spread", value: "64.1 bp", change: "per week", tone: "up" },
+      ],
+      sections: [
+        {
+          id: "measurement",
+          title: "The paper measures demand before it reaches financial statements",
+          paragraphs: [
+            "The authors use anonymized OpenRouter activity from January 2024 through April 2026 to construct weekly growth factors from tokens, dollars and users. They then estimate firm-level AI betas from the covariance between stock returns and those usage factors.",
+            "That is economically interesting because real consumption can move before quarterly revenue disclosures. It also differs from a portfolio built from AI labels: the factor is tied to observed usage intensity across providers and models rather than management language or an industry classification.",
+          ],
+        },
+        {
+          id: "findings",
+          title: "The premium is concentrated in intensive, frontier-oriented use",
+          paragraphs: [
+            "The paper reports that firms with more positive AI-factor exposure earned higher subsequent returns. The value-weighted long-short strategy earned 64.1 basis points per week in sample, and the spread was strongest for closed-source models, paying and seasoned users, and longer prompts.",
+            "The estimated exposure reached beyond technology into consumer-facing and capital-heavy firms, while the authors did not find the same premium in emerging markets, including China. That broadens the AI map from chips and cloud to companies whose demand, labor mix or capital intensity covaries with real AI adoption.",
+          ],
+        },
+        {
+          id: "limits",
+          title: "A large dataset does not remove asset-pricing identification risk",
+          paragraphs: [
+            "The usage panel is enormous in token count but spans a little over two years and represents an estimated 2% of current global monthly consumption. Provider mix, model pricing, user composition and the rapid growth of the platform can all influence the factor alongside underlying economic demand.",
+            "The reported return is a historical research result, not a live portfolio. A deployable test still needs transaction costs, turnover, capacity, benchmark controls, formation lags and a genuinely out-of-sample period after publication. Correlation with AI usage also does not prove that usage caused the return premium.",
+          ],
+          pullQuote: "The paper makes AI demand measurable at high frequency; it does not make the premium permanent.",
+        },
+        {
+          id: "monitor",
+          title: "A practical AI-demand scorecard",
+          bullets: [
+            "Usage: tokens, paying users and frontier-model intensity.",
+            "Monetization: cloud growth, backlog, seat adoption and pricing.",
+            "Cash economics: capex, leases, depreciation and free cash flow.",
+            "Market test: AI beta beside size, quality, momentum and sector controls.",
+            "Validation: post-publication performance with realistic costs and rebalancing.",
+          ],
+        },
+      ],
+      sources: [
+        {
+          label: "NBER Working Paper 35451: AI Premium",
+          url: "https://www.nber.org/papers/w35451",
+        },
+        {
+          label: "arXiv: open version of AI Premium",
+          url: "https://arxiv.org/abs/2606.30583",
+        },
+        {
+          label: "BIS: AI and the global economy",
+          url: "https://www.bis.org/publ/bisbull130.htm",
+        },
+      ],
+    },
+    {
       id: "bitcoin-yields-liquidity",
       page: "crypto",
       category: "Crypto",
       source: "CoinGecko + CoinDesk + Kraken",
       sourceUrl: "https://www.coingecko.com/en/coins/bitcoin",
-      updated: "Sunday 9:02 AM ET",
+      updated: "Monday 9:15 AM ET",
       readTime: "4 min read",
-      headline: "Bitcoin steadies near $63K while ether lags into the macro week",
-      deck: "Bitcoin and solana are almost unchanged over 24 hours while ether remains modestly lower. With monthly settlement complete and U.S. cash markets closed, the quiet tape is a holding pattern before OPEC+, ISM and the labor-data ladder reshape cross-asset liquidity.",
-      summary: "The 9:02 a.m. ET snapshot showed bitcoin at $63,085, ether at $1,855.71 and solana at $72.88. Their 24-hour changes were +0.06%, -0.62% and +0.01%, respectively, while the dollar index and 10-year yield remained Friday-close references.",
-      tags: ["Bitcoin", "Weekend liquidity", "Macro"],
+      headline: "Bitcoin slips below $63K as oil relief fails to lift crypto",
+      deck: "Equity futures are higher and long yields are lower, but bitcoin, ether and solana are each down roughly 0.7% over 24 hours. The divergence keeps crypto in a macro-sensitive range instead of confirming the premarket risk-on signal.",
+      summary: "The 9:15 a.m. ET snapshot showed bitcoin at $62,691, ether at $1,842.08 and solana at $72.38. Their 24-hour changes were -0.58%, -0.68% and -0.72%, respectively, while the dollar index held near 99.77 and the 10-year yield eased to 4.68%.",
+      tags: ["Bitcoin", "Cross-asset liquidity", "Macro"],
       numbers: [
-        { label: "Bitcoin", value: "$63,085", change: "+0.06% 24h", tone: "flat" },
-        { label: "Ethereum", value: "$1,855.71", change: "-0.62% 24h", tone: "down" },
-        { label: "Solana", value: "$72.88", change: "+0.01% 24h", tone: "flat" },
-        { label: "U.S. Dollar", value: "99.80", change: "-0.11%", tone: "up" },
+        { label: "Bitcoin", value: "$62,691", change: "-0.58% 24h", tone: "down" },
+        { label: "Ethereum", value: "$1,842.08", change: "-0.68% 24h", tone: "down" },
+        { label: "Solana", value: "$72.38", change: "-0.72% 24h", tone: "down" },
+        { label: "U.S. Dollar", value: "99.81", change: "-0.11%", tone: "up" },
       ],
       sections: [
         {
           id: "spot",
-          title: "The weekend tape has stabilized, not broken out",
+          title: "The crypto complex is moving together, but not breaking down",
           paragraphs: [
-            "Bitcoin traded at $63,085 while ether was $1,855.71 and solana $72.88. Bitcoin and solana were nearly flat over 24 hours, while ether lagged by 0.62%. That is a stabilization signal after Saturday's decline, but the move is too small to establish a new trend.",
-            "Bitcoin remains inside the heavily traded $60,000-$70,000 range described by CoinDesk in July. Holding $63,000 without a fresh liquidation is constructive at the margin; reclaiming $64,000 with spot volume would carry more information than the current low-amplitude weekend trade.",
+            "Bitcoin traded at $62,691 while ether was $1,842.08 and solana $72.38. All three were down less than 1% over 24 hours, which points to a common liquidity move rather than a single-token dislocation.",
+            "Bitcoin remains inside the heavily traded $60,000-$70,000 range described by CoinDesk in July. Losing $63,000 weakens the near-term tape, but a more consequential break would require sustained trading below $60,000, rising leverage stress or widening credit pressure outside crypto.",
           ],
         },
         {
-          id: "weekend",
-          title: "Month-end settlement is over; weekend depth is now the variable",
+          id: "cross-asset",
+          title: "Lower oil and yields have not produced an immediate crypto bid",
           paragraphs: [
-            "Kraken's July calendar identified July 31 as the monthly Deribit and CME bitcoin and ether options and futures settlement. Those contracts have now settled, so any expiry-related hedging map should be retired rather than carried into Sunday as a live signal.",
-            "Weekend order books can be thinner while U.S. cash equities and most traditional macro markets are closed. Without current venue-level open interest, funding and strike concentration in the newsletter feed, it would be misleading to assign a call wall, put wall or dealer-gamma level to the move.",
+            "The 10-year yield eased to 4.68% and WTI fell more than 6% in the premarket snapshot, while S&P 500 futures rose 0.6% according to AP. Crypto's simultaneous decline means the asset class is not yet confirming that conventional risk relief.",
+            "The dollar index held near 99.81 and USD/JPY traded near 156.81 after intervention-driven yen volatility. A softer rate impulse is helpful to long-duration assets, but bitcoin still needs spot demand rather than only macro relief to move out of its range.",
+          ],
+        },
+        {
+          id: "derivatives",
+          title: "The July settlement map is expired",
+          paragraphs: [
+            "Kraken's July calendar identified July 31 as the monthly Deribit and CME bitcoin and ether options and futures settlement. Those contracts have settled, so their strikes and hedging levels should not be carried into Monday as current positioning.",
+            "The newsletter feed does not have current venue-level funding, open interest or strike concentration. It therefore does not assign a live crypto call wall, put wall or dealer-gamma level. The honest monitor is spot price, volume, funding and open interest once defensible venue data are available.",
           ],
         },
         {
           id: "macro",
-          title: "The durable test remains cross-asset liquidity",
+          title: "ISM begins the next liquidity test",
           paragraphs: [
-            "The dollar index eased to 99.80 Friday, but the 10-year yield ended near 4.75% and gold fell 1.29%. That is a mixed liquidity reference: a softer dollar helps, while high term yields still raise the opportunity cost of speculative duration.",
-            "Sunday's OPEC+ review can affect that setup through oil and inflation expectations before Monday's ISM release. A healthier crypto turn would pair bitcoin stability with ether relative strength, spot demand, steady credit and a softer rate backdrop after U.S. markets reopen.",
+            "Monday's manufacturing report can move the same yields and dollar that frame crypto's opportunity cost. A constructive outcome would preserve activity while cooling prices, allowing lower oil and yields to persist without introducing a growth scare.",
+            "A healthier crypto turn would pair bitcoin reclaiming $63,000 with ether relative strength, spot demand, steady credit and a softer rate backdrop. A fall in crypto beside widening high-yield spreads would be more concerning than the current modest, synchronized decline.",
           ],
           bullets: [
-            "Bitcoin holding $63,000, then reclaiming $64,000 with spot volume.",
-            "Ether returning above $1,900 after its weekend underperformance.",
+            "Bitcoin reclaiming $63,000, then $64,000 with spot volume.",
+            "Ether returning above $1,900 with better relative strength.",
             "Perpetual funding and venue open interest after monthly settlement.",
-            "Dollar, Treasury-yield and ETF-flow direction when U.S. markets reopen.",
+            "Dollar, Treasury-yield and high-yield-credit direction after ISM.",
           ],
         },
       ],
@@ -610,6 +685,10 @@ window.DEBRIEF_CONTENT = {
           label: "CoinDesk: bitcoin's heavily traded $60K-$70K range",
           url: "https://www.coindesk.com/markets/2026/07/10/bitcoin-s-usd60k-to-usd70k-range-becomes-third-longest-consolidation-in-history",
         },
+        {
+          label: "AP: Monday cross-asset markets and oil relief",
+          url: "https://apnews.com/article/stocks-markets-dollar-yen-trump-oil-d19a8f9a77b6fceca41da3e4b6bf17aa",
+        },
       ],
     },
     {
@@ -618,7 +697,7 @@ window.DEBRIEF_CONTENT = {
       category: "Positioning",
       source: "CFTC",
       sourceUrl: "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
-      updated: "Sunday official-file recheck",
+      updated: "Monday official-file recheck",
       readTime: "3 min read",
       headline: "Dealer S&P net shorts deepen while ICE WTI producers add length",
       deck: "The newly released July 28 COT report shows dealer/intermediary S&P net shorts expanding by 24,291 contracts as ICE WTI producer net length increases by 5,136.",
@@ -634,7 +713,7 @@ window.DEBRIEF_CONTENT = {
           id: "read",
           title: "What the report says",
           paragraphs: [
-            "The CFTC's official files still carry a July 28 observation date after a Sunday 9:05 a.m. ET recheck. The report was released Friday, July 31, and remains the newest weekly positioning baseline for this edition.",
+            "The CFTC's official files still carry a July 28 observation date after a Monday 9:04 a.m. ET recheck. The report was released Friday, July 31, and remains the newest weekly positioning baseline for this edition.",
             "In the Traders in Financial Futures file, S&P 500 consolidated dealer/intermediary longs were 166,249 contracts and shorts were 915,511, producing a net position of -749,262. The weekly net moved 24,291 contracts further short.",
             "In the disaggregated ICE light-sweet WTI row, producer/merchant longs were 404,261 contracts and shorts were 340,237, producing net length of +64,024. That net increased by 5,136 contracts week over week.",
           ],
@@ -663,19 +742,19 @@ window.DEBRIEF_CONTENT = {
       id: "oil-rebound-fed-transmission",
       page: "markets",
       category: "Energy & Margins",
-      source: "AP + OPEC + The Debrief",
-      sourceUrl: "https://apnews.com/article/oil-companies-profits-exxon-chevron-9375fbf8f6f40426f7428e07d54000c7",
-      updated: "Sunday 9:15 AM ET",
+      source: "AP + Reuters + OPEC + The Debrief",
+      sourceUrl: "https://apnews.com/article/stocks-markets-dollar-yen-trump-oil-d19a8f9a77b6fceca41da3e4b6bf17aa",
+      updated: "Monday 9:15 AM ET",
       readTime: "5 min read",
-      headline: "OPEC+ review puts supply policy between oil windfall and inflation",
-      deck: "Exxon and Chevron converted constrained supply and stronger refining margins into sharply higher profit. OPEC+ meets Sunday after implementing an August production increase, with crude, Treasury yields and next week's inflation-sensitive data waiting for the next supply signal.",
-      summary: "WTI ended Friday at a delayed $84.67 and AP reported Brent settled at $87.93. OPEC's prior statement added 188,000 barrels per day for August and scheduled today's review, but no new official decision was available at the 9:15 a.m. ET cutoff.",
+      headline: "Crude drops 6% as diplomacy outweighs OPEC+'s September quota increase",
+      deck: "OPEC+ approved another modest quota increase, yet oil sold off because U.S.-Iran de-escalation changes the probability that existing production can reach the market. The distinction between paper capacity and exportable barrels now matters more than the quota headline alone.",
+      summary: "The 9:15 a.m. ET feed showed WTI at $78.82, down 6.91%, and Brent at $83.01, down 5.60% from Friday's reported settlement. Reuters said OPEC+ approved a roughly 188,000-barrel-per-day September increase; AP tied the larger immediate move to a pause in U.S.-Iran attacks.",
       tags: ["OPEC+", "Exxon", "Chevron", "Crude"],
       numbers: [
-        { label: "WTI", value: "$84.67", change: "+1.29% delayed", tone: "down" },
-        { label: "Brent settle", value: "$87.93", change: "+1.2% AP", tone: "down" },
-        { label: "OPEC+ review", value: "Aug 2", change: "decision pending", tone: "flat" },
-        { label: "August supply", value: "+188K bpd", change: "prior decision", tone: "flat" },
+        { label: "WTI", value: "$78.82", change: "-6.91% premarket", tone: "up" },
+        { label: "Brent", value: "$83.01", change: "-5.60% vs. settle", tone: "up" },
+        { label: "September quota", value: "+188K bpd", change: "Reuters", tone: "flat" },
+        { label: "U.S. 10Y", value: "4.68%", change: "about -7 bps", tone: "up" },
       ],
       sections: [
         {
@@ -688,30 +767,30 @@ window.DEBRIEF_CONTENT = {
         },
         {
           id: "tape",
-          title: "Friday's oil tape keeps the risk premium active",
+          title: "Monday is removing part of Friday's inflation premium",
           paragraphs: [
-            "The delayed WTI quote ended at $84.67, up 1.29%, while AP reported the front-month Brent settlement at $87.93, up 1.2%. The site's delayed Brent quote displayed $90.12 because the provider's contract and settlement convention differs, so the edition uses AP's session settlement in the analysis and preserves the provider value in the live quote board.",
-            "The important variable is duration. A brief spike redistributes sector earnings; sustained crude near current levels can raise inflation expectations, delay rate relief and force airlines, logistics companies, chemicals and consumer businesses to revise margins or prices.",
+            "The delayed feed showed WTI at $78.82, down 6.91%, and Brent at $83.01, down 5.60% from Friday's reported settlement. AP's earlier capture showed WTI at $79.81 and Brent at $83.66, confirming that the direction and magnitude are not an artifact of a single quote.",
+            "The 10-year yield fell to 4.68% as oil retreated. That combination lowers the near-term input-cost and discount-rate pressure on transportation, chemicals and consumer businesses, while reducing the cash-flow windfall that energy producers and refiners enjoyed in the second quarter.",
           ],
         },
         {
           id: "opec-review",
-          title: "The official OPEC+ decision is still pending",
+          title: "The September quota increase completes one rollback layer",
           paragraphs: [
-            "OPEC's July 5 statement said seven participating countries would implement a 188,000-barrel-per-day adjustment in August and meet again on August 2. It also emphasized flexibility to increase, pause or reverse the phase-out of voluntary adjustments as market conditions evolve.",
-            "No August 2 press statement was available at the editorial cutoff, so the edition does not infer a September quota. The first trustworthy update is the group's official release; the second is the reaction in Brent spreads, WTI, inflation compensation and energy equities when liquid trading resumes.",
+            "Reuters reported that Saudi Arabia, Russia, Iraq, Kuwait, Kazakhstan, Algeria and Oman approved an approximately 188,000-barrel-per-day September increase. The decision completes the phased rollback of a 1.65 million-barrel-per-day voluntary cut, while a separate roughly 2 million-barrel-per-day layer remains scheduled through the end of 2026.",
+            "Successive quota increases have not translated one-for-one into exports because Gulf, Russian and Kazakh flows have faced war-related disruption. The group meets again September 6. Until then, tanker traffic, insurance, infrastructure recovery and compliance are better physical-supply evidence than the quota increment by itself.",
           ],
         },
         {
           id: "cross-asset",
           title: "The cross-asset transmission map",
           paragraphs: [
-            "Energy producers and refiners gain cash flow, but the rest of the index faces a higher input-cost and discount-rate hurdle. The 10-year yield near 4.75% alongside rising crude is a less friendly combination for long-duration equities than oil strength with falling yields.",
-            "Credit is the stress gauge. If high-yield spreads remain contained and small caps participate, the market can absorb an energy-led sector rotation. If oil, yields and the dollar rise together while credit weakens, the shock is becoming a broader financial-conditions event.",
+            "Monday's lower crude and 4.68% 10-year yield reduce the input-cost and discount-rate hurdle for transportation, chemicals, retailers and long-duration equities. Energy producers and refiners lose part of Friday's scarcity premium, but second-quarter cash generation still provides a balance-sheet cushion.",
+            "Credit is the confirmation gauge. If high-yield spreads remain contained and small caps participate, the market can convert energy relief into broader risk appetite. If oil and yields reverse higher while credit weakens, the opening relief is becoming another short-lived positioning adjustment.",
           ],
           bullets: [
             "Crack spreads and refinery utilization after the current profit jump.",
-            "Crude persistence near current levels and the 10-year yield around 4.75%.",
+            "Crude persistence below Friday's settlement and the 10-year yield near 4.68%.",
             "Airline, trucking, chemical and retailer guidance on cost pass-through.",
             "Credit spreads and consumer cyclicals as the broader stress test.",
           ],
@@ -723,7 +802,15 @@ window.DEBRIEF_CONTENT = {
           url: "https://apnews.com/article/oil-companies-profits-exxon-chevron-9375fbf8f6f40426f7428e07d54000c7",
         },
         {
-          label: "OPEC: August adjustment and August 2 review schedule",
+          label: "AP: Monday oil selloff and U.S.-Iran de-escalation",
+          url: "https://apnews.com/article/stocks-markets-dollar-yen-trump-oil-d19a8f9a77b6fceca41da3e4b6bf17aa",
+        },
+        {
+          label: "Reuters: OPEC+ September quota decision",
+          url: "https://www.reuters.com/business/energy/opec-has-agreement-principle-september-quota-increase-pause-thereafter-source-2026-08-02/",
+        },
+        {
+          label: "OPEC: prior August adjustment and review schedule",
           url: "https://www.opec.org/pr-detail/1835609-5-july-2026.html",
         },
         {
@@ -742,16 +829,16 @@ window.DEBRIEF_CONTENT = {
       category: "Options & Volatility",
       source: "Yahoo Finance + The Debrief",
       sourceUrl: "https://finance.yahoo.com/quote/%5EVIX/",
-      updated: "Sunday 9:02 AM ET recheck",
+      updated: "Monday 9:00 AM ET recheck",
       readTime: "5 min read",
-      headline: "VIX closes at 15.99; live options flow remains unavailable",
-      deck: "Volatility fell as Friday's indices advanced, but the market endpoint again returned no current gainers, losers or option rows. The displayed gamma, walls and activity table remain an expired July 24 reference, not a weekend signal.",
-      summary: "The delayed VIX close was 15.99, down 6.44%. The retained -$3.96 billion SPX gamma estimate, 7,454 zero-gamma level and 1.17 put/call ratio were captured July 24 for contracts that expired July 27.",
+      headline: "VIX holds near 15.96; live options flow remains unavailable",
+      deck: "Equity futures point higher and oil is sharply lower, but the market endpoint again returned no current gainers, losers or option rows. The displayed gamma, walls and activity table remain an expired July 24 reference, not a Monday positioning signal.",
+      summary: "The delayed VIX reference was 15.96, down 0.19% from Friday's close. The retained -$3.96 billion SPX gamma estimate, 7,454 zero-gamma level and 1.17 put/call ratio were captured July 24 for contracts that expired July 27.",
       tags: ["VIX", "Gamma", "Data quality"],
       numbers: [
-        { label: "VIX", value: "15.99", change: "-6.44% delayed", tone: "up" },
-        { label: "S&P 500", value: "7,489.72", change: "+0.70% Friday", tone: "up" },
-        { label: "Current chain", value: "Unavailable", change: "Aug 2 recheck", tone: "flat" },
+        { label: "VIX", value: "15.96", change: "-0.19% delayed", tone: "up" },
+        { label: "S&P futures", value: "+0.60%", change: "AP premarket", tone: "up" },
+        { label: "Current chain", value: "Unavailable", change: "Aug 3 recheck", tone: "flat" },
         { label: "SPX gamma", value: "-$3.96B", change: "expired fallback", tone: "down" },
       ],
       sections: [
@@ -759,7 +846,7 @@ window.DEBRIEF_CONTENT = {
           id: "divergence",
           title: "What can be trusted this morning",
           paragraphs: [
-            "The live cross-asset endpoint reflects Friday cash closes for indices and ETFs, delayed futures and currencies, and continuously updating crypto. It showed VIX at 15.99, the 10-year yield near 4.75% and bitcoin near $63,085 at the Sunday 9:02 a.m. ET capture.",
+            "The live cross-asset endpoint reflects Friday cash closes for indices and ETFs, plus refreshing delayed rates, futures, currencies and crypto. It showed VIX at 15.96, the 10-year yield near 4.68% and bitcoin near $62,691 at the Monday 9:15 a.m. ET capture.",
             "The separate serverless market endpoint again returned no current gainers, losers or option rows. Without a fresh chain containing strike, expiration, implied volatility, open interest and volume, the newsletter cannot publish defensible current gamma exposure, put/call or unusual-flow estimates.",
           ],
         },
@@ -778,7 +865,7 @@ window.DEBRIEF_CONTENT = {
             "VIX term structure, skew and opening realized volatility, not only the spot VIX quote.",
             "SOXX breadth, high-yield spreads and Treasury volatility together.",
             "A fresh SPX chain with open interest and implied volatility before assigning new gamma walls.",
-            "Whether Monday volume confirms Friday's Amazon-led rebound with broader participation.",
+            "Whether Monday volume and breadth confirm the higher futures after the 10:00 a.m. ISM release.",
           ],
         },
       ],
@@ -805,16 +892,16 @@ window.DEBRIEF_CONTENT = {
       id: "friday-catalyst-desk",
       page: "markets",
       category: "Week-Ahead Catalyst Desk",
-      source: "OPEC + New York Fed + BLS",
-      sourceUrl: "https://www.newyorkfed.org/research/calendars/i-aug26.html",
-      updated: "Sunday 9:15 AM ET",
+      source: "Reuters + ISM + New York Fed + BLS",
+      sourceUrl: "https://www.ismworld.org/supply-management-news-and-reports/reports/rob-report-calendar/",
+      updated: "Monday 9:15 AM ET",
       readTime: "5 min read",
-      headline: "OPEC+ opens a macro ladder that runs from ISM to payrolls",
-      deck: "Sunday's scheduled oil-supply review precedes manufacturing, JOLTS, services and Friday payrolls. Together they will test whether growth can support earnings while energy and labor costs keep a 10-year yield near 4.75%.",
-      summary: "OPEC+ meets Sunday with no decision available at the cutoff. ISM manufacturing follows Monday at 10:00 a.m. ET, JOLTS Tuesday, ISM services Wednesday, preliminary productivity Thursday and the July employment situation Friday.",
+      headline: "ISM opens the macro ladder after oil and yields hand markets relief",
+      deck: "The September OPEC+ quota is set and crude is sharply lower. Manufacturing, JOLTS, services, productivity and Friday payrolls now decide whether lower inflation pressure can coexist with enough demand to broaden earnings and equity participation.",
+      summary: "ISM manufacturing arrives Monday at 10:00 a.m. ET, followed by JOLTS Tuesday, ADP and ISM services Wednesday, preliminary productivity Thursday and the July employment situation Friday.",
       tags: ["OPEC+", "Calendar", "ISM", "JOLTS", "Payrolls"],
       numbers: [
-        { label: "OPEC+", value: "Sun", change: "decision pending", tone: "flat" },
+        { label: "OPEC+", value: "+188K bpd", change: "September quota", tone: "flat" },
         { label: "ISM mfg.", value: "Mon 10:00", change: "activity", tone: "flat" },
         { label: "JOLTS", value: "Tue 10:00", change: "labor demand", tone: "flat" },
         { label: "Payrolls", value: "Fri 8:30", change: "July", tone: "down" },
@@ -822,10 +909,10 @@ window.DEBRIEF_CONTENT = {
       sections: [
         {
           id: "setup",
-          title: "The setup starts with oil and a firm cost base",
+          title: "The setup starts with disinflationary relief, not a solved growth question",
           paragraphs: [
-            "OPEC's prior statement added 188,000 barrels per day for August and scheduled today's review, but no new decision was available at 9:15 a.m. ET. The ECI rose 0.9% in the second quarter and the delayed 10-year yield ended Friday near 4.75%, so any supply signal that lifts crude can raise the hurdle before Monday's data.",
-            "Friday's Amazon-led rally showed that measurable AI returns can overcome higher yields at the company level. The week ahead tests whether the broader economy can deliver enough growth to support cyclicals without adding another energy, wage or services-price impulse.",
+            "WTI fell more than 6% and the 10-year yield eased to 4.68% before the bell as U.S.-Iran de-escalation reduced part of the energy risk premium. OPEC+'s roughly 188,000-barrel-per-day September quota increase adds supply permission, but physical export recovery still depends on shipping and infrastructure.",
+            "Friday's Amazon-led rally showed that measurable AI returns can overcome higher yields at the company level. The week ahead tests whether the broader economy can deliver enough growth to support cyclicals without rebuilding the energy, wage or services-price impulse.",
           ],
         },
         {
@@ -849,8 +936,12 @@ window.DEBRIEF_CONTENT = {
       ],
       sources: [
         {
-          label: "OPEC: August production adjustment and August 2 review schedule",
-          url: "https://www.opec.org/pr-detail/1835609-5-july-2026.html",
+          label: "Reuters: OPEC+ September quota decision",
+          url: "https://www.reuters.com/business/energy/opec-has-agreement-principle-september-quota-increase-pause-thereafter-source-2026-08-02/",
+        },
+        {
+          label: "ISM: manufacturing report release calendar",
+          url: "https://www.ismworld.org/supply-management-news-and-reports/reports/rob-report-calendar/",
         },
         {
           label: "New York Fed: August 2026 economic indicators calendar",
@@ -1000,7 +1091,7 @@ window.DEBRIEF_CONTENT = {
       numbers: [
         { label: "ETF streak", value: "7 sessions", change: "inflows", tone: "up" },
         { label: "Flow", value: "Nearly $1B", change: "reported", tone: "up" },
-        { label: "Bitcoin", value: "$63,085", change: "+0.06% 24h", tone: "flat" },
+        { label: "Bitcoin", value: "$62,691", change: "-0.58% 24h", tone: "down" },
       ],
       sections: [
         {
@@ -1045,10 +1136,10 @@ window.DEBRIEF_CONTENT = {
 
   timeline: [
     {
-      time: "Sun · pending",
-      title: "OPEC+ reviews the production path",
-      detail: "The official July statement scheduled today's meeting after adding 188,000 barrels per day for August; no new decision was available at the editorial cutoff.",
-      url: "https://www.opec.org/pr-detail/1835609-5-july-2026.html",
+      time: "Mon · 9:30 ET",
+      title: "Cash markets test the oil-relief gap",
+      detail: "S&P, Dow and Nasdaq futures point higher while crude and long yields fall; breadth and credit must confirm the premarket move.",
+      url: "https://apnews.com/article/stocks-markets-dollar-yen-trump-oil-d19a8f9a77b6fceca41da3e4b6bf17aa",
     },
     {
       time: "Mon · 10:00 ET",
@@ -1103,9 +1194,9 @@ window.DEBRIEF_CONTENT = {
     },
     {
       title: "Energy and liquidity",
-      state: "OPEC+ pending / BTC $63,085",
-      detail: "Oil policy is the first unresolved catalyst, while bitcoin is nearly flat and ether remains softer in the Sunday snapshot.",
-      tone: "down",
+      state: "WTI -6.91% / 10Y 4.68%",
+      detail: "Diplomatic relief and the September quota decision are lowering the energy-rate hurdle, while bitcoin still lags near $62,691.",
+      tone: "up",
     },
   ],
 
@@ -1141,9 +1232,9 @@ window.DEBRIEF_CONTENT = {
       tone: "down",
     },
     {
-      company: "AI financing",
-      focus: "Debt-funded investment versus future productivity",
-      signal: "BIS: demand now, supply payoff later",
+      company: "AI usage factor",
+      focus: "Real model consumption versus investable return evidence",
+      signal: "NBER: 380T-token sample; validation still needed",
       tone: "flat",
     },
   ],
@@ -1210,6 +1301,17 @@ window.DEBRIEF_CONTENT = {
       url: "https://www.bis.org/publ/bisbull130.htm",
       summary: "Frames the AI boom as a large, increasingly debt-financed investment cycle with uneven trade, wealth and productivity effects across sectors and countries.",
       relevance: "Connects hyperscaler capex and AI equity leadership to rates, currencies and policy by showing why current demand and future supply can send conflicting cyclical signals.",
+    },
+    {
+      category: "AI Economics",
+      kind: "Working paper",
+      year: "2026",
+      title: "AI Premium",
+      authors: "Nicola Borri, Aleh Tsyvinski and Yukun Liu",
+      source: "NBER",
+      url: "https://www.nber.org/papers/w35451",
+      summary: "Builds a high-frequency AI-demand factor from 380 trillion realized tokens across more than 400 models, then estimates firm-level AI betas and their relation to subsequent stock returns.",
+      relevance: "Adds a measurable usage-based lens to AI investing while making sample length, provider coverage, factor controls and post-publication validation essential parts of the research read.",
     },
     {
       category: "AI Economics",
@@ -1401,18 +1503,18 @@ window.DEBRIEF_CONTENT = {
   ],
 
   sectorMap: [
-    { sector: "Technology", signal: "Selective return test", driver: "Amazon +15.3% and Apple -7.4% show the market rewarding visible AI revenue while the BIS flags a debt-financed investment cycle", tone: "up" },
+    { sector: "Technology", signal: "Selective return test", driver: "Amazon +15.3% and Apple -7.4% show the market rewarding visible AI revenue while new NBER work measures an AI-usage return factor", tone: "up" },
     { sector: "Semiconductors", signal: "Breadth stalled", driver: "SOXX rose only 0.07% Friday while Micron reversed to a 5.9% loss", tone: "down" },
-    { sector: "Financials", signal: "Rate-sensitive", driver: "ECI +0.9% quarter over quarter and the 10-year near 4.75%", tone: "down" },
+    { sector: "Financials", signal: "Rate relief", driver: "The 10-year eased to 4.68% before ISM, while ECI remains firm at +0.9% quarter over quarter", tone: "up" },
     { sector: "Industrials", signal: "Activity test", driver: "Monday's ISM manufacturing survey starts the August macro ladder", tone: "flat" },
-    { sector: "Energy", signal: "Supply decision pending", driver: "WTI $84.67 and sharply higher oil-major profit meet Sunday's scheduled OPEC+ production review", tone: "flat" },
-    { sector: "Consumer", signal: "Purchasing-power squeeze", driver: "Private real wages fell 0.4% year over year despite nominal wage growth", tone: "down" },
+    { sector: "Energy", signal: "Risk premium falls", driver: "WTI dropped to $78.82 as de-escalation outweighed OPEC+'s 188,000-barrel-per-day September quota increase", tone: "down" },
+    { sector: "Consumer", signal: "Input-cost relief", driver: "Lower crude helps transportation and household purchasing power, while private real wages remain down 0.4% year over year", tone: "up" },
     { sector: "Healthcare", signal: "Relative defense", driver: "Lower AI-capex sensitivity offsets pressure from higher rates and energy", tone: "up" },
   ],
 
   cot: {
     date: "Tuesday, July 28, 2026",
-    note: "Latest official weekly report, observed Tuesday, July 28 and released Friday, July 31. Rechecked against the CFTC's TFF and disaggregated futures files at 9:05 AM ET Sunday.",
+    note: "Latest official weekly report, observed Tuesday, July 28 and released Friday, July 31. Rechecked against the CFTC's TFF and disaggregated futures files at 9:04 AM ET Monday.",
     rows: [
       {
         market: "S&P 500",
@@ -1499,7 +1601,7 @@ window.DEBRIEF_CONTENT = {
         { symbol: "SPY", contract: "SPY260727P00741000", side: "Put", strike: 741, expiration: "2026-07-27", volume: 36797, openInterest: 3610, volumeOpenInterest: 10.19, premium: 14019657, impliedVolatility: 10 },
         { symbol: "QQQ", contract: "QQQ260727P00680000", side: "Put", strike: 680, expiration: "2026-07-27", volume: 50750, openInterest: 6791, volumeOpenInterest: 7.47, premium: 13854750, impliedVolatility: 18.5 },
       ],
-      methodology: "Historical fallback snapshot captured from delayed Yahoo Finance SPX, SPY and QQQ option chains at Friday close on July 24, 2026. The included contracts expired July 27 and the levels do not represent current positioning. The serverless screener and primary option-chain provider returned no current gainers, losers or option rows when rechecked at 9:02 AM ET Sunday, August 2. No usable fresh chain containing open interest, volume and implied volatility was available, so a new gamma, put/call or unusual-flow model was not published. The retained gamma estimate uses Black-Scholes gamma, reported implied volatility and open interest. Calls are treated as positive dealer gamma and puts as negative; exposure is estimated for a 1% underlying move. Walls are the highest-open-interest strikes within 5% of spot. This is an analytical estimate, not exchange-reported positioning or executable market data.",
+      methodology: "Historical fallback snapshot captured from delayed Yahoo Finance SPX, SPY and QQQ option chains at Friday close on July 24, 2026. The included contracts expired July 27 and the levels do not represent current positioning. The serverless screener and primary option-chain provider returned no current gainers, losers or option rows when rechecked at 9:00 AM ET Monday, August 3. No usable fresh chain containing open interest, volume and implied volatility was available, so a new gamma, put/call or unusual-flow model was not published. The retained gamma estimate uses Black-Scholes gamma, reported implied volatility and open interest. Calls are treated as positive dealer gamma and puts as negative; exposure is estimated for a 1% underlying move. Walls are the highest-open-interest strikes within 5% of spot. This is an analytical estimate, not exchange-reported positioning or executable market data.",
     },
   },
 };

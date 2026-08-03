@@ -93,17 +93,17 @@ const EDITORIAL_KEYS = [
 const STATIC_COT_CARDS = [
   {
     label: "Dealer S&P net",
-    value: "-724,971",
+    value: "-749,262",
     tone: "down",
-    meta: "Dealer net shorts increased by 7,392 contracts in the latest official weekly file.",
-    sub: "Jul 21 CFTC",
+    meta: "Dealer net shorts increased by 24,291 contracts in the latest official weekly file.",
+    sub: "Jul 28 CFTC",
   },
   {
     label: "WTI producer net",
-    value: "+58,888",
+    value: "+64,024",
     tone: "up",
-    meta: "ICE WTI producer net length fell by 6,182 contracts but remains positive.",
-    sub: "Jul 21 CFTC",
+    meta: "ICE WTI producer net length increased by 5,136 contracts and remains positive.",
+    sub: "Jul 28 CFTC",
   },
 ];
 
@@ -163,12 +163,9 @@ function buildQuoteGroups(spark, crypto) {
                   0.04,
               )
             : rawSpark;
-        const previous =
-          symbol === "BZ=F" && Number.isFinite(quoteSpark[0])
-            ? quoteSpark[0]
-            : Number.isFinite(meta.chartPreviousClose)
-              ? meta.chartPreviousClose
-              : meta.regularMarketPrice;
+        const previous = Number.isFinite(meta.chartPreviousClose)
+          ? meta.chartPreviousClose
+          : meta.regularMarketPrice;
         return {
           symbol,
           name,
