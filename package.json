@@ -5,9 +5,15 @@
   "scripts": {
     "convex:dev": "convex dev",
     "convex:codegen": "convex codegen",
-    "convex:deploy": "convex deploy"
+    "convex:deploy": "convex deploy",
+    "sites:build": "node scripts/prepare-sites.mjs && vite build --config vite.sites.config.mjs && node scripts/finalize-sites.mjs"
   },
   "dependencies": {
     "convex": "^1.42.1"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.37.1",
+    "vite": "8.0.13",
+    "wrangler": "4.92.0"
   }
 }
