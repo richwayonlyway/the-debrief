@@ -39,42 +39,42 @@
 
   const fallbackQuotes = {
     indices: [
-      { symbol: "^GSPC", name: "S&P 500", value: 7489.72, change: 0.7, spark: [] },
-      { symbol: "^IXIC", name: "Nasdaq", value: 25373.854, change: 1, spark: [] },
-      { symbol: "^DJI", name: "Dow", value: 52485.03, change: 0.53, spark: [] },
-      { symbol: "^RUT", name: "Russell 2000", value: 2931.339, change: -0.5, spark: [] },
-      { symbol: "^VIX", name: "VIX", value: 15.96, change: -0.19, spark: [] },
+      { symbol: "^GSPC", name: "S&P 500", value: 7600.5, change: 1.48, spark: [] },
+      { symbol: "^IXIC", name: "Nasdaq", value: 25913.896, change: 2.13, spark: [] },
+      { symbol: "^DJI", name: "Dow", value: 53178.41, change: 1.32, spark: [] },
+      { symbol: "^RUT", name: "Russell 2000", value: 2981.908, change: 1.73, spark: [] },
+      { symbol: "^VIX", name: "VIX", value: 15.59, change: -1.7, spark: [] },
     ],
     currencies: [
-      { symbol: "DX-Y.NYB", name: "U.S. Dollar", value: 99.769, change: -0.15, spark: [] },
-      { symbol: "EURUSD=X", name: "EUR / USD", value: 1.1533, change: 0.05, spark: [] },
-      { symbol: "GBPUSD=X", name: "GBP / USD", value: 1.3461, change: -0.19, spark: [] },
-      { symbol: "JPY=X", name: "USD / JPY", value: 156.784, change: -0.39, spark: [] },
-      { symbol: "AUDUSD=X", name: "AUD / USD", value: 0.6998, change: -0.38, spark: [] },
+      { symbol: "DX-Y.NYB", name: "U.S. Dollar", value: 99.92, change: 0.02, spark: [] },
+      { symbol: "EURUSD=X", name: "EUR / USD", value: 1.1517, change: 0.03, spark: [] },
+      { symbol: "GBPUSD=X", name: "GBP / USD", value: 1.3444, change: 0.13, spark: [] },
+      { symbol: "JPY=X", name: "USD / JPY", value: 157.53, change: 0.22, spark: [] },
+      { symbol: "AUDUSD=X", name: "AUD / USD", value: 0.7034, change: 0.46, spark: [] },
     ],
     commodities: [
-      { symbol: "CL=F", name: "WTI Crude", value: 78.82, change: -6.91, spark: [] },
-      { symbol: "BZ=F", name: "Brent Crude", value: 83.01, change: -5.6, spark: [] },
-      { symbol: "NG=F", name: "Natural Gas", value: 2.769, change: 0.8, spark: [] },
-      { symbol: "ZC=F", name: "Corn", value: 461.5, change: -0.54, spark: [] },
-      { symbol: "ZW=F", name: "Wheat", value: 640.25, change: 0.16, spark: [] },
+      { symbol: "CL=F", name: "WTI Crude", value: 77.62, change: -3.39, spark: [] },
+      { symbol: "BZ=F", name: "Brent Crude", value: 81.49, change: -2.72, spark: [] },
+      { symbol: "NG=F", name: "Natural Gas", value: 2.698, change: -2.98, spark: [] },
+      { symbol: "ZC=F", name: "Corn", value: 469, change: -0.74, spark: [] },
+      { symbol: "ZW=F", name: "Wheat", value: 642.5, change: -1.31, spark: [] },
     ],
     metals: [
-      { symbol: "GC=F", name: "Gold", value: 4098.6, change: -0.2, spark: [] },
-      { symbol: "SI=F", name: "Silver", value: 57.065, change: -1.25, spark: [] },
-      { symbol: "HG=F", name: "Copper", value: 6.463, change: -0.04, spark: [] },
-      { symbol: "PL=F", name: "Platinum", value: 1621.8, change: -2.22, spark: [] },
-      { symbol: "PA=F", name: "Palladium", value: 1246, change: -2.76, spark: [] },
+      { symbol: "GC=F", name: "Gold", value: 4124.3, change: 0.83, spark: [] },
+      { symbol: "SI=F", name: "Silver", value: 59.975, change: 3.66, spark: [] },
+      { symbol: "HG=F", name: "Copper", value: 6.653, change: 1.72, spark: [] },
+      { symbol: "PL=F", name: "Platinum", value: 1741, change: 7.05, spark: [] },
+      { symbol: "PA=F", name: "Palladium", value: 1340.5, change: 6.68, spark: [] },
     ],
     other: [
-      { symbol: "^TNX", name: "U.S. 10Y", value: 4.68, change: -1.37, spark: [] },
-      { symbol: "TLT", name: "Long Treasuries", value: 82.25, change: -0.66, spark: [] },
-      { symbol: "HYG", name: "High Yield", value: 79.48, change: 0.01, spark: [] },
-      { symbol: "SOXX", name: "Semiconductors", value: 504.89, change: 0.07, spark: [] },
-      { symbol: "KRE", name: "Regional Banks", value: 76.06, change: 0.21, spark: [] },
-      { symbol: "BTC", name: "Bitcoin", value: 62691, change: -0.58, spark: [] },
-      { symbol: "ETH", name: "Ethereum", value: 1842.08, change: -0.68, spark: [] },
-      { symbol: "SOL", name: "Solana", value: 72.38, change: -0.72, spark: [] },
+      { symbol: "^TNX", name: "U.S. 10Y", value: 4.659, change: -0.58, spark: [] },
+      { symbol: "TLT", name: "Long Treasuries", value: 82.19, change: -0.07, spark: [] },
+      { symbol: "HYG", name: "High Yield", value: 79.31, change: 0.27, spark: [] },
+      { symbol: "SOXX", name: "Semiconductors", value: 507.68, change: 0.55, spark: [] },
+      { symbol: "KRE", name: "Regional Banks", value: 77.06, change: 1.31, spark: [] },
+      { symbol: "BTC", name: "Bitcoin", value: 63926, change: 2.05, spark: [] },
+      { symbol: "ETH", name: "Ethereum", value: 1874.88, change: 1.79, spark: [] },
+      { symbol: "SOL", name: "Solana", value: 73.79, change: 1.98, spark: [] },
     ],
   };
 
@@ -868,7 +868,7 @@
 
   function renderTechnology() {
     const stories = content.stories.filter((story) => story.page === "technology");
-    const lead = storyById("alphabet-capex-reset");
+    const lead = stories[0];
     const research = (content.research || [])
       .filter((item) => item.category.startsWith("AI"))
       .slice(0, 4);
