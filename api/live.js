@@ -93,17 +93,17 @@ const EDITORIAL_KEYS = [
 const STATIC_COT_CARDS = [
   {
     label: "Dealer S&P net",
-    value: "-749,262",
+    value: "-709,356",
     tone: "down",
-    meta: "Dealer net shorts increased by 24,291 contracts in the latest official weekly file.",
-    sub: "Jul 28 CFTC",
+    meta: "Dealer net shorts decreased by 39,906 contracts in the latest official weekly file.",
+    sub: "Aug 4 CFTC",
   },
   {
     label: "WTI producer net",
-    value: "+64,024",
+    value: "+69,531",
     tone: "up",
-    meta: "ICE WTI producer net length increased by 5,136 contracts and remains positive.",
-    sub: "Jul 28 CFTC",
+    meta: "ICE WTI producer net length increased by 5,507 contracts and remains positive.",
+    sub: "Aug 4 CFTC",
   },
 ];
 
