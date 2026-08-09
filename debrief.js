@@ -72,9 +72,9 @@
       { symbol: "HYG", name: "High Yield", value: 79.61, change: 0.19, spark: [] },
       { symbol: "SOXX", name: "Semiconductors", value: 543.27, change: 2.02, spark: [] },
       { symbol: "KRE", name: "Regional Banks", value: 76.21, change: -0.37, spark: [] },
-      { symbol: "BTC", name: "Bitcoin", value: 64975, change: -0.32, spark: [] },
-      { symbol: "ETH", name: "Ethereum", value: 1918.64, change: -0.5, spark: [] },
-      { symbol: "SOL", name: "Solana", value: 75.44, change: 2.2, spark: [] },
+      { symbol: "BTC", name: "Bitcoin", value: 64902, change: -0.1, spark: [] },
+      { symbol: "ETH", name: "Ethereum", value: 1916.26, change: -0.09, spark: [] },
+      { symbol: "SOL", name: "Solana", value: 76.32, change: 1.24, spark: [] },
     ],
   };
 

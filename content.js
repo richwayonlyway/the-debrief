@@ -1,9 +1,9 @@
 window.DEBRIEF_CONTENT = {
   edition: {
-    isoDate: "2026-08-08",
-    dateLabel: "Saturday, August 8, 2026",
-    shortDate: "Sat, Aug 8",
-    generatedLabel: "Generated Saturday, August 8, 2026 at 9:20 AM ET",
+    isoDate: "2026-08-09",
+    dateLabel: "Sunday, August 9, 2026",
+    shortDate: "Sun, Aug 9",
+    generatedLabel: "Generated Sunday, August 9, 2026 at 9:02 AM ET",
     cotDate: "Tuesday, August 4, 2026",
     readTime: "20 min briefing",
   },
@@ -14,72 +14,76 @@ window.DEBRIEF_CONTENT = {
     {
       id: "july-payroll-shock-repricing",
       page: "markets",
-      category: "Weekend Debrief",
-      source: "BLS + AP + The Debrief",
-      sourceUrl: "https://www.bls.gov/news.release/empsit.nr0.htm",
-      updated: "Saturday 9:20 AM ET",
+      category: "Sunday Strategy",
+      source: "AP + BLS + Census + The Debrief",
+      sourceUrl: "https://apnews.com/article/wall-street-inflation-sales-1cf6047f812b3e1f151781f5722d97b7",
+      updated: "Sunday 9:02 AM ET",
       readTime: "9 min read",
-      headline: "Records survive the payroll shock, but inflation now owns the next move",
-      deck: "U.S. payrolls fell 23,000 in July and May-June employment was revised down by 103,000, yet the S&P 500 closed at a record as lower yields supported duration. The weekend question is whether Wednesday's CPI can validate that relief without turning softer hiring into a growth scare.",
-      summary: "The S&P 500 closed 0.62% higher at 7,757.64, the Nasdaq gained 1.30% and the Russell 2000 rose 1.10%. The 10-year yield finished near 4.66%, gold gained 2.33% and regional banks fell 0.37%, leaving a constructive index close with a meaningful credit-sensitive divergence.",
-      tags: ["Payrolls", "Federal Reserve", "Treasury yields", "Cross-asset repricing"],
+      headline: "Records meet their next test: inflation, margins and the consumer",
+      deck: "The S&P 500 enters a three-release policy test at a record after July payrolls fell 23,000. CPI on Wednesday, PPI on Thursday and retail sales on Friday must decide whether lower yields are durable relief or the first leg of a stagflation and demand scare.",
+      summary: "The S&P 500 closed 0.62% higher at 7,757.64, the Nasdaq gained 1.30% and the Russell 2000 rose 1.10%. The 10-year yield finished near 4.66%, gold gained 2.33% and regional banks fell 0.37%, leaving a strong headline close with a meaningful credit-sensitive divergence.",
+      tags: ["Week ahead", "CPI", "Retail sales", "Federal Reserve", "Cross-asset strategy"],
       numbers: [
-        { label: "July payrolls", value: "-23K", change: "BLS", tone: "down" },
-        { label: "Unemployment", value: "4.1%", change: "unchanged", tone: "flat" },
-        { label: "Prior revisions", value: "-103K", change: "May + June", tone: "down" },
         { label: "S&P 500", value: "7,757.64", change: "+0.62%", tone: "up" },
+        { label: "CPI", value: "Wed 8:30", change: "July", tone: "flat" },
+        { label: "PPI", value: "Thu 8:30", change: "July", tone: "flat" },
+        { label: "Retail sales", value: "Fri 8:30", change: "July", tone: "flat" },
       ],
       sections: [
         {
-          id: "headline",
-          title: "The headline understates the loss of momentum",
+          id: "starting-line",
+          title: "The starting line is strong, but internally uneven",
           paragraphs: [
-            "Nonfarm payroll employment fell by 23,000 in July after averaging gains of only 34,000 per month over the prior year. The unemployment rate stayed at 4.1%, but the number of unemployed people was 6.9 million and the labor-force participation rate fell to 61.4%, down 0.7 percentage point since January.",
-            "The revisions make the slowdown harder to dismiss. May payroll growth was cut from 129,000 to 63,000 and June from 57,000 to 20,000, removing 103,000 jobs from the previous estimate. July is therefore not one weak observation sitting beside a strong trend; it extends a materially softer three-month path.",
+            "The S&P 500 gained 47.68 points to a record 7,757.64 Friday, the Nasdaq rose 1.30% and the Russell 2000 added 1.10%. VIX fell to 14.90, high-yield credit gained 0.19% and semiconductors rose 2.02%, giving the week-ahead tape broad duration support.",
+            "The confirmation was incomplete. Regional banks fell 0.37% after financial activities lost 14,000 jobs, while Brent closed at $83.55. Lower yields, stronger technology and firm energy can coexist for a session; CPI, margins and household demand determine whether they can coexist for a cycle.",
           ],
-          pullQuote: "The labor market did not merely miss a forecast. Revisions rewrote the path that markets thought they already understood.",
+          pullQuote: "A record index close is the starting condition, not the answer to the inflation-growth trade-off.",
         },
         {
-          id: "composition",
-          title: "The composition points to both cyclical and public-sector weakness",
+          id: "labor-setup",
+          title: "The labor report lowered the rate hurdle and raised the demand risk",
           paragraphs: [
-            "Local government education employment fell by 50,000, retail trade lost 19,000 and financial activities lost 14,000. Financial employment is now down by 121,000 from its May 2025 peak. Health care added 22,000 jobs, but that was below its 36,000 average monthly gain over the prior year.",
-            "Temporary layoffs rose by 153,000 to 921,000. Long-term unemployment held near 1.8 million, or 25.5% of all unemployed people. Those details place more weight on duration and re-entry risk than the unchanged headline unemployment rate alone would suggest.",
-          ],
-        },
-        {
-          id: "wages",
-          title: "Wages are cooling slowly, not collapsing",
-          paragraphs: [
-            "Average hourly earnings rose two cents to $37.62 and were 3.2% higher than a year earlier. The average workweek held at 34.3 hours. That is a softer wage signal than earlier in the cycle, but it does not erase the inflation pressure in July's ISM services prices index or the oil shock embedded in current input costs.",
-            "The Federal Reserve trade-off is therefore asymmetric: employment data argue for easier policy, while wages, services prices and energy keep the inflation side alive. The next policy move depends on whether the employment contraction persists and whether August inflation data confirm that pricing pressure is contained.",
+            "Nonfarm payrolls fell by 23,000 in July, unemployment held at 4.1% and labor-force participation declined to 61.4%. May and June were revised down by a combined 103,000 jobs, changing the path rather than merely producing one disappointing headline.",
+            "Local government education lost 50,000 jobs, retail trade lost 19,000 and financial activities lost 14,000, while health care added 22,000. Average hourly earnings still rose 3.2% from a year earlier, so the Federal Reserve faces weaker employment without a clean collapse in wage pressure.",
           ],
         },
         {
-          id: "reaction",
-          title: "The close confirmed relief, but not an all-clear",
+          id: "macro-sequence",
+          title: "Three releases test three different transmission channels",
           paragraphs: [
-            "The final cross-asset tape extended the initial duration response. The 10-year yield settled near 4.66%, the dollar index finished around 99.60 and gold gained 2.33%. Silver rose 3.07%, while Brent added 1.29%, showing that lower-rate relief and an energy inflation premium can coexist.",
-            "The cash session was constructive: the S&P 500 rose 47.68 points to a record 7,757.64, the Nasdaq gained 342.26 points to 26,690.62, the Dow added 151.83 points and the Russell 2000 rose 1.10%. VIX fell 1.65% to 14.90 and high-yield credit gained 0.19%, but regional banks lost 0.37%, preserving a warning around labor-sensitive credit quality.",
+            "BLS releases July CPI and real earnings Wednesday, August 12 at 8:30 a.m. ET. AP's economist survey points to roughly 3.4% year-over-year inflation, down slightly from June but still above 3%; the composition across shelter, services, goods and energy will matter more than a one-decimal headline beat.",
+            "July PPI follows Thursday at 8:30 a.m. ET, testing the pipeline from oil, goods and supply chains into business margins. Census releases July advance retail sales Friday at 8:30 a.m. ET, providing the household-demand check after employment and participation weakened.",
+          ],
+        },
+        {
+          id: "technology-transmission",
+          title: "Technology needs both a benign discount rate and durable cash conversion",
+          paragraphs: [
+            "Nvidia rose 2.3% and Broadcom gained 1.7% Friday, according to AP, while SOXX outpaced the broad market. Lower yields support the present value of long-duration earnings, but inflation that remains too firm would restore the discount-rate pressure that the payroll report temporarily reduced.",
+            "The company-level evidence remains selective. Palantir, Cloudflare and Atlassian paired growth with operating or cash-flow signals, while Trade Desk exposed an execution gap. This week's macro sequence therefore has a direct technology read-through: a benign rate path helps valuation, but retail demand, backlog and free cash flow must still validate earnings quality.",
           ],
         },
         {
           id: "decision-map",
-          title: "The weekend decision map",
+          title: "The week-ahead decision map",
           paragraphs: [
-            "The cleanest confirmation next week would combine cooler CPI with stable credit, broader equity participation and no abrupt rise in jobless claims. That would suggest slower labor demand is reducing the rate hurdle without triggering a funding or default cycle.",
-            "The newest CFTC report adds useful context rather than a directional signal. Consolidated S&P dealer net shorts fell by 39,906 contracts to 709,356, while ICE WTI producer net length rose by 5,507 to 69,531. Less-negative dealer positioning can reduce one source of mechanical pressure, but the large gross short and rising commercial oil length keep hedging demand in the map.",
+            "The cleanest confirmation would combine moderating CPI, contained PPI, resilient real retail demand and stable credit. That would suggest slower labor demand is reducing the rate hurdle without triggering a funding or default cycle.",
+            "The newest CFTC report adds positioning context rather than a forecast. Consolidated S&P dealer net shorts fell by 39,906 contracts to 709,356, while ICE WTI producer net length rose by 5,507 to 69,531. Dealers are less negative, but the large gross short and rising commercial oil length keep hedging demand and energy risk inside the map.",
           ],
           bullets: [
-            "Friday close: records, lower VIX and positive high yield support relief, while regional banks remain the key divergence.",
-            "CFTC: dealers are less net short S&P exposure, while ICE WTI producers added net length in the August 4 report.",
-            "Wednesday: CPI and real earnings test whether softer hiring can translate into policy flexibility.",
-            "Thursday: PPI tests the oil, goods and supply-chain pressure entering business margins.",
-            "August 28: BLS publishes the preliminary payroll benchmark revision.",
+            "Benign easing: inflation moderates, retail demand holds and credit remains orderly.",
+            "Stagflation risk: payrolls weaken while CPI or PPI reaccelerates and oil stays elevated.",
+            "Growth scare: yields fall, but banks, small caps, cyclicals and high-yield credit weaken together.",
+            "Technology confirmation: semiconductor breadth and software cash conversion hold beyond duration relief.",
+            "Positioning check: current option-chain data are unavailable; do not carry the expired July gamma map into the new week.",
           ],
         },
       ],
       sources: [
+        {
+          label: "AP: inflation and retail sales lead the week ahead",
+          url: "https://apnews.com/article/wall-street-inflation-sales-1cf6047f812b3e1f151781f5722d97b7",
+        },
         {
           label: "BLS: July 2026 Employment Situation",
           url: "https://www.bls.gov/news.release/empsit.nr0.htm",
@@ -95,6 +99,10 @@ window.DEBRIEF_CONTENT = {
         {
           label: "BLS: August 2026 release calendar",
           url: "https://www.bls.gov/schedule/2026/08_sched.htm",
+        },
+        {
+          label: "Census: advance retail sales release schedule",
+          url: "https://www.census.gov/retail/release_schedule.html",
         },
       ],
     },
@@ -501,7 +509,7 @@ window.DEBRIEF_CONTENT = {
           title: "Central banks must separate cyclical heat from structural supply",
           paragraphs: [
             "AI can raise demand today and productive capacity later. The BIS argues that this two-sided effect makes underlying economic conditions harder to read. Strong investment and asset prices can look inflationary in the near term even if the same capital eventually lowers costs or expands supply.",
-            "For the Federal Reserve, the practical question is whether AI-related activity is adding persistent wage and price pressure or financing a disinflationary productivity improvement. This week's ISM prices, productivity, unit labor costs and payrolls provide pieces of that answer, but no single release can settle it.",
+            "For the Federal Reserve, the practical question is whether AI-related activity is adding persistent wage and price pressure or financing a disinflationary productivity improvement. This week's CPI, PPI and retail-sales sequence provides the next demand, margin and household pieces of that answer, but no single release can settle it.",
           ],
         },
         {
@@ -606,27 +614,27 @@ window.DEBRIEF_CONTENT = {
       id: "bitcoin-yields-liquidity",
       page: "crypto",
       category: "Crypto",
-      source: "CoinGecko + BLS + The Debrief",
+      source: "CoinGecko + BLS + arXiv + The Debrief",
       sourceUrl: "https://www.coingecko.com/en/coins/bitcoin",
-      updated: "Saturday 9:19 AM ET",
+      updated: "Sunday 9:01 AM ET",
       readTime: "4 min read",
-      headline: "Bitcoin slips below $65K while solana leads a mixed weekend tape",
-      deck: "Bitcoin and ether gave back part of Friday's post-payroll lift while solana advanced more than 2%. The divergence leaves crypto tied to the same macro test as equities: lower yields help liquidity, but softer employment and next week's inflation data still control risk appetite.",
-      summary: "The Saturday 9:19 a.m. ET snapshot showed bitcoin at $64,975, ether at $1,918.64 and solana at $75.44. Their 24-hour changes were -0.32%, -0.50% and +2.20%, while Friday's 10-year yield finished near 4.66% and the dollar index near 99.60.",
-      tags: ["Bitcoin", "Cross-asset liquidity", "Macro"],
+      headline: "Bitcoin holds near $64.9K while solana keeps the weekend lead",
+      deck: "Bitcoin and ether were nearly unchanged over 24 hours while solana advanced 1.24%. The quiet tape leaves Wednesday CPI, Thursday PPI and Friday retail sales as the next volatility tests for crypto liquidity and cross-asset risk appetite.",
+      summary: "The Sunday 9:01 a.m. ET snapshot showed bitcoin at $64,902, ether at $1,916.26 and solana at $76.32. Their 24-hour changes were -0.10%, -0.09% and +1.24%, while Friday's 10-year yield finished near 4.66% and the dollar index near 99.60.",
+      tags: ["Bitcoin", "Solana", "Cross-asset liquidity", "Macro volatility"],
       numbers: [
-        { label: "Bitcoin", value: "$64,975", change: "-0.32% 24h", tone: "down" },
-        { label: "Ethereum", value: "$1,918.64", change: "-0.50% 24h", tone: "down" },
-        { label: "Solana", value: "$75.44", change: "+2.20% 24h", tone: "up" },
+        { label: "Bitcoin", value: "$64,902", change: "-0.10% 24h", tone: "down" },
+        { label: "Ethereum", value: "$1,916.26", change: "-0.09% 24h", tone: "down" },
+        { label: "Solana", value: "$76.32", change: "+1.24% 24h", tone: "up" },
         { label: "U.S. 10Y", value: "4.66%", change: "Friday close", tone: "down" },
       ],
       sections: [
         {
           id: "spot",
-          title: "The weekend tape is mixed and still macro-led",
+          title: "The weekend tape is quiet and still macro-led",
           paragraphs: [
-            "Bitcoin traded at $64,975 while ether was $1,918.64 and solana $75.44. Bitcoin and ether were modestly lower over 24 hours, while solana gained 2.20%. The dispersion argues against treating the move as a broad crypto risk-on signal.",
-            "Bitcoin remains inside the heavily traded $60,000-$70,000 range described by CoinDesk in July. Slipping back below $65,000 keeps the midpoint contested; a durable breakout still requires sustained trading above $70,000 with spot demand rather than only derivatives leverage.",
+            "Bitcoin traded at $64,902 while ether was $1,916.26 and solana $76.32. Bitcoin and ether were nearly flat over 24 hours, while solana gained 1.24%. The dispersion is modest and does not establish a broad crypto risk-on signal.",
+            "Bitcoin remains inside the heavily traded $60,000-$70,000 range described by CoinDesk in July. Trading just below $65,000 keeps the midpoint contested; a durable breakout still requires sustained trading above $70,000 with spot demand rather than only derivatives leverage.",
           ],
         },
         {
@@ -638,25 +646,25 @@ window.DEBRIEF_CONTENT = {
           ],
         },
         {
-          id: "derivatives",
-          title: "The July settlement map is expired",
+          id: "research-signal",
+          title: "Macro probabilities can add information without becoming a trading rule",
           paragraphs: [
-            "Kraken's July calendar identified July 31 as the monthly Deribit and CME bitcoin and ether options and futures settlement. Those contracts have settled, so their strikes and hedging levels should not be carried into Thursday as current positioning.",
-            "The newsletter feed does not have current venue-level funding, open interest or strike concentration. It therefore does not assign a live crypto call wall, put wall or dealer-gamma level. The honest monitor is spot price, volume, funding and open interest once defensible venue data are available.",
+            "A 2026 paper testing Kalshi macro contracts found that changes in CPI probabilities added out-of-sample information for ether and solana volatility in parts of its sample, while recession probabilities helped bitcoin. The gains were modest and regime-dependent, so the finding is a risk-monitoring input rather than a directional signal.",
+            "That framework is useful this week because CPI, PPI and retail sales arrive in sequence. The newsletter still lacks current venue-level funding, open interest and strike concentration, so it does not assign a live crypto call wall, put wall or dealer-gamma level without defensible data.",
           ],
         },
         {
           id: "macro",
-          title: "Next week's inflation data become the confirmation test",
+          title: "The inflation-and-demand sequence becomes the confirmation test",
           paragraphs: [
             "July payrolls fell 23,000, participation dropped to 61.4% and average hourly earnings rose 3.2% from a year earlier. The report supports lower rates but also introduces a demand risk that cannot be resolved by the initial crypto price reaction.",
-            "A healthier crypto turn would pair bitcoin reclaiming $65,000 with improving ether relative strength, spot demand, steady credit and a softer rate backdrop. Weakness in crypto beside widening high-yield spreads would identify Friday's move as temporary duration relief.",
+            "A healthier crypto turn would pair bitcoin reclaiming $65,000 with improving ether relative strength, spot demand, steady credit and a benign inflation path. Weakness in crypto beside widening high-yield spreads or weaker retail demand would identify Friday's move as temporary duration relief.",
           ],
           bullets: [
             "Bitcoin reclaiming $65,000, then clearing its July range with spot volume.",
             "Ether holding $1,900 with improving relative strength.",
             "Perpetual funding and venue open interest after monthly settlement.",
-            "Dollar, Treasury-yield and high-yield-credit direction into CPI and PPI.",
+            "Dollar, Treasury-yield and high-yield-credit direction through CPI, PPI and retail sales.",
           ],
         },
       ],
@@ -666,8 +674,8 @@ window.DEBRIEF_CONTENT = {
           url: "https://www.coingecko.com/en/coins/bitcoin",
         },
         {
-          label: "Kraken: July macro and crypto settlement calendar",
-          url: "https://blog.kraken.com/economic-brief/july-22-2026",
+          label: "arXiv: prediction markets and cryptocurrency volatility",
+          url: "https://arxiv.org/abs/2604.01431",
         },
         {
           label: "CoinDesk: bitcoin's heavily traded $60K-$70K range",
@@ -689,7 +697,7 @@ window.DEBRIEF_CONTENT = {
       category: "Positioning",
       source: "CFTC",
       sourceUrl: "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
-      updated: "Saturday 9:20 AM ET official-file recheck",
+      updated: "Sunday 9:02 AM ET official-file recheck",
       readTime: "3 min read",
       headline: "Dealer S&P net shorts shrink while ICE WTI producers add length",
       deck: "The CFTC's newly released August 4 report shows consolidated S&P dealer/intermediary net shorts falling by 39,906 contracts, while ICE WTI producer/merchant net length increases by 5,507.",
@@ -705,7 +713,7 @@ window.DEBRIEF_CONTENT = {
           id: "read",
           title: "What the report says",
           paragraphs: [
-            "The CFTC's official Saturday files carry an August 4 observation date. The report was released Friday, August 7, and is the newest official weekly positioning baseline available for this edition.",
+            "The CFTC's current official files carry an August 4 observation date. The report was released Friday, August 7, and remained the newest official weekly positioning baseline at the Sunday recheck.",
             "In the Traders in Financial Futures file, S&P 500 consolidated dealer/intermediary longs were 236,360 contracts and shorts were 945,716, producing a net position of -709,356. The weekly net moved 39,906 contracts less short as long additions outpaced short additions.",
             "In the disaggregated ICE light-sweet WTI row, producer/merchant longs were 406,351 contracts and shorts were 336,820, producing net length of +69,531. That net increased by 5,507 contracts week over week.",
           ],
@@ -821,7 +829,7 @@ window.DEBRIEF_CONTENT = {
       category: "Options & Volatility",
       source: "Yahoo Finance + The Debrief",
       sourceUrl: "https://finance.yahoo.com/quote/%5EVIX/",
-      updated: "Saturday 9:20 AM ET recheck",
+      updated: "Sunday 9:02 AM ET recheck",
       readTime: "5 min read",
       headline: "VIX closes below 15; current options flow remains unavailable",
       deck: "The jobs report produced a large rates, dollar and metals reaction, but VIX still closed near 15. The market endpoint again returned no current gainers, losers or option rows, so gamma, walls and activity remain an explicitly expired July 24 reference.",
@@ -830,7 +838,7 @@ window.DEBRIEF_CONTENT = {
       numbers: [
         { label: "VIX", value: "14.90", change: "-1.65% delayed", tone: "up" },
         { label: "S&P 500", value: "+0.62%", change: "Friday close", tone: "up" },
-        { label: "Current chain", value: "Unavailable", change: "Aug 8 recheck", tone: "flat" },
+        { label: "Current chain", value: "Unavailable", change: "Aug 9 recheck", tone: "flat" },
         { label: "SPX gamma", value: "-$3.96B", change: "expired fallback", tone: "down" },
       ],
       sections: [
@@ -838,7 +846,7 @@ window.DEBRIEF_CONTENT = {
           id: "divergence",
           title: "What can be trusted this weekend",
           paragraphs: [
-            "The live cross-asset endpoint shows Friday's delayed traditional-asset close while crypto continues to refresh. It showed VIX at 14.90, the 10-year yield near 4.66% and bitcoin near $64,975 at the Saturday 9:19 a.m. ET capture.",
+            "The live cross-asset endpoint shows Friday's delayed traditional-asset close while crypto continues to refresh. It showed VIX at 14.90, the 10-year yield near 4.66% and bitcoin near $64,902 at the Sunday 9:01 a.m. ET capture.",
             "The separate serverless market endpoint again returned no current gainers, losers or option rows. Without a fresh chain containing strike, expiration, implied volatility, open interest and volume, the newsletter cannot publish defensible current gamma exposure, put/call or unusual-flow estimates.",
           ],
         },
@@ -857,7 +865,7 @@ window.DEBRIEF_CONTENT = {
             "VIX term structure, skew and opening realized volatility, not only the spot VIX quote.",
             "SOXX breadth, high-yield spreads and Treasury volatility together.",
             "A fresh SPX chain with open interest and implied volatility before assigning new gamma walls.",
-            "Whether Monday opening volume, breadth and credit sustain the lower-yield reaction.",
+            "Whether Monday opening volume, breadth and credit sustain the lower-yield reaction into the inflation sequence.",
           ],
         },
       ],
@@ -881,22 +889,22 @@ window.DEBRIEF_CONTENT = {
       ],
     },
     {
-      id: "friday-catalyst-desk",
+      id: "sunday-catalyst-desk",
       page: "markets",
       category: "Week-Ahead Catalyst Desk",
-      source: "BLS + The Debrief",
-      sourceUrl: "https://www.bls.gov/schedule/2026/08_sched.htm",
-      updated: "Saturday 9:20 AM ET",
-      readTime: "5 min read",
-      headline: "CPI and PPI now decide whether weak hiring becomes a policy signal",
-      deck: "The jobs report delivered the growth side of the easing case. July CPI on Wednesday and PPI on Thursday must show that service, goods and pipeline prices are compatible with lower rates before markets can treat the payroll shock as a clean duration catalyst.",
-      summary: "Payrolls fell 23,000 and May-June gains were revised down by 103,000. July CPI and real earnings follow Wednesday at 8:30 a.m. ET, with PPI on Thursday; the preliminary payroll benchmark revision arrives August 28.",
-      tags: ["Calendar", "CPI", "PPI", "Payroll revisions", "Federal Reserve"],
+      source: "AP + BLS + Census + The Debrief",
+      sourceUrl: "https://apnews.com/article/wall-street-inflation-sales-1cf6047f812b3e1f151781f5722d97b7",
+      updated: "Sunday 9:02 AM ET",
+      readTime: "6 min read",
+      headline: "CPI, PPI and retail sales form a three-day policy stress test",
+      deck: "The jobs report delivered the growth side of the easing case. July CPI on Wednesday, PPI on Thursday and retail sales on Friday now test household prices, company margins and consumer demand before markets can treat lower yields as durable relief.",
+      summary: "AP's economist survey points to roughly 3.4% year-over-year CPI, still above 3%. BLS releases CPI Wednesday and PPI Thursday at 8:30 a.m. ET; Census releases advance July retail sales Friday at 8:30 a.m. ET.",
+      tags: ["Calendar", "CPI", "PPI", "Retail sales", "Federal Reserve"],
       numbers: [
-        { label: "Payrolls", value: "-23K", change: "July", tone: "down" },
-        { label: "Prior revisions", value: "-103K", change: "May + June", tone: "down" },
-        { label: "CPI", value: "Wed 8:30", change: "July", tone: "flat" },
-        { label: "PPI", value: "Thu 8:30", change: "July", tone: "flat" },
+        { label: "CPI", value: "Wed 8:30", change: "AP forecast ~3.4%", tone: "flat" },
+        { label: "PPI", value: "Thu 8:30", change: "pipeline prices", tone: "flat" },
+        { label: "Retail sales", value: "Fri 8:30", change: "household demand", tone: "flat" },
+        { label: "Payrolls", value: "-23K", change: "July baseline", tone: "down" },
       ],
       sections: [
         {
@@ -909,10 +917,18 @@ window.DEBRIEF_CONTENT = {
         },
         {
           id: "calendar",
-          title: "Next week supplies the inflation half of the decision",
+          title: "The calendar separates household inflation, margins and demand",
           paragraphs: [
             "BLS will release July CPI and real earnings Wednesday, August 12 at 8:30 a.m. ET, followed by July PPI Thursday, August 13 at 8:30 a.m. ET. CPI controls the household and policy narrative; PPI shows whether energy, goods and supply-chain costs are entering business margins.",
-            "The preliminary Current Employment Statistics benchmark revision follows August 28 at 10:00 a.m. ET. Because revisions already removed 103,000 jobs from May and June, that annual benchmark has unusual importance for the level and direction of the payroll series.",
+            "Census will release advance July retail sales Friday, August 14 at 8:30 a.m. ET. Nominal sales must be read beside inflation and real earnings: a strong dollar total driven by prices is different from resilient unit demand, and category breadth matters for discretionary companies.",
+          ],
+        },
+        {
+          id: "forecast",
+          title: "The consensus is not the signal by itself",
+          paragraphs: [
+            "AP reports that economists expect July CPI inflation of roughly 3.4% from a year earlier, compared with 3.5% in June. That is a forecast, not an observed result, and would still leave inflation above 3% even if the direction improves slightly.",
+            "Markets will need the composition: shelter and services for persistence, goods and energy for supply pressure, and real earnings plus retail categories for household purchasing power. Revisions and base effects can move the headline without changing the underlying transmission path.",
           ],
         },
         {
@@ -934,6 +950,14 @@ window.DEBRIEF_CONTENT = {
         {
           label: "BLS: August 2026 release calendar",
           url: "https://www.bls.gov/schedule/2026/08_sched.htm",
+        },
+        {
+          label: "AP: inflation and retail sales lead the week ahead",
+          url: "https://apnews.com/article/wall-street-inflation-sales-1cf6047f812b3e1f151781f5722d97b7",
+        },
+        {
+          label: "Census: advance retail sales release schedule",
+          url: "https://www.census.gov/retail/release_schedule.html",
         },
       ],
     },
@@ -1071,7 +1095,7 @@ window.DEBRIEF_CONTENT = {
       numbers: [
         { label: "ETF streak", value: "7 sessions", change: "inflows", tone: "up" },
         { label: "Flow", value: "Nearly $1B", change: "reported", tone: "up" },
-        { label: "Bitcoin", value: "$64,975", change: "-0.32% 24h", tone: "down" },
+        { label: "Bitcoin", value: "$64,902", change: "-0.10% 24h", tone: "down" },
       ],
       sections: [
         {
@@ -1134,9 +1158,9 @@ window.DEBRIEF_CONTENT = {
       url: "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm",
     },
     {
-      time: "Weekend | Crypto",
-      title: "Solana diverges from bitcoin and ether",
-      detail: "At 9:19 a.m. ET Saturday, bitcoin was down 0.32% over 24 hours, ether down 0.50% and solana up 2.20%.",
+      time: "Sun | 9:01 ET",
+      title: "Solana keeps the weekend lead",
+      detail: "Bitcoin was down 0.10% over 24 hours, ether down 0.09% and solana up 1.24% at the Sunday snapshot.",
       url: "https://thedebrief.vercel.app/api/live",
     },
     {
@@ -1150,6 +1174,12 @@ window.DEBRIEF_CONTENT = {
       title: "July producer prices",
       detail: "PPI tests whether energy, goods and supply-chain costs are moving into business margins after the oil rebound.",
       url: "https://www.bls.gov/schedule/2026/08_sched.htm",
+    },
+    {
+      time: "Fri | 8:30 ET",
+      title: "July advance retail sales",
+      detail: "The household-demand test follows weaker employment; breadth and inflation-adjusted purchasing power matter more than the nominal total alone.",
+      url: "https://www.census.gov/retail/release_schedule.html",
     },
   ],
 
@@ -1215,6 +1245,12 @@ window.DEBRIEF_CONTENT = {
       company: "AI usage factor",
       focus: "Real model consumption versus investable return evidence",
       signal: "NBER: 380T-token sample; validation still needed",
+      tone: "flat",
+    },
+    {
+      company: "S&P 500 AI adoption",
+      focus: "Deep operating integration versus disclosure language",
+      signal: "2025: 21% production or deep use; profitability J-curve",
       tone: "flat",
     },
   ],
@@ -1292,6 +1328,17 @@ window.DEBRIEF_CONTENT = {
       url: "https://www.nber.org/papers/w35451",
       summary: "Builds a high-frequency AI-demand factor from 380 trillion realized tokens across more than 400 models, then estimates firm-level AI betas and their relation to subsequent stock returns.",
       relevance: "Adds a measurable usage-based lens to AI investing while making sample length, provider coverage, factor controls and post-publication validation essential parts of the research read.",
+    },
+    {
+      category: "AI Economics",
+      kind: "Working paper",
+      year: "2026",
+      title: "AI Adoption in S&P 500 Firms",
+      authors: "Yang Yu, Martin Fleming, Lucy Hampton, Christophe Combemale and Neil Thompson",
+      source: "arXiv",
+      url: "https://arxiv.org/abs/2607.08920",
+      summary: "Uses SEC 10-K filings to distinguish superficial AI mentions from production use and deep operating integration; the authors classify 21% of S&P 500 firms in 2025 as production users or deeply integrated adopters, up from 5% in 2022.",
+      relevance: "Adds a disclosure-based adoption measure and a profitability J-curve: early integration is associated with lower margins, while deep adoption is associated with roughly 6% higher profitability, with no significant productivity or capex association in the study.",
     },
     {
       category: "AI Economics",
@@ -1494,7 +1541,7 @@ window.DEBRIEF_CONTENT = {
 
   cot: {
     date: "Tuesday, August 4, 2026",
-    note: "Latest official weekly report, observed Tuesday, August 4 and released Friday, August 7. Verified against the CFTC's TFF and disaggregated futures files at 9:20 AM ET Saturday.",
+    note: "Latest official weekly report, observed Tuesday, August 4 and released Friday, August 7. Verified against the CFTC's TFF and disaggregated futures files at 9:02 AM ET Sunday.",
     rows: [
       {
         market: "S&P 500",
@@ -1581,7 +1628,7 @@ window.DEBRIEF_CONTENT = {
         { symbol: "SPY", contract: "SPY260727P00741000", side: "Put", strike: 741, expiration: "2026-07-27", volume: 36797, openInterest: 3610, volumeOpenInterest: 10.19, premium: 14019657, impliedVolatility: 10 },
         { symbol: "QQQ", contract: "QQQ260727P00680000", side: "Put", strike: 680, expiration: "2026-07-27", volume: 50750, openInterest: 6791, volumeOpenInterest: 7.47, premium: 13854750, impliedVolatility: 18.5 },
       ],
-      methodology: "Historical fallback snapshot captured from delayed Yahoo Finance SPX, SPY and QQQ option chains at Friday close on July 24, 2026. The included contracts expired July 27 and the levels do not represent current positioning. The serverless screener and primary option-chain provider returned no current gainers, losers or option rows when rechecked at 9:20 AM ET Saturday, August 8. No usable fresh chain containing open interest, volume and implied volatility was available, so a new gamma, put/call or unusual-flow model was not published. The retained gamma estimate uses Black-Scholes gamma, reported implied volatility and open interest. Calls are treated as positive dealer gamma and puts as negative; exposure is estimated for a 1% underlying move. Walls are the highest-open-interest strikes within 5% of spot. This is an analytical estimate, not exchange-reported positioning or executable market data.",
+      methodology: "Historical fallback snapshot captured from delayed Yahoo Finance SPX, SPY and QQQ option chains at Friday close on July 24, 2026. The included contracts expired July 27 and the levels do not represent current positioning. The serverless screener and primary option-chain provider returned no current gainers, losers or option rows when rechecked at 9:02 AM ET Sunday, August 9. No usable fresh chain containing open interest, volume and implied volatility was available, so a new gamma, put/call or unusual-flow model was not published. The retained gamma estimate uses Black-Scholes gamma, reported implied volatility and open interest. Calls are treated as positive dealer gamma and puts as negative; exposure is estimated for a 1% underlying move. Walls are the highest-open-interest strikes within 5% of spot. This is an analytical estimate, not exchange-reported positioning or executable market data.",
     },
   },
 };
